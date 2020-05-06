@@ -1,0 +1,44 @@
+﻿using Microsoft.EntityFrameworkCore;
+using MyCollection.Web.Data.Entities;
+
+namespace MyCollection.Web.Data
+{
+    public class DataContext : DbContext
+    {
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<Collector> Collectors { get; set; }
+
+        public DbSet<CustomerImage> CustomerImages { get; set; }
+
+        public DbSet<House> Houses { get; set; }
+
+        public DbSet<Manager> Managers { get; set; }
+
+        public DbSet<PropertyCollector> PropertyCollectors { get; set; }
+
+        public DbSet<PropertyCollectorImage> PropertyCollectorImages { get; set; }
+
+        public DbSet<PropertyManager> PropertyManagers { get; set; }
+
+        public DbSet<PropertyManagerImage> PropertyManagerImages { get; set; }
+
+        public DbSet<PropertySeller> PropertySellers { get; set; }
+
+        public DbSet<PropertySellerImage> PropertySellerImages { get; set; }
+
+        public DbSet<PropertySupervisor> PropertySupervisors { get; set; }
+
+        public DbSet<PropertySupervisorImage> PropertySupervisorImages { get; set; }
+
+        public DbSet<PropertyType> PropertyTypes { get; set; }
+
+        public DbSet<Seller> Sellers { get; set; }
+
+        public DbSet<Supervisor> Supervisors { get; set; }
+    }
+
+}
