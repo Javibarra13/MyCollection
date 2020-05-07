@@ -10,22 +10,22 @@ using MyCollection.Web.Data.Entities;
 
 namespace MyCollection.Web.Controllers
 {
-    public class CollectorsController : Controller
+    public class HousesController : Controller
     {
         private readonly DataContext _dataContext;
 
-        public CollectorsController(DataContext dataContext)
+        public HousesController(DataContext context)
         {
-            _dataContext = dataContext;
+            _dataContext = context;
         }
 
-        public IActionResult Index()
+        // GET: Houses
+        public async Task<IActionResult> Index()
         {
-            return View(_dataContext.Collectors
-                .Include(c => c.User)
-                .Include(c => c.PropertyCollectors));
+            return View(await _dataContext.Houses.ToListAsync());
         }
 
+        // GET: Houses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,44 +33,39 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var collector = await _dataContext.Collectors
-                .Include(c => c.User)
-                .Include(c => c.PropertyCollectors)
-                .ThenInclude(pc => pc.PropertyType)
-                .Include(c => c.PropertyCollectors)
-                .ThenInclude(pc => pc.PropertyCollectorImages)
+            var house = await _dataContext.Houses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (collector == null)
+            if (house == null)
             {
                 return NotFound();
             }
 
-            return View(collector);
+            return View(house);
         }
 
-        // GET: Collectors/Create
+        // GET: Houses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Collectors/Create
+        // POST: Houses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Collector collector)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,Neighborhood,City,Phone,Contact")] House house)
         {
             if (ModelState.IsValid)
             {
-                _dataContext.Add(collector);
+                _dataContext.Add(house);
                 await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(collector);
+            return View(house);
         }
 
-        // GET: Collectors/Edit/5
+        // GET: Houses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +73,22 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var collector = await _dataContext.Collectors.FindAsync(id);
-            if (collector == null)
+            var house = await _dataContext.Houses.FindAsync(id);
+            if (house == null)
             {
                 return NotFound();
             }
-            return View(collector);
+            return View(house);
         }
 
-        // POST: Collectors/Edit/5
+        // POST: Houses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Collector collector)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Neighborhood,City,Phone,Contact")] House house)
         {
-            if (id != collector.Id)
+            if (id != house.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _dataContext.Update(collector);
+                    _dataContext.Update(house);
                     await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CollectorExists(collector.Id))
+                    if (!HouseExists(house.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +113,10 @@ namespace MyCollection.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(collector);
+            return View(house);
         }
 
-        // GET: Collectors/Delete/5
+        // GET: Houses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,30 +124,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var collector = await _dataContext.Collectors
+            var house = await _dataContext.Houses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (collector == null)
+            if (house == null)
             {
                 return NotFound();
             }
 
-            return View(collector);
+            return View(house);
         }
 
-        // POST: Collectors/Delete/5
+        // POST: Houses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var collector = await _dataContext.Collectors.FindAsync(id);
-            _dataContext.Collectors.Remove(collector);
+            var house = await _dataContext.Houses.FindAsync(id);
+            _dataContext.Houses.Remove(house);
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CollectorExists(int id)
+        private bool HouseExists(int id)
         {
-            return _dataContext.Collectors.Any(e => e.Id == id);
+            return _dataContext.Houses.Any(e => e.Id == id);
         }
     }
 }

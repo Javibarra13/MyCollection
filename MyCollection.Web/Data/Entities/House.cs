@@ -36,5 +36,7 @@ namespace MyCollection.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Contact { get; set; }
 
+        public ICollection<Customer> Customers { get; set; }
+
     }
 }

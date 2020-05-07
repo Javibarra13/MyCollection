@@ -1,90 +1,93 @@
 ﻿@model MyCollection.Web.Data.Entities.Customer
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Customers";
 }
 
-<h1>Details</h1>
+<h2>Customers</h2>
 
 <div>
-    <h4>Customer</h4>
+    <h4>Details</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CellPhone)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Document)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CellPhone)
+        <dd>
+            @Html.DisplayFor(model => model.User.Document)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Neighborhood)
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Neighborhood)
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostalCode)
+        <dt>
+            @Html.DisplayNameFor(model => model.User.LastName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostalCode)
+        <dd>
+            @Html.DisplayFor(model => model.User.LastName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Remarks)
+        <dt>
+            @Html.DisplayNameFor(model => model.User.PhoneNumber)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Remarks)
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefName)
+        <dt>
+            House
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefName)
+        <dd>
+            @Html.DisplayFor(model => model.House.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefAddress)
+        <dt>
+            Collector
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefAddress)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefPhone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefPhone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefName2)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefName2)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefAddress2)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefAddress2)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefPhone2)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefPhone2)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+        <dd>
+            @Html.DisplayFor(model => model.Collector.User.FullName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+    <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Images</a>
+    <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
 </div>
+<h4>Images</h4>
+@if (Model.CustomerImages.Count == 0)
+{
+    <h5>Not images added yet.</h5>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.House.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CustomerImages)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageUrl)
+                </td>
+                <td>
+                    <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a>
+                    <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
+                    <a asp-action="DeleteProperty" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}

@@ -32,6 +32,7 @@ namespace MyCollection.Web.Data
                 var collector = await CheckUserAsync("2020", "Francisco", "Ayala", "frajavi3@hotmail.com", "6625129365", "De los Tributos 23", "Collector");
                 var supervisor = await CheckUserAsync("2020", "Claudia", "Sosa", "clau201569@gmail.com", "6628486267", "Acacia Blanca 192", "Supervisor");
                 await CheckPropertyTypesAsync();
+                await CheckHousesAsync();
                 await CheckCustomersAsync(customer);
                 await CheckManagersAsync(manager);
                 await CheckSellersAsync(seller);
@@ -41,13 +42,32 @@ namespace MyCollection.Web.Data
                 await CheckPropertyManagersAsync();
                 await CheckPropertySellersAsync();
                 await CheckPropertySupervisorsAsync();
+
+            }
+            private async Task CheckCollectorsAsync(User user)
+            {
+                if (!_context.Collectors.Any())
+                {
+                    _context.Collectors.Add(new Collector { User = user });
+                    await _context.SaveChangesAsync();
+                }
+            }
+            private async Task CheckHousesAsync()
+            {
+                if (!_context.Houses.Any())
+                {
+                    _context.Houses.Add(new Entities.House { Name = "Comercial Hermosillo", Address = "Acacia Blanca 192", City = "Hermosillo", Neighborhood = "Villa Colonial", Phone = "6625129365", Contact = "Francsico Ibarra" });
+                    _context.Houses.Add(new Entities.House { Name = "Comercial Obregon", Address = "De los Tributos 23", City = "Obregon", Neighborhood = "California Residencial", Phone = "6625129365", Contact = "Javier Ayala" });
+                    await _context.SaveChangesAsync();
+                }
             }
 
-            private async Task CheckCustomersAsync(User user)
-            {
+        private async Task CheckCustomersAsync(User user)
+        {
+                var house = _context.Houses.FirstOrDefault();
                 if (!_context.Customers.Any())
                 {
-                    _context.Customers.Add(new Customer { User = user });
+                    _context.Customers.Add(new Customer { User = user , House = house });
                     await _context.SaveChangesAsync();
                 }
             }
@@ -111,15 +131,6 @@ namespace MyCollection.Web.Data
                     _context.PropertyTypes.Add(new Entities.PropertyType { Name = "Tablet" });
                     _context.PropertyTypes.Add(new Entities.PropertyType { Name = "Laptop" });
                     _context.PropertyTypes.Add(new Entities.PropertyType { Name = "Automovil" });
-                    await _context.SaveChangesAsync();
-                }
-            }
-
-            private async Task CheckCollectorsAsync(User user)
-            {
-                if (!_context.Collectors.Any())
-                {
-                    _context.Collectors.Add(new Collector { User = user });
                     await _context.SaveChangesAsync();
                 }
             }

@@ -12,20 +12,22 @@ namespace MyCollection.Web.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
-        public CustomersController(DataContext context)
+        public CustomersController(DataContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
         public IActionResult Index()
         {
-            return View(_context.Customers
-                .Include(o => o.User));
+            return View(_dataContext.Customers
+                .Include(c => c.User)
+                .Include(c => c.House)
+                .Include(c => c.Collector)
+                .ThenInclude(c => c.User));
         }
 
-        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +35,12 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var customer = await _dataContext.Customers
+                .Include(c => c.User)
+                .Include(c => c.House)
+                .Include(c => c.CustomerImages)
+                .Include(c => c.Collector)
+                .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
@@ -58,8 +65,8 @@ namespace MyCollection.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                _dataContext.Add(customer);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -73,7 +80,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _dataContext.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -97,8 +104,8 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(customer);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +131,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var customer = await _dataContext.Customers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
@@ -139,15 +146,15 @@ namespace MyCollection.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            var customer = await _dataContext.Customers.FindAsync(id);
+            _dataContext.Customers.Remove(customer);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _dataContext.Customers.Any(e => e.Id == id);
         }
     }
 }

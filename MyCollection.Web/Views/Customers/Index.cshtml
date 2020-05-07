@@ -16,21 +16,17 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.Document)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().User.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().User.LastName)
+                Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Email)
+                Phone Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().User.PhoneNumber)
+                Collector
             </th>
-
             <th></th>
         </tr>
     </thead>
@@ -41,21 +37,17 @@
                 @Html.DisplayFor(modelItem => item.User.Document)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.LastName)
+                @Html.DisplayFor(modelItem => item.User.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.User.PhoneNumber)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.Collector.User.FullName)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |

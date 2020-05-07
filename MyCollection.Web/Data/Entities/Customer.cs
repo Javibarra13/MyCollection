@@ -54,6 +54,10 @@ namespace MyCollection.Web.Data.Entities
 
         public User User { get; set; }
 
+        public House House { get; set; }
+
+        public Collector Collector { get; set; }
+
         public ICollection<CustomerImage> CustomerImages { get; set; }
     }
 }

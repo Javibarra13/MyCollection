@@ -1,18 +1,107 @@
 ﻿@model MyCollection.Web.Data.Entities.Collector
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Collector";
 }
 
-<h1>Details</h1>
+<h2>Collector</h2>
 
 <div>
-    <h4>Collector</h4>
+    <h4>Details</h4>
     <hr />
-    <dl class="row">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Document)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Document)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt>
+            Phone Number
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+        <dt>
+            Properties
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PropertyCollectors.Count)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+    <a asp-action="AddProperty" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Property</a>
+    <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
 </div>
+<h4>Properties</h4>
+@if (Model.PropertyCollectors.Count == 0)
+{
+    <h5>Not properties added yet.</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().PropertyType.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().IsAvailable)
+                </th>
+                <th>
+                    Images
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PropertyCollectors)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PropertyType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsAvailable)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PropertyCollectorImages.Count)
+                    </td>
+                    <td>
+                        <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a>
+                        <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
+                        <a asp-action="DeleteProperty" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
