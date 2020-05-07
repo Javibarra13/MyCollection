@@ -10,22 +10,22 @@ using MyCollection.Web.Data.Entities;
 
 namespace MyCollection.Web.Controllers
 {
-    public class CustomersController : Controller
+    public class SupervisorsController : Controller
     {
         private readonly DataContext _context;
 
-        public CustomersController(DataContext context)
+        public SupervisorsController(DataContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        // GET: Supervisors
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Customers
-                .Include(o => o.User));
+            return View(await _context.Supervisors.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: Supervisors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var supervisor = await _context.Supervisors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (supervisor == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(supervisor);
         }
 
-        // GET: Customers/Create
+        // GET: Supervisors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Supervisors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id")] Supervisor supervisor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(supervisor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(supervisor);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Supervisors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var supervisor = await _context.Supervisors.FindAsync(id);
+            if (supervisor == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(supervisor);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Supervisors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] Supervisor supervisor)
         {
-            if (id != customer.Id)
+            if (id != supervisor.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(supervisor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!SupervisorExists(supervisor.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MyCollection.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(supervisor);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Supervisors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var supervisor = await _context.Supervisors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (supervisor == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(supervisor);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Supervisors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var supervisor = await _context.Supervisors.FindAsync(id);
+            _context.Supervisors.Remove(supervisor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool SupervisorExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.Supervisors.Any(e => e.Id == id);
         }
     }
 }

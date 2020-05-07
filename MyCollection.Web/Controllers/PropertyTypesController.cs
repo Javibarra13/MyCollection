@@ -10,22 +10,22 @@ using MyCollection.Web.Data.Entities;
 
 namespace MyCollection.Web.Controllers
 {
-    public class CustomersController : Controller
+    public class PropertyTypesController : Controller
     {
         private readonly DataContext _context;
 
-        public CustomersController(DataContext context)
+        public PropertyTypesController(DataContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        // GET: PropertyTypes
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Customers
-                .Include(o => o.User));
+            return View(await _context.PropertyTypes.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: PropertyTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var propertyType = await _context.PropertyTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (propertyType == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(propertyType);
         }
 
-        // GET: Customers/Create
+        // GET: PropertyTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: PropertyTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Name")] PropertyType propertyType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(propertyType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(propertyType);
         }
 
-        // GET: Customers/Edit/5
+        // GET: PropertyTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var propertyType = await _context.PropertyTypes.FindAsync(id);
+            if (propertyType == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(propertyType);
         }
 
-        // POST: Customers/Edit/5
+        // POST: PropertyTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PropertyType propertyType)
         {
-            if (id != customer.Id)
+            if (id != propertyType.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(propertyType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!PropertyTypeExists(propertyType.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MyCollection.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(propertyType);
         }
 
-        // GET: Customers/Delete/5
+        // GET: PropertyTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var propertyType = await _context.PropertyTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (propertyType == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(propertyType);
         }
 
-        // POST: Customers/Delete/5
+        // POST: PropertyTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var propertyType = await _context.PropertyTypes.FindAsync(id);
+            _context.PropertyTypes.Remove(propertyType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool PropertyTypeExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.PropertyTypes.Any(e => e.Id == id);
         }
     }
 }

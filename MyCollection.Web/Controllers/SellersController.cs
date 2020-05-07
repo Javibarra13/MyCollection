@@ -10,22 +10,22 @@ using MyCollection.Web.Data.Entities;
 
 namespace MyCollection.Web.Controllers
 {
-    public class CustomersController : Controller
+    public class SellersController : Controller
     {
         private readonly DataContext _context;
 
-        public CustomersController(DataContext context)
+        public SellersController(DataContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        // GET: Sellers
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Customers
-                .Include(o => o.User));
+            return View(await _context.Sellers.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: Sellers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var seller = await _context.Sellers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (seller == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(seller);
         }
 
-        // GET: Customers/Create
+        // GET: Sellers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Sellers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id")] Seller seller)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(seller);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(seller);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Sellers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var seller = await _context.Sellers.FindAsync(id);
+            if (seller == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(seller);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Sellers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] Seller seller)
         {
-            if (id != customer.Id)
+            if (id != seller.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(seller);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!SellerExists(seller.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MyCollection.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(seller);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Sellers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var seller = await _context.Sellers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (seller == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(seller);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Sellers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var seller = await _context.Sellers.FindAsync(id);
+            _context.Sellers.Remove(seller);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool SellerExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.Sellers.Any(e => e.Id == id);
         }
     }
 }

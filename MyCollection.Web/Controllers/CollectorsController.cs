@@ -10,22 +10,22 @@ using MyCollection.Web.Data.Entities;
 
 namespace MyCollection.Web.Controllers
 {
-    public class CustomersController : Controller
+    public class CollectorsController : Controller
     {
         private readonly DataContext _context;
 
-        public CustomersController(DataContext context)
+        public CollectorsController(DataContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        // GET: Collectors
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Customers
-                .Include(o => o.User));
+            return View(await _context.Collectors.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: Collectors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var collector = await _context.Collectors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (collector == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(collector);
         }
 
-        // GET: Customers/Create
+        // GET: Collectors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Collectors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id")] Collector collector)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(collector);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(collector);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Collectors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var collector = await _context.Collectors.FindAsync(id);
+            if (collector == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(collector);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Collectors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CellPhone,Neighborhood,PostalCode,City,Remarks,RefName,RefAddress,RefPhone,RefName2,RefAddress2,RefPhone2,Status")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] Collector collector)
         {
-            if (id != customer.Id)
+            if (id != collector.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(collector);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!CollectorExists(collector.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MyCollection.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(collector);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Collectors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var collector = await _context.Collectors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (collector == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(collector);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Collectors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var collector = await _context.Collectors.FindAsync(id);
+            _context.Collectors.Remove(collector);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool CollectorExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.Collectors.Any(e => e.Id == id);
         }
     }
 }
