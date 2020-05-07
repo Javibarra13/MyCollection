@@ -2,21 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
+using MyCollection.Web.Helpers;
+using MyCollection.Web.Models;
 
 namespace MyCollection.Web.Controllers
 {
     public class CollectorsController : Controller
     {
         private readonly DataContext _dataContext;
+        private readonly IUserHelper _userHelper;
+        private readonly ICombosHelper _combosHelper;
 
-        public CollectorsController(DataContext dataContext)
+
+        public CollectorsController(
+            DataContext dataContext,
+            IUserHelper userHelper,
+            ICombosHelper combosHelper)
         {
             _dataContext = dataContext;
+            _userHelper = userHelper;
+            _combosHelper = combosHelper;
         }
 
         public IActionResult Index()
@@ -48,27 +59,82 @@ namespace MyCollection.Web.Controllers
             return View(collector);
         }
 
-        // GET: Collectors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Collectors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Collector collector)
+        public async Task<IActionResult> Create(AddUserViewModel view)
         {
             if (ModelState.IsValid)
             {
-                _dataContext.Add(collector);
+                var user = await AddUser(view);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "This email is already used.");
+                    return View(view);
+                }
+
+                var collector = new Collector
+                {
+                    PropertyCollectors = new List<PropertyCollector>(),
+                    User = user,
+                };
+
+                _dataContext.Collectors.Add(collector);
                 await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(collector);
+
+            return View(view);
         }
+
+        private async Task<User> AddUser(AddUserViewModel view)
+        {
+            var user = new User
+            {
+                Address = view.Address,
+                Document = view.Document,
+                Email = view.Username,
+                FirstName = view.FirstName,
+                LastName = view.LastName,
+                PhoneNumber = view.PhoneNumber,
+                UserName = view.Username
+            };
+
+            var result = await _userHelper.AddUserAsync(user, view.Password);
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            var newUser = await _userHelper.GetUserByEmailAsync(view.Username);
+            await _userHelper.AddUserToRoleAsync(newUser, "Collector");
+            return newUser;
+        }
+
+        public async Task<IActionResult> AddProperty(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var collector = await _dataContext.Collectors.FindAsync(id);
+            if (collector == null)
+            {
+                return NotFound();
+            }
+            var model = new PropertyCollectorViewModel
+            {
+                CollectorId = collector.Id,
+                PropertyTypes = _combosHelper.GetComboPropertyTypes()
+            };
+            return View(model);
+        }
+
 
         // GET: Collectors/Edit/5
         public async Task<IActionResult> Edit(int? id)
