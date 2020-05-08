@@ -18,16 +18,18 @@ namespace MyCollection.Web.Controllers
         private readonly DataContext _dataContext;
         private readonly IUserHelper _userHelper;
         private readonly ICombosHelper _combosHelper;
-
+        private readonly IConverterHelper _converterHelper;
 
         public CollectorsController(
             DataContext dataContext,
             IUserHelper userHelper,
-            ICombosHelper combosHelper)
+            ICombosHelper combosHelper,
+            IConverterHelper converterHelper)
         {
             _dataContext = dataContext;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
+            _converterHelper = converterHelper;
         }
 
         public IActionResult Index()
@@ -135,8 +137,39 @@ namespace MyCollection.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddProperty(PropertyCollectorViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var propertyCollector = await _converterHelper.ToPropertyCollectorAsync(viewModel, true);
+                _dataContext.PropertyCollectors.Add(propertyCollector);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("Details","Collectors", new { id = viewModel.CollectorId });
+            }
+            return View(viewModel);
+        }
 
-        // GET: Collectors/Edit/5
+        public async Task<IActionResult> EditProperty(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var propertyCollector = await _dataContext.PropertyCollectors
+                .Include(pc => pc.Collector)
+                .Include(pc => pc.PropertyType)
+                .FirstOrDefaultAsync(pc => pc.Id == id);
+            if (propertyCollector == null)
+            {
+                return NotFound();
+            }
+
+            var model = _converterHelper.ToPropertyCollectorViewModel(propertyCollector);
+            return View(model);
+        }
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
