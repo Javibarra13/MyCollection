@@ -67,6 +67,12 @@ else
                     @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().PropertyType.Name)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().Company)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.PropertyCollectors.FirstOrDefault().Price)
                 </th>
                 <th>
@@ -81,25 +87,31 @@ else
         <tbody>
             @foreach (var item in Model.PropertyCollectors)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PropertyType.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsAvailable)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PropertyCollectorImages.Count)
-                    </td>
-                    <td>
-                        <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a>
-                        <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
-                        <a asp-action="DeleteProperty" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyCollectorImages.Count)
+                </td>
+                <td>
+                    <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a>
+                    <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
+                    <a asp-action="DeleteProperty" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

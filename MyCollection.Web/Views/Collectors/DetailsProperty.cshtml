@@ -1,0 +1,179 @@
+﻿@model MyCollection.Web.Data.Entities.PropertyCollector
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Property</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <h4>Owner</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Collector.User.Document)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.Document)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Collector.User.FullName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Collector.User.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.Address)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Collector.User.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Collector.User.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.PhoneNumber)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <h4>Property Details</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Serie)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Serie)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Company)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Company)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Model)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Model)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Colour)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Colour)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsAvailable)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.IsAvailable)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Remarks)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <h4>Images</h4>
+            <hr />
+            @if (Model.PropertyCollectorImages.Count == 0)
+            {
+                <h5>Not images added yet.</h5>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PropertyCollectorImages)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                                    }
+                                </td>
+                                <td>
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Image</a>
+    <a asp-action="Details" asp-route-id="@Model.Collector.Id" class="btn btn-outline-dark">Back to Owner</a>
+</div>
+
+<!--Delete Item-->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete the record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btnYesDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+        	// Delete item
+        	var item_to_delete;
+        	var action_to_delete;
+
+        	$('.deleteImage').click((e) => {
+            	item_to_delete = e.currentTarget.dataset.id;
+            	action_to_delete = 1;
+        	});
+
+        	$("#btnYesDelete").click(function () {
+            	if (action_to_delete == 1) {
+                	window.location.href = '/Collectors/DeleteImage/' + item_to_delete;
+            	}
+        	});
+    	});
+    </script>
+}
