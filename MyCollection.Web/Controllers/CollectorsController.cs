@@ -275,8 +275,6 @@ namespace MyCollection.Web.Controllers
             return RedirectToAction("DetailsProperty", "Collectors", new { id = propertyCollectorImage.PropertyCollector.Id });
         }
 
-
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -284,48 +282,51 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var collector = await _dataContext.Collectors.FindAsync(id);
+            var collector = await _dataContext.Collectors
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == id.Value);
             if (collector == null)
             {
                 return NotFound();
             }
-            return View(collector);
+
+            var model = new EditUserViewModel
+            {
+                Address = collector.User.Address,
+                Document = collector.User.Document,
+                FirstName = collector.User.FirstName,
+                Id = collector.Id,
+                LastName = collector.User.LastName,
+                PhoneNumber = collector.User.PhoneNumber
+            };
+
+            return View(model);
         }
 
-        // POST: Collectors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Collector collector)
+        public async Task<IActionResult> Edit(EditUserViewModel viewModel)
         {
-            if (id != collector.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _dataContext.Update(collector);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CollectorExists(collector.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var collector = await _dataContext.Collectors
+                    .Include(c => c.User)
+                    .FirstOrDefaultAsync(o => o.Id == viewModel.Id);
+
+                collector.User.Document = viewModel.Document;
+                collector.User.FirstName = viewModel.FirstName;
+                collector.User.LastName = viewModel.LastName;
+                collector.User.Address = viewModel.Address;
+                collector.User.PhoneNumber = viewModel.PhoneNumber;
+
+                await _userHelper.UpdateUserAsync(collector.User);
                 return RedirectToAction(nameof(Index));
             }
-            return View(collector);
+
+            return View(viewModel);
         }
+
 
         // GET: Collectors/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -336,25 +337,26 @@ namespace MyCollection.Web.Controllers
             }
 
             var collector = await _dataContext.Collectors
+                .Include(c => c.User)
+                .Include(c => c.PropertyCollectors)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (collector == null)
             {
                 return NotFound();
             }
 
-            return View(collector);
-        }
+            if (collector.PropertyCollectors.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Collector has related registers");
+                return RedirectToAction(nameof(Index));
+            }
 
-        // POST: Collectors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var collector = await _dataContext.Collectors.FindAsync(id);
             _dataContext.Collectors.Remove(collector);
             await _dataContext.SaveChangesAsync();
+            await _userHelper.DeleteUserAsync(collector.User.Email);
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool CollectorExists(int id)
         {
