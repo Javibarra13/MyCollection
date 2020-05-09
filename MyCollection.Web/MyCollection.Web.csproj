@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\PropertyCollectorImages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyCollection.Common\MyCollection.Common.csproj" />
   </ItemGroup>
 
