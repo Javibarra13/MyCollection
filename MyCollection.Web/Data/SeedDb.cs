@@ -64,10 +64,11 @@ namespace MyCollection.Web.Data
 
         private async Task CheckCustomersAsync(User user)
         {
+                var collector = _context.Collectors.FirstOrDefault();
                 var house = _context.Houses.FirstOrDefault();
                 if (!_context.Customers.Any())
                 {
-                    _context.Customers.Add(new Customer { User = user , House = house });
+                    _context.Customers.Add(new Customer { User = user , House = house, Collector = collector});
                     await _context.SaveChangesAsync();
                 }
             }
