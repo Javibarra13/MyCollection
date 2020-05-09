@@ -150,6 +150,9 @@ namespace MyCollection.Web.Controllers
                 await _dataContext.SaveChangesAsync();
                 return RedirectToAction("Details","Collectors", new { id = viewModel.CollectorId });
             }
+
+            viewModel.PropertyTypes = _combosHelper.GetComboPropertyTypes();
+
             return View(viewModel);
         }
 
@@ -327,8 +330,6 @@ namespace MyCollection.Web.Controllers
             return View(viewModel);
         }
 
-
-        // GET: Collectors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

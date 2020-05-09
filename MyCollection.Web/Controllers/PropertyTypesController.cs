@@ -12,17 +12,17 @@ namespace MyCollection.Web.Controllers
 {
     public class PropertyTypesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
-        public PropertyTypesController(DataContext context)
+        public PropertyTypesController(DataContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
         // GET: PropertyTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PropertyTypes.ToListAsync());
+            return View(await _dataContext.PropertyTypes.ToListAsync());
         }
 
         // GET: PropertyTypes/Details/5
@@ -33,7 +33,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var propertyType = await _context.PropertyTypes
+            var propertyType = await _dataContext.PropertyTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (propertyType == null)
             {
@@ -58,8 +58,8 @@ namespace MyCollection.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(propertyType);
-                await _context.SaveChangesAsync();
+                _dataContext.Add(propertyType);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(propertyType);
@@ -73,7 +73,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var propertyType = await _context.PropertyTypes.FindAsync(id);
+            var propertyType = await _dataContext.PropertyTypes.FindAsync(id);
             if (propertyType == null)
             {
                 return NotFound();
@@ -97,8 +97,8 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(propertyType);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(propertyType);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,7 +116,6 @@ namespace MyCollection.Web.Controllers
             return View(propertyType);
         }
 
-        // GET: PropertyTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +123,46 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var propertyType = await _context.PropertyTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (propertyType == null)
+            var propertyTypes = await _dataContext.PropertyTypes
+                .Include(pt => pt.PropertyCollectors)
+                .Include(pt => pt.PropertyManagers)
+                .Include(pt => pt.PropertySellers)
+                .Include(pt => pt.PropertySupervisors)
+                .FirstOrDefaultAsync(pt => pt.Id == id);
+            if (propertyTypes == null)
             {
                 return NotFound();
             }
 
-            return View(propertyType);
-        }
+            if (propertyTypes.PropertyCollectors.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "Register has related records");
+                return RedirectToAction(nameof(Index));
+            }
+            if (propertyTypes.PropertyManagers.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "Register has related records");
+                return RedirectToAction(nameof(Index));
+            }
+            if (propertyTypes.PropertySellers.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "Register has related records");
+                return RedirectToAction(nameof(Index));
+            }
+            if (propertyTypes.PropertySupervisors.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "Register has related records");
+                return RedirectToAction(nameof(Index));
+            }
 
-        // POST: PropertyTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var propertyType = await _context.PropertyTypes.FindAsync(id);
-            _context.PropertyTypes.Remove(propertyType);
-            await _context.SaveChangesAsync();
+            _dataContext.PropertyTypes.Remove(propertyTypes);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PropertyTypeExists(int id)
         {
-            return _context.PropertyTypes.Any(e => e.Id == id);
+            return _dataContext.PropertyTypes.Any(e => e.Id == id);
         }
     }
 }
