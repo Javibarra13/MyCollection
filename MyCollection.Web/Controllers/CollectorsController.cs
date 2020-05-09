@@ -357,6 +357,29 @@ namespace MyCollection.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> DeleteProperty(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var propertyCollector = await _dataContext.PropertyCollectors
+                .Include(pc => pc.Collector)
+                .Include(pc => pc.PropertyCollectorImages)
+                .FirstOrDefaultAsync(pc => pc.Id == id.Value);
+            if (propertyCollector == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.PropertyCollectorImages.RemoveRange(propertyCollector.PropertyCollectorImages);
+            _dataContext.PropertyCollectors.Remove(propertyCollector);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction("Details", "Collectors", new { id = propertyCollector.Collector.Id });
+        }
+
+
 
         private bool CollectorExists(int id)
         {
