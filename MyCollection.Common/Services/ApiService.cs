@@ -1,5 +1,6 @@
 ﻿using MyCollection.Common.Models;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -56,7 +57,7 @@ namespace MyCollection.Common.Services
             }
         }
 
-        public async Task<Response<CollectorResponse>> GetCollectorByEmail(
+        public async Task<Response<CollectorResponse>> GetCollectorByEmailAsync(
             string urlBase,
             string servicePrefix,
             string controller,
@@ -104,6 +105,14 @@ namespace MyCollection.Common.Services
                 };
             }
         }
+        public async Task<bool> CheckConnectionAsync(string url)
+        {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                return false;
+            }
 
+            return await CrossConnectivity.Current.IsRemoteReachable(url);
+        }
     }
 }

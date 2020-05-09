@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyCollection.Common.Models
@@ -25,5 +26,9 @@ namespace MyCollection.Common.Models
         public string PropertyType { get; set; }
 
         public ICollection<PropertyCollectorImageResponse> PropertyCollectorImages { get; set; }
+
+        public string FirstImage => PropertyCollectorImages == null || PropertyCollectorImages.Count == 0 
+            ?"https://webstudio-mycollection.azurewebsites.net/images/PropertyCollectorImages/noImage.png"
+            :PropertyCollectorImages.FirstOrDefault().ImageUrl;
+        }
     }
-}

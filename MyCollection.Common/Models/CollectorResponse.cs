@@ -22,5 +22,7 @@ namespace MyCollection.Common.Models
 
         public ICollection<PropertyCollectorResponse> PropertyCollectors { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
+
     }
 }
