@@ -28,6 +28,7 @@ namespace MyCollection.Prism
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<PropertyCollectorsPage, PropertyCollectorsPageViewModel>();
+            containerRegistry.RegisterForNavigation<PropertyCollectorPage, PropertyCollectorPageViewModel>();
         }
     }
 }

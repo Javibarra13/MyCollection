@@ -1,4 +1,5 @@
 ﻿using MyCollection.Common.Models;
+using MyCollection.Prism.Views;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -9,15 +10,17 @@ namespace MyCollection.Prism.ViewModels
 {
     public class PropertyCollectorsPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private CollectorResponse _collector;
-        private ObservableCollection<PropertyCollectorResponse> _propertyCollectors;
+        private ObservableCollection<PropertyCollectorItemViewModel> _propertyCollectors;
 
         public PropertyCollectorsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Properties";
+            _navigationService = navigationService;
         }
 
-        public ObservableCollection<PropertyCollectorResponse> PropertyCollectors
+        public ObservableCollection<PropertyCollectorItemViewModel> PropertyCollectors
         {
             get => _propertyCollectors;
             set => SetProperty(ref _propertyCollectors, value);
@@ -31,7 +34,19 @@ namespace MyCollection.Prism.ViewModels
             {
                 _collector = parameters.GetValue<CollectorResponse>("collector");
                 Title = $"Properties of: {_collector.FullName}";
-                PropertyCollectors = new ObservableCollection<PropertyCollectorResponse>(_collector.PropertyCollectors);
+                PropertyCollectors = new ObservableCollection<PropertyCollectorItemViewModel>(_collector.PropertyCollectors.Select(pc => new PropertyCollectorItemViewModel(_navigationService)
+                {
+                    Serie = pc.Serie,
+                    Company = pc.Company,
+                    Model = pc.Model,
+                    Colour = pc.Colour,
+                    Price = pc.Price,
+                    IsAvailable = pc.IsAvailable,
+                    Remarks = pc.Remarks,
+                    Id = pc.Id,
+                    PropertyType = pc.PropertyType,
+                    PropertyCollectorImages = pc.PropertyCollectorImages
+                }).ToList());
             }
         }
     }

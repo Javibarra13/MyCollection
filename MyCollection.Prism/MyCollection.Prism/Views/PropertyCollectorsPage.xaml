@@ -19,6 +19,9 @@
                         <Frame
                             CornerRadius="10"
                             Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPropertyCollectorCommand}"/>
+                            </Frame.GestureRecognizers>
                             <StackLayout>
                                 <ffimageloading:CachedImage
 	                            Source="{Binding FirstImage}"
@@ -118,7 +121,7 @@
                                     Grid.Column="1"
                                     HorizontalOptions="Start"
                                     IsEnabled="False"
-                                    IsChecked="{Binding isAvailable}"/>
+                                    IsChecked="{Binding IsAvailable}"/>
                                     </Grid>
                                     <Image 
                                 Grid.Column="1"
