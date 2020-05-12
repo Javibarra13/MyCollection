@@ -10,14 +10,15 @@
     <StackLayout
         Padding="10">
         <ffimageloading:CachedImage
-	            Source="{Binding FirstImage}"
+                Aspect="AspectFit"
+	            Source="{Binding PropertyCollector.FirstImage}"
 	            LoadingPlaceholder= "LoaderImage"
+                HeightRequest="300"
 	            ErrorPlaceholder= "ErrorImage"
 	            CacheDuration= "50"
 	            RetryCount= "3"
 	            RetryDelay= "600"
-	            DownsampleToViewSize = "true"
-	            WidthRequest="300"/>
+	            DownsampleToViewSize = "true"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -44,7 +45,7 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="1"
-                Text="{Binding Serie}"/>
+                Text="{Binding PropertyCollector.Serie}"/>
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
@@ -53,7 +54,7 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="{Binding Company}"/>
+                Text="{Binding PropertyCollector.Company}"/>
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
@@ -62,7 +63,7 @@
             <Label
                 Grid.Row="2"
                 Grid.Column="1"
-                Text="{Binding Model}"/>
+                Text="{Binding PropertyCollector.Model}"/>
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
@@ -71,7 +72,7 @@
             <Label
                 Grid.Row="3"
                 Grid.Column="1"
-                Text="{Binding Colour}"/>
+                Text="{Binding PropertyCollector.Colour}"/>
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
@@ -80,7 +81,7 @@
             <Label
                 Grid.Row="4"
                 Grid.Column="1"
-                Text="{Binding Price, StringFormat='{0:C2}'}"/>
+                Text="{Binding PropertyCollector.Price, StringFormat='{0:C2}'}"/>
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
@@ -89,7 +90,7 @@
             <Label
                 Grid.Row="5"
                 Grid.Column="1"
-                Text="{Binding PropertyType}"/>
+                Text="{Binding PropertyCollector.PropertyType}"/>
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
@@ -101,7 +102,7 @@
                 Grid.Column="1"
                 HorizontalOptions="Start"
                 IsEnabled="False"
-                IsChecked="{Binding IsAvailable}"/>
+                IsChecked="{Binding PropertyCollector.IsAvailable}"/>
         </Grid>
     </StackLayout>
     </ScrollView>

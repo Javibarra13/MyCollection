@@ -7,131 +7,89 @@
              x:Class="MyCollection.Prism.Views.PropertyCollectorsPage"
              BackgroundColor="Silver"
              Title="{Binding Title}">
-    <StackLayout
-        Padding="10">
-        <ListView
-            SeparatorVisibility="None"
-            HasUnevenRows="True"
-            ItemsSource="{Binding PropertyCollectors}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Frame
-                            CornerRadius="10"
-                            Margin="0,0,0,5">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectPropertyCollectorCommand}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout>
-                                <ffimageloading:CachedImage
-	                            Source="{Binding FirstImage}"
-	                            LoadingPlaceholder= "LoaderImage"
-	                            ErrorPlaceholder= "ErrorImage"
-	                            CacheDuration= "50"
-	                            RetryCount= "3"
-	                            RetryDelay= "600"
-	                            DownsampleToViewSize = "true"
-	                            WidthRequest="100"/>
-                                <Grid>
+<StackLayout
+    Padding="10">
+    <ListView
+        BackgroundColor="Transparent"
+        SeparatorVisibility="None"
+        HasUnevenRows="True"
+        ItemsSource="{Binding PropertyCollectors}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Frame
+                        CornerRadius="10"
+                        Margin="0,0,0,5">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectPropertyCollectorCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <StackLayout>
+                            <ffimageloading:CachedImage
+	                        Source="{Binding FirstImage}"
+                            Aspect="AspectFit"
+	                        LoadingPlaceholder= "LoaderImage"
+                            HeightRequest="200"
+	                        ErrorPlaceholder= "ErrorImage"
+	                        CacheDuration= "50"
+	                        RetryCount= "3"
+	                        RetryDelay= "600"
+	                        DownsampleToViewSize = "true"
+	                        WidthRequest="100"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid
+                        Grid.Column="0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Grid
-                            Grid.Column="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Serie"/>
-                                        <Label
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Text="{Binding Serie}"/>
-                                        <Label
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Company"/>
-                                        <Label
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Text="{Binding Company}"/>
-                                        <Label
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Model"/>
-                                        <Label
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Text="{Binding Model}"/>
-                                        <Label
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Colour"/>
-                                        <Label
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    Text="{Binding Colour}"/>
-                                        <Label
-                                    Grid.Row="4"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Price"/>
-                                        <Label
-                                    Grid.Row="4"
-                                    Grid.Column="1"
-                                    Text="{Binding Price, StringFormat='{0:C2}'}"/>
-                                        <Label
-                                    Grid.Row="5"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Property Type"/>
-                                        <Label
-                                    Grid.Row="5"
-                                    Grid.Column="1"
-                                    Text="{Binding PropertyType}"/>
-                                        <Label
-                                    Grid.Row="6"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    Text="Is Available?"
-                                    VerticalOptions="Center"/>
-                                    <CheckBox
-                                    Grid.Row="6"
-                                    Grid.Column="1"
-                                    HorizontalOptions="Start"
-                                    IsEnabled="False"
-                                    IsChecked="{Binding IsAvailable}"/>
-                                    </Grid>
-                                    <Image 
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                FontAttributes="Bold"
+                                Text="Property Type"/>
+                                    <Label
+                                Grid.Row="5"
                                 Grid.Column="1"
-                                Source="ic_more_vert"/>
+                                Text="{Binding PropertyType}"/>
+                                    <Label
+                                Grid.Row="6"
+                                Grid.Column="0"
+                                FontAttributes="Bold"
+                                Text="Is Available?"
+                                VerticalOptions="Center"/>
+                                <CheckBox
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                HorizontalOptions="Start"
+                                IsEnabled="False"
+                                IsChecked="{Binding IsAvailable}"/>
                                 </Grid>
-                            </StackLayout>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
+                                <Image 
+                            Grid.Column="1"
+                            Source="ic_more_vert"/>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</StackLayout>
 </ContentPage>
