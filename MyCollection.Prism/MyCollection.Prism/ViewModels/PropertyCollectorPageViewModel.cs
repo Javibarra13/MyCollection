@@ -1,20 +1,23 @@
 ﻿using MyCollection.Common.Models;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Xaml;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace MyCollection.Prism.ViewModels
 {
     public class PropertyCollectorPageViewModel : ViewModelBase
     {
         private PropertyCollectorResponse _propertyCollector;
+        private ObservableCollection<RotatorModel> _imageCollection;
         public PropertyCollectorPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Propiedad";
+        }
+
+        public ObservableCollection<RotatorModel> ImageCollection
+        {
+            get => _imageCollection;
+            set => SetProperty(ref _imageCollection, value);
         }
 
         public PropertyCollectorResponse PropertyCollector
@@ -30,7 +33,21 @@ namespace MyCollection.Prism.ViewModels
             {
                 PropertyCollector = parameters.GetValue<PropertyCollectorResponse>("propertyCollector");
                 Title = $"Property: {PropertyCollector.Model}";
+                LoadImages();
             }
         }
+
+        private void LoadImages()
+    	{
+        	var list = new List<RotatorModel>();
+        	foreach (var propertyImage in PropertyCollector.PropertyCollectorImages)
+        	{
+            	list.Add(new RotatorModel { Image = propertyImage.ImageUrl });
+        	}
+
+        	ImageCollection = new ObservableCollection<RotatorModel>(list);
+    	}
+	}
+
     }
-}
+
