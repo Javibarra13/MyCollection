@@ -1,4 +1,4 @@
-﻿@model MyCollection.Web.Models.PropertyCollectorImageViewModel
+﻿@model MyCollection.Web.Models.CustomerImageViewModel
 
 @{
     ViewData["Title"] = "Add Image";
@@ -6,7 +6,7 @@
 
 <h2>Add Image</h2>
 
-<h4>Property</h4>
+<h4>Customer</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-outline-primary" />
-                <a asp-action="DetailsProperty" asp-route-id="@Model.Id" class="btn btn-outline-dark">Back to Property</a>
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-dark">Back to Property</a>
             </div>
         </form>
     </div>

@@ -37,6 +37,5 @@ namespace MyCollection.Web.Data.Entities
         public string Contact { get; set; }
 
         public ICollection<Customer> Customers { get; set; }
-
     }
 }

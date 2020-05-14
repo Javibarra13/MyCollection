@@ -4,90 +4,194 @@
 }
 
 <h2>Customers</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <h4>Data</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.Document)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.Document)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.FirstName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.FirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.LastName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Neighborhood)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Neighborhood)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.Address)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PostalCode)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PostalCode)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.Email)
+                </dd>
+                <dt>
+                    House
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.House.Name)
+                </dd>
+                <dt>
+                    Collector
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.FullName)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <h4>References</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Remarks)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RefName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RefName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RefAddress)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RefAddress)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RefPhone)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RefPhone)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RefName2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RefName2)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RefAddress2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RefAddress2)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RefPhone2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RefPhone2)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <h4>Images</h4>
+            <hr />
+            @if (Model.CustomerImages.Count == 0)
+            {
+                <h5>Not images added yet.</h5>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CustomerImages)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                                    }
+                                </td>
+                                <td>
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+        <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Images</a>
+        <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+    </div>
+</div>
 
-<div>
-    <h4>Details</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Document)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Document)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.PhoneNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.PhoneNumber)
-        </dd>
-        <dt>
-            House
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.House.Name)
-        </dd>
-        <dt>
-            Collector
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Collector.User.FullName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
-    <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Images</a>
-    <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
-</div>
-<h4>Images</h4>
-@if (Model.CustomerImages.Count == 0)
-{
-    <h5>Not images added yet.</h5>
-}
-else
-{
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.House.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CustomerImages)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageUrl)
-                </td>
-                <td>
-                    <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a>
-                    <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
-                    <a asp-action="DeleteProperty" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+        	// Delete item
+        	var item_to_delete;
+        	var action_to_delete;
+
+        	$('.deleteImage').click((e) => {
+            	item_to_delete = e.currentTarget.dataset.id;
+            	action_to_delete = 1;
+        	});
+
+        	$("#btnYesDelete").click(function () {
+            	if (action_to_delete == 1) {
+                	window.location.href = '/Customers/DeleteImage/' + item_to_delete;
+            	}
+        	});
+    	});
+    </script>
 }
