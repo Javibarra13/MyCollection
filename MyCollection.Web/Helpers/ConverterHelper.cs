@@ -1,4 +1,5 @@
-﻿using MyCollection.Web.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
 using MyCollection.Web.Models;
 using System.Collections.Generic;
@@ -10,13 +11,16 @@ namespace MyCollection.Web.Helpers
     {
         private readonly DataContext _dataContext;
         private readonly ICombosHelper _combosHelper;
+        private readonly IUserHelper _userHelper;
 
         public ConverterHelper(
             DataContext dataContext,
-            ICombosHelper combosHelper)
+            ICombosHelper combosHelper,
+            IUserHelper userHelper)
         {
             _dataContext = dataContext;
             _combosHelper = combosHelper;
+            _userHelper = userHelper;
         }
 
         public CombosHelper CombosHelper { get; }

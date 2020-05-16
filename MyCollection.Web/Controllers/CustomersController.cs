@@ -126,33 +126,33 @@ namespace MyCollection.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CustomerViewModel view)
+        public async Task<IActionResult> Create(CustomerViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = await AddUser(view);
+                var user = await AddUser(viewModel);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "This email is already used.");
-                    return View(view);
+                    return View(viewModel);
                 }
 
-                var customer = new Customer
+                var customer = new CustomerViewModel
                 {
                     User = user,
-                    HouseId = view.HouseId,
-                    CollectorId = view.CollectorId,
-                    City = view.City,
-                    Neighborhood = view.Neighborhood,
-                    PostalCode = view.PostalCode,
-                    RefName = view.RefName,
-                    RefAddress = view.RefAddress,
-                    RefPhone = view.RefPhone,
-                    RefName2 = view.RefName2,
-                    RefAddress2 = view.RefAddress2,
-                    RefPhone2 = view.RefPhone2,
-                    Remarks = view.Remarks,
-                    Status = view.Status,
+                    City = viewModel.City,
+                    House = await _dataContext.Houses.FindAsync(viewModel.HouseId),
+                    Collector = await _dataContext.Collectors.FindAsync(viewModel.CollectorId),
+                    Neighborhood = viewModel.Neighborhood,
+                    PostalCode = viewModel.PostalCode,
+                    RefName = viewModel.RefName,
+                    RefAddress = viewModel.RefAddress,
+                    RefPhone = viewModel.RefPhone,
+                    RefName2 = viewModel.RefName2,
+                    RefAddress2 = viewModel.RefAddress2,
+                    RefPhone2 = viewModel.RefPhone2,
+                    Remarks = viewModel.Remarks,
+                    Status = viewModel.Status,
                     CustomerImages = new List<CustomerImage>(),
                 };
 
@@ -161,33 +161,33 @@ namespace MyCollection.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            view.Houses = _combosHelper.GetComboHouses();
-            view.Collectors = _combosHelper.GetComboCollectors();
+            viewModel.Houses = _combosHelper.GetComboHouses();
+            viewModel.Collectors = _combosHelper.GetComboCollectors();
 
-            return View(view);
+            return View(viewModel);
         }
 
-        private async Task<User> AddUser(CustomerViewModel view)
+        private async Task<User> AddUser(CustomerViewModel viewModel)
         {
             var user = new User
             {
-                Address = view.Address,
-                Document = view.Document,
-                Email = view.Username,
-                FirstName = view.FirstName,
-                LastName = view.LastName,
-                PhoneNumber = view.PhoneNumber,
-                UserName = view.Username
+                Address = viewModel.Address,
+                Document = viewModel.Document,
+                Email = viewModel.Username,
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                PhoneNumber = viewModel.PhoneNumber,
+                UserName = viewModel.Username
             };
 
-            var result = await _userHelper.AddUserAsync(user, view.Password);
+            var result = await _userHelper.AddUserAsync(user, viewModel.Password);
             if (result != IdentityResult.Success)
             {
                 return null;
             }
 
-            var newUser = await _userHelper.GetUserByEmailAsync(view.Username);
-            await _userHelper.AddUserToRoleAsync(newUser, "Collector");
+            var newUser = await _userHelper.GetUserByEmailAsync(viewModel.Username);
+            await _userHelper.AddUserToRoleAsync(newUser, "Customer");
             return newUser;
         }
 
@@ -200,6 +200,9 @@ namespace MyCollection.Web.Controllers
 
             var customer = await _dataContext.Customers
                 .Include(c => c.User)
+                .Include(c => c.Collector)
+                .ThenInclude(c => c.User)
+                .Include(c => c.House)
                 .FirstOrDefaultAsync(c => c.Id == id.Value);
             if (customer == null)
             {
@@ -214,8 +217,6 @@ namespace MyCollection.Web.Controllers
                 Id = customer.Id,
                 LastName = customer.User.LastName,
                 PhoneNumber = customer.User.PhoneNumber,
-                HouseId = customer.HouseId,
-                CollectorId = customer.CollectorId,
                 City = customer.City,
                 Neighborhood = customer.Neighborhood,
                 PostalCode = customer.PostalCode,
@@ -227,6 +228,8 @@ namespace MyCollection.Web.Controllers
                 RefPhone2 = customer.RefPhone2,
                 Remarks = customer.Remarks,
                 Status = customer.Status,
+                HouseId = customer.House.Id,
+                CollectorId = customer.Collector.Id,
             };
 
             model.Houses = _combosHelper.GetComboHouses();
@@ -245,12 +248,12 @@ namespace MyCollection.Web.Controllers
                     .FirstOrDefaultAsync(o => o.Id == viewModel.Id);
 
                 customer.User.Document = viewModel.Document;
+                customer.House = await _dataContext.Houses.FindAsync(viewModel.HouseId);
+                customer.Collector = await _dataContext.Collectors.FindAsync(viewModel.CollectorId);
                 customer.User.FirstName = viewModel.FirstName;
                 customer.User.LastName = viewModel.LastName;
                 customer.User.Address = viewModel.Address;
                 customer.User.PhoneNumber = viewModel.PhoneNumber;
-                customer.HouseId = viewModel.HouseId;
-                customer.CollectorId = viewModel.CollectorId;
                 customer.City = viewModel.City;
                 customer.Neighborhood = viewModel.Neighborhood;
                 customer.PostalCode = viewModel.PostalCode;

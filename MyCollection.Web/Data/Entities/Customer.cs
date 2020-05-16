@@ -11,16 +11,6 @@ namespace MyCollection.Web.Data.Entities
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "House")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a property type.")]
-        public int HouseId { get; set; }
-
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Collector")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a property type.")]
-        public int CollectorId { get; set; }
-
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Neighborhood { get; set; }
 
