@@ -40,6 +40,12 @@ namespace MyCollection.Web.Data
         public DbSet<Seller> Sellers { get; set; }
 
         public DbSet<Supervisor> Supervisors { get; set; }
+
+        public DbSet<Concept> Concepts { get; set; }
+
+        public DbSet<Line> Lines { get; set; }
+
+        public DbSet<Subline> Sublines { get; set; }
     }
 
 }

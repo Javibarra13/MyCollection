@@ -33,6 +33,9 @@ namespace MyCollection.Web.Data
             var supervisor = await CheckUserAsync("2020", "Claudia", "Sosa", "clau201569@gmail.com", "6628486267", "Acacia Blanca 192", "Supervisor");
             await CheckPropertyTypesAsync();
             await CheckHousesAsync();
+            await CheckSublinesAsync();
+            await CheckConceptsAsync();
+            await CheckLinesAsync();
             await CheckCustomersAsync(customer);
             await CheckManagersAsync(manager);
             await CheckSellersAsync(seller);
@@ -58,6 +61,34 @@ namespace MyCollection.Web.Data
             {
                 _context.Houses.Add(new Entities.House { Name = "Comercial Hermosillo", Address = "Acacia Blanca 192", City = "Hermosillo", Neighborhood = "Villa Colonial", Phone = "6625129365", Contact = "Francsico Ibarra" });
                 _context.Houses.Add(new Entities.House { Name = "Comercial Obregon", Address = "De los Tributos 23", City = "Obregon", Neighborhood = "California Residencial", Phone = "6625129365", Contact = "Javier Ayala" });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckLinesAsync()
+        {
+            if (!_context.Lines.Any())
+            {
+                _context.Lines.Add(new Entities.Line { Name = "Cocinas"});
+                _context.Lines.Add(new Entities.Line { Name = "Recamaras"});
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckSublinesAsync()
+        {
+            var line = _context.Lines.FirstOrDefault();
+            if (!_context.Sublines.Any())
+            {
+                _context.Sublines.Add(new Entities.Subline { Name = "Buros", Line = line });
+                _context.Sublines.Add(new Entities.Subline { Name = "Bases", Line = line });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckConceptsAsync()
+        {
+            if (!_context.Concepts.Any())
+            {
+                _context.Concepts.Add(new Entities.Concept { Name = "Abono", Type = "Abono", IsAvailable = true });
+                _context.Concepts.Add(new Entities.Concept { Name = "Compra", Type = "Cargo", IsAvailable = false });
                 await _context.SaveChangesAsync();
             }
         }

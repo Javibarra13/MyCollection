@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCollection.Web.Data;
 
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200517161407_Concept")]
+    partial class Concept
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,23 +323,6 @@ namespace MyCollection.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Houses");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Line", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Lines");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Manager", b =>
@@ -677,28 +662,6 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("Sellers");
                 });
 
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Subline", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("LineId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LineId");
-
-                    b.ToTable("Sublines");
-                });
-
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Supervisor", b =>
                 {
                     b.Property<int>("Id")
@@ -964,13 +927,6 @@ namespace MyCollection.Web.Migrations
                     b.HasOne("MyCollection.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Subline", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Line", "Line")
-                        .WithMany("Sublines")
-                        .HasForeignKey("LineId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Supervisor", b =>
