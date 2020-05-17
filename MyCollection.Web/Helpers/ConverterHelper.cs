@@ -63,5 +63,44 @@ namespace MyCollection.Web.Helpers
                 PropertyTypes = _combosHelper.GetComboPropertyTypes()
             };
         }
+
+        public async Task<PropertyManager> ToPropertyManagerAsync(PropertyManagerViewModel viewModel, bool isNew)
+        {
+            return new PropertyManager
+            {
+                Id = isNew ? 0 : viewModel.ManagerId,
+                Serie = viewModel.Serie,
+                Company = viewModel.Company,
+                Model = viewModel.Model,
+                Colour = viewModel.Colour,
+                IsAvailable = viewModel.IsAvailable,
+                Price = viewModel.Price,
+                Manager = await _dataContext.Managers.FindAsync(viewModel.ManagerId),
+                PropertyType = await _dataContext.PropertyTypes.FindAsync(viewModel.PropertyTypeId),
+                PropertyManagerImages = isNew ? new List<PropertyManagerImage>() : viewModel.PropertyManagerImages,
+                Remarks = viewModel.Remarks
+            };
+        }
+
+        public PropertyManagerViewModel ToPropertyManagerViewModel(PropertyManager propertyManager)
+        {
+            return new PropertyManagerViewModel
+            {
+                Id = propertyManager.Id,
+                Serie = propertyManager.Serie,
+                Company = propertyManager.Company,
+                Model = propertyManager.Model,
+                Colour = propertyManager.Colour,
+                IsAvailable = propertyManager.IsAvailable,
+                Price = propertyManager.Price,
+                Manager = propertyManager.Manager,
+                PropertyType = propertyManager.PropertyType,
+                PropertyManagerImages = propertyManager.PropertyManagerImages,
+                Remarks = propertyManager.Remarks,
+                ManagerId = propertyManager.Manager.Id,
+                PropertyTypeId = propertyManager.PropertyType.Id,
+                PropertyTypes = _combosHelper.GetComboPropertyTypes()
+            };
+        }
     }
 }

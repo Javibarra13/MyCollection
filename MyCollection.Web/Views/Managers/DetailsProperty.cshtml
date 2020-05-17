@@ -1,4 +1,4 @@
-﻿@model MyCollection.Web.Data.Entities.PropertyCollector
+﻿@model MyCollection.Web.Data.Entities.PropertyManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -7,38 +7,38 @@
 <div class="row">
     <div class="col-md-4">
         <div>
-            <h4>Collector</h4>
+            <h4>Manager</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Collector.User.Document)
+                    @Html.DisplayNameFor(model => model.Manager.User.Document)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Collector.User.Document)
+                    @Html.DisplayFor(model => model.Manager.User.Document)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.Collector.User.FullName)
+                    @Html.DisplayNameFor(model => model.Manager.User.FullName)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Collector.User.FullName)
+                    @Html.DisplayFor(model => model.Manager.User.FullName)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.Collector.User.Address)
+                    @Html.DisplayNameFor(model => model.Manager.User.Address)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Collector.User.Address)
+                    @Html.DisplayFor(model => model.Manager.User.Address)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.Collector.User.Email)
+                    @Html.DisplayNameFor(model => model.Manager.User.Email)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Collector.User.Email)
+                    @Html.DisplayFor(model => model.Manager.User.Email)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.Collector.User.PhoneNumber)
+                    @Html.DisplayNameFor(model => model.Manager.User.PhoneNumber)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Collector.User.PhoneNumber)
+                    @Html.DisplayFor(model => model.Manager.User.PhoneNumber)
                 </dd>
             </dl>
         </div>
@@ -97,7 +97,7 @@
         <div>
             <h4>Images</h4>
             <hr />
-            @if (Model.PropertyCollectorImages.Count == 0)
+            @if (Model.PropertyManagerImages.Count == 0)
             {
                 <h5>Not images added yet.</h5>
             }
@@ -109,7 +109,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.PropertyCollectorImages)
+                        @foreach (var item in Model.PropertyManagerImages)
                         {
                             <tr>
                                 <td>
@@ -131,7 +131,7 @@
 </div>
 <div>
     <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Image</a>
-    <a asp-action="Details" asp-route-id="@Model.Collector.Id" class="btn btn-outline-dark">Back to Owner</a>
+    <a asp-action="Details" asp-route-id="@Model.Manager.Id" class="btn btn-outline-dark">Back to Owner</a>
 </div>
 
 <partial name="_DeleteDialog" />
@@ -152,7 +152,7 @@
 
         	$("#btnYesDelete").click(function () {
             	if (action_to_delete == 1) {
-                	window.location.href = '/Collectors/DeleteImage/' + item_to_delete;
+                	window.location.href = '/Managers/DeleteImage/' + item_to_delete;
             	}
         	});
     	});
