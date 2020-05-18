@@ -22,6 +22,9 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
             </th>
             <th>
+                Email
+            </th>
+            <th>
                 Phone Number
             </th>
             <th></th>
@@ -30,25 +33,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Document)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |
-                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Document)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |
+                <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

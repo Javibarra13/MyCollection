@@ -13,5 +13,7 @@ namespace MyCollection.Web.Data.Entities
         public string Name { get; set; }
 
         public ICollection<Subline> Sublines { get; set; }
+
+        public ICollection<Product> Products { get; set; }
     }
 }

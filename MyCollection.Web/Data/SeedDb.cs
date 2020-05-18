@@ -36,6 +36,11 @@ namespace MyCollection.Web.Data
             await CheckSublinesAsync();
             await CheckConceptsAsync();
             await CheckLinesAsync();
+            await CheckProvidersAsync();
+            await CheckProductsAsync();
+            await CheckWarehousesAsync();
+            await CheckInventoriesAsync();
+            await CheckMovementsAsync();
             await CheckCustomersAsync(customer);
             await CheckManagersAsync(manager);
             await CheckSellersAsync(seller);
@@ -64,6 +69,24 @@ namespace MyCollection.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckMovementsAsync()
+        {
+            if (!_context.Movements.Any())
+            {
+                _context.Movements.Add(new Entities.Movement { Name = "Venta", Type = "Pendiente", Costing = "Recuperación", IsAvailable = true });
+                _context.Movements.Add(new Entities.Movement { Name = "Compra", Type = "Pendiente", Costing = "Inversión", IsAvailable = false });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckWarehousesAsync()
+        {
+            if (!_context.Warehouses.Any())
+            {
+                _context.Warehouses.Add(new Entities.Warehouse { Name = "Bodega Principal", Address = "Avenida Central 798", City = "Hermosillo", Neighborhood = "Villa Central", Phone = "6625129365", IsMain = true, IsAvailable = true, Contact = "Claudia Sosa" });
+                _context.Warehouses.Add(new Entities.Warehouse { Name = "Bodega Norte", Address = "Calle Norte 225", City = "Hermosillo", Neighborhood = "California Norte", Phone = "6625129365", IsMain = true, IsAvailable = false, Contact = "Fryda Sosa" });
+                await _context.SaveChangesAsync();
+            }
+        }
         private async Task CheckLinesAsync()
         {
             if (!_context.Lines.Any())
@@ -83,6 +106,29 @@ namespace MyCollection.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckProductsAsync()
+        {
+            var line = _context.Lines.FirstOrDefault();
+            var subline = _context.Sublines.FirstOrDefault();
+            var provider = _context.Providers.FirstOrDefault();
+            if (!_context.Products.Any())
+            {
+                _context.Products.Add(new Entities.Product { Code = "000001", Barcode = "110011", Name = "Base Matrimonial", PurchaseUnit = "Pza", Sale = "Pzas", Factor = "0", IVA = 16M, Location = "Hermosillo", Remarks = "Producto Nuevo", Price = 1000M, Price2 = 2000M, Price3 = 3000M, Price4 = 4000M, Price5 = 5000M, ReorderPoint = 5M, LastCost = 500M, IsAvailable = true, Line = line, Subline = subline, Provider = provider });
+                _context.Products.Add(new Entities.Product { Code = "000002", Barcode = "220022", Name = "Base King Size", PurchaseUnit= "Pza", Sale = "Pzas", Factor = "0", IVA = 16M, Location = "Hermosillo", Remarks = "Producto Nuevo", Price = 1000M, Price2 = 2000M, Price3 = 3000M, Price4 = 4000M, Price5 = 5000M, ReorderPoint = 10M, LastCost = 500M, IsAvailable= true, Line = line, Subline = subline, Provider = provider });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckInventoriesAsync()
+        {
+            var warehouse = _context.Warehouses.FirstOrDefault();
+            var product = _context.Products.FirstOrDefault();
+            if (!_context.Inventories.Any())
+            {
+                _context.Inventories.Add(new Entities.Inventory { Stock = 20M, Product = product, Warehouse = warehouse });
+                _context.Inventories.Add(new Entities.Inventory { Stock = 10M, Product = product, Warehouse = warehouse });
+                await _context.SaveChangesAsync();
+            }
+        }
         private async Task CheckConceptsAsync()
         {
             if (!_context.Concepts.Any())
@@ -93,13 +139,23 @@ namespace MyCollection.Web.Data
             }
         }
 
+        private async Task CheckProvidersAsync()
+        {
+            if (!_context.Providers.Any())
+            {
+                _context.Providers.Add(new Entities.Provider { Name = "Muebles Dico", Address = "Blvd. Acacia 148", Neighborhood = "California", PostalCode = "83155", City = "Hermosillo", RFC = "IAAF940713CM4", Contact = "Javier Ayala", Phone = "6625129365", UserName = "jibarra@hotmail.com", Remarks = "Nuevo", IsAvailable = true});
+                _context.Providers.Add(new Entities.Provider { Name = "Muebles Luna", Address = "Blvd. Morelos 844", Neighborhood = "Morelos", PostalCode = "84148", City = "Hermosillo", RFC = "IOOF789512MC8", Contact = "Francisco Ibarra", Phone = "6628486267", UserName = "fibarra@hotmail.com", Remarks = "Nuevo", IsAvailable = true });
+                await _context.SaveChangesAsync();
+            }
+        }
+
         private async Task CheckCustomersAsync(User user)
         {
             var collector = _context.Collectors.FirstOrDefault();
             var house = _context.Houses.FirstOrDefault();
             if (!_context.Customers.Any())
             {
-                AddCustomer("Hermosillo", "Villa Colonial", "83106", "Claudia Sosa", "Acacia Blanca 192", "6625129365",  "Javier Ibarra", "Acacia Blanca 192", "6628486267", "Bueno", "Nuevo", collector, house, user);
+                AddCustomer("Hermosillo", "Villa Colonial", "83106", "Claudia Sosa", "Acacia Blanca 192", "6625129365",  "Javier Ibarra", "Acacia Blanca 192", "6628486267", "Bueno", "Nuevo", user, house, collector);
                 await _context.SaveChangesAsync();
             }
         }
@@ -116,9 +172,9 @@ namespace MyCollection.Web.Data
             string refPhone2,
             string status,
             string remarks,
-            Collector collector,
+            User user,
             House house,
-            User user)
+            Collector collector)
         {
             _context.Customers.Add(new Customer
             {
@@ -133,9 +189,9 @@ namespace MyCollection.Web.Data
                 RefPhone2 = refPhone2,
                 Status = status,
                 Remarks = remarks,
-                Collector = collector,
                 User = user,
                 House = house,
+                Collector = collector
             });
         }
 

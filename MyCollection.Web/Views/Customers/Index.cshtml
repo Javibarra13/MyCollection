@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Document)
+                N°
             </th>
             <th>
                 Name
@@ -22,10 +22,19 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Neighborhood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().City)
+            </th>
+            <th>
                 Phone Number
             </th>
             <th>
                 Collector
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
             </th>
             <th></th>
         </tr>
@@ -33,28 +42,37 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Document)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Collector.User.FullName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |
-                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Neighborhood)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Collector.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |
+                <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

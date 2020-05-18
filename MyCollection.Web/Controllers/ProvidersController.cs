@@ -10,24 +10,22 @@ using MyCollection.Web.Data.Entities;
 
 namespace MyCollection.Web.Controllers
 {
-    public class SublinesController : Controller
+    public class ProvidersController : Controller
     {
         private readonly DataContext _context;
 
-        public SublinesController(DataContext context)
+        public ProvidersController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Sublines
-        public IActionResult Index()
+        // GET: Providers
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Sublines
-                .Include(s => s.Line)
-                .ToList());
+            return View(await _context.Providers.ToListAsync());
         }
 
-        // GET: Sublines/Details/5
+        // GET: Providers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +33,39 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var subline = await _context.Sublines
+            var provider = await _context.Providers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (subline == null)
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(subline);
+            return View(provider);
         }
 
-        // GET: Sublines/Create
+        // GET: Providers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Sublines/Create
+        // POST: Providers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Subline subline)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,Neighborhood,PostalCode,City,RFC,Phone,Contact,UserName,Remarks,IsAvailable")] Provider provider)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subline);
+                _context.Add(provider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(subline);
+            return View(provider);
         }
 
-        // GET: Sublines/Edit/5
+        // GET: Providers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var subline = await _context.Sublines.FindAsync(id);
-            if (subline == null)
+            var provider = await _context.Providers.FindAsync(id);
+            if (provider == null)
             {
                 return NotFound();
             }
-            return View(subline);
+            return View(provider);
         }
 
-        // POST: Sublines/Edit/5
+        // POST: Providers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Subline subline)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Neighborhood,PostalCode,City,RFC,Phone,Contact,UserName,Remarks,IsAvailable")] Provider provider)
         {
-            if (id != subline.Id)
+            if (id != provider.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(subline);
+                    _context.Update(provider);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SublineExists(subline.Id))
+                    if (!ProviderExists(provider.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +113,10 @@ namespace MyCollection.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(subline);
+            return View(provider);
         }
 
-        // GET: Sublines/Delete/5
+        // GET: Providers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +124,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var subline = await _context.Sublines
+            var provider = await _context.Providers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (subline == null)
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(subline);
+            return View(provider);
         }
 
-        // POST: Sublines/Delete/5
+        // POST: Providers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subline = await _context.Sublines.FindAsync(id);
-            _context.Sublines.Remove(subline);
+            var provider = await _context.Providers.FindAsync(id);
+            _context.Providers.Remove(provider);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SublineExists(int id)
+        private bool ProviderExists(int id)
         {
-            return _context.Sublines.Any(e => e.Id == id);
+            return _context.Providers.Any(e => e.Id == id);
         }
     }
 }
