@@ -56,6 +56,16 @@ namespace MyCollection.Web.Data
         public DbSet<Inventory> Inventories { get; set; }
 
         public DbSet<Movement> Movements { get; set; }
+
+        public DbSet<TypePayment> TypePayments { get; set; }
+
+        public DbSet<DayPayment> DayPayments { get; set; }
+
+        public DbSet<Purchase> Purchases { get; set; }
+
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
+
+        public DbSet<PurchaseDetailTmp> PurchaseDetailTmps { get; set; }
     }
 
 }

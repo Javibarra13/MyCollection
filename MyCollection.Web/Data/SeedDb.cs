@@ -41,6 +41,8 @@ namespace MyCollection.Web.Data
             await CheckWarehousesAsync();
             await CheckInventoriesAsync();
             await CheckMovementsAsync();
+            await CheckTypePaymentsAsync();
+            await CheckDayPaymentsAsync();
             await CheckCustomersAsync(customer);
             await CheckManagersAsync(manager);
             await CheckSellersAsync(seller);
@@ -57,6 +59,30 @@ namespace MyCollection.Web.Data
             if (!_context.Collectors.Any())
             {
                 _context.Collectors.Add(new Collector { User = user });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckTypePaymentsAsync()
+        {
+            if (!_context.TypePayments.Any())
+            {
+                _context.TypePayments.Add(new Entities.TypePayment { Name = "Mensual"});
+                _context.TypePayments.Add(new Entities.TypePayment { Name = "Semanal"});
+                _context.TypePayments.Add(new Entities.TypePayment { Name = "Quincenal" });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckDayPaymentsAsync()
+        {
+            if (!_context.DayPayments.Any())
+            {
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Domingo" });
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Lunes" });
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Martes" });
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Miercoles" });
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Jueves" });
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Viernes" });
+                _context.DayPayments.Add(new Entities.DayPayment { Name = "Sabado" });
                 await _context.SaveChangesAsync();
             }
         }

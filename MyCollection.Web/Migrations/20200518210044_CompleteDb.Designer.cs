@@ -10,8 +10,8 @@ using MyCollection.Web.Data;
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200518191214_Warehouse")]
-    partial class Warehouse
+    [Migration("20200518210044_CompleteDb")]
+    partial class CompleteDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -325,6 +325,31 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("Houses");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Stock")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Inventories");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Line", b =>
                 {
                     b.Property<int>("Id")
@@ -357,6 +382,128 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Managers");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Movement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Costing")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Movements");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Factor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("IVA")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("LastCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("LineId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price2")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price3")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price4")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price5")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProviderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PurchaseUnit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("ReorderPoint")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Sale")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int?>("SublineId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LineId");
+
+                    b.HasIndex("ProviderId");
+
+                    b.HasIndex("SublineId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.PropertyCollector", b =>
@@ -989,11 +1136,37 @@ namespace MyCollection.Web.Migrations
                         .HasForeignKey("CustomerId");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Inventory", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
+                        .WithMany("Inventories")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("Inventories")
+                        .HasForeignKey("WarehouseId");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Manager", b =>
                 {
                     b.HasOne("MyCollection.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Line", "Line")
+                        .WithMany("Products")
+                        .HasForeignKey("LineId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Provider", "Provider")
+                        .WithMany("Products")
+                        .HasForeignKey("ProviderId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Subline", "Subline")
+                        .WithMany("Products")
+                        .HasForeignKey("SublineId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.PropertyCollector", b =>

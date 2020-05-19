@@ -10,8 +10,8 @@ using MyCollection.Web.Data;
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200517174931_Line")]
-    partial class Line
+    [Migration("20200519010251_CompleteDb2")]
+    partial class CompleteDb2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -283,6 +283,23 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("CustomerImages");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.DayPayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DayPayments");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.House", b =>
                 {
                     b.Property<int>("Id")
@@ -325,6 +342,31 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("Houses");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Stock")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Inventories");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Line", b =>
                 {
                     b.Property<int>("Id")
@@ -357,6 +399,128 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Managers");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Movement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Costing")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Movements");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Factor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("IVA")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("LastCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("LineId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price2")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price3")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price4")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price5")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProviderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PurchaseUnit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("ReorderPoint")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Sale")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int?>("SublineId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LineId");
+
+                    b.HasIndex("ProviderId");
+
+                    b.HasIndex("SublineId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.PropertyCollector", b =>
@@ -662,6 +826,181 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("PropertyTypes");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Provider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Contact")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("RFC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Providers");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CollectorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DayPaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Deposit")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("HouseId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Payment")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TypePaymentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectorId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("DayPaymentId");
+
+                    b.HasIndex("HouseId");
+
+                    b.HasIndex("SellerId");
+
+                    b.HasIndex("TypePaymentId");
+
+                    b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.PurchaseDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.ToTable("PurchaseDetails");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.PurchaseDetailTmp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("PurchaseDetailTmps");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Seller", b =>
                 {
                     b.Property<int>("Id")
@@ -679,6 +1018,28 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("Sellers");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Subline", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("LineId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LineId");
+
+                    b.ToTable("Sublines");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Supervisor", b =>
                 {
                     b.Property<int>("Id")
@@ -694,6 +1055,23 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Supervisors");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.TypePayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypePayments");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.User", b =>
@@ -780,6 +1158,54 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Contact")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouses");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -860,11 +1286,37 @@ namespace MyCollection.Web.Migrations
                         .HasForeignKey("CustomerId");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Inventory", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
+                        .WithMany("Inventories")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("Inventories")
+                        .HasForeignKey("WarehouseId");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Manager", b =>
                 {
                     b.HasOne("MyCollection.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Line", "Line")
+                        .WithMany("Products")
+                        .HasForeignKey("LineId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Provider", "Provider")
+                        .WithMany("Products")
+                        .HasForeignKey("ProviderId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Subline", "Subline")
+                        .WithMany("Products")
+                        .HasForeignKey("SublineId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.PropertyCollector", b =>
@@ -939,11 +1391,63 @@ namespace MyCollection.Web.Migrations
                         .HasForeignKey("PropertySupervisorId");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Purchase", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Collector", "Collector")
+                        .WithMany("Purchases")
+                        .HasForeignKey("CollectorId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
+                        .WithMany("Purchases")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.DayPayment", "DayPayment")
+                        .WithMany("Purchases")
+                        .HasForeignKey("DayPaymentId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.House", "House")
+                        .WithMany("Purchases")
+                        .HasForeignKey("HouseId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Seller", "Seller")
+                        .WithMany("Purchases")
+                        .HasForeignKey("SellerId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.TypePayment", "TypePayment")
+                        .WithMany("Purchases")
+                        .HasForeignKey("TypePaymentId");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.PurchaseDetail", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
+                        .WithMany("PurchaseDetails")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Purchase", "Purchase")
+                        .WithMany("PurchaseDetails")
+                        .HasForeignKey("PurchaseId");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.PurchaseDetailTmp", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Seller", b =>
                 {
                     b.HasOne("MyCollection.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Subline", b =>
+                {
+                    b.HasOne("MyCollection.Web.Data.Entities.Line", "Line")
+                        .WithMany("Sublines")
+                        .HasForeignKey("LineId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Supervisor", b =>

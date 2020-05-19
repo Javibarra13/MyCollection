@@ -89,5 +89,7 @@ namespace MyCollection.Web.Data.Entities
         public Provider Provider { get; set; }
 
         public ICollection<Inventory> Inventories { get; set; }
+
+        public ICollection<PurchaseDetail> PurchaseDetails { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<PropertyCollector> PropertyCollectors { get; set; }
 
         public ICollection<Customer> Customers { get; set; }
+
+        public ICollection<Purchase> Purchases { get; set; }
     }
 }

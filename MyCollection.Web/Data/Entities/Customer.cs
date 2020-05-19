@@ -56,5 +56,7 @@ namespace MyCollection.Web.Data.Entities
         public Collector Collector { get; set; }
 
         public ICollection<CustomerImage> CustomerImages { get; set; }
+
+        public ICollection<Purchase> Purchases { get; set; }
     }
 }
