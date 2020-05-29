@@ -11,12 +11,13 @@ namespace MyCollection.Web.Data.Entities
         public int Id { get; set; }
 
         [Display(Name = "Image")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string ImageUrl { get; set; }
 
         public PropertySupervisor PropertySupervisor { get; set; }
 
         // TODO: Change the path when publish
-        public string ImageFullPath => $"https://TBD.azurewebsites.net{ImageUrl.Substring(1)}";
+        public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
+            ? "https://webstudio-mycollection.azurewebsites.net/images/PropertySupervisorImages/noImage.png"
+            : $"https://webstudio-mycollection.azurewebsites.net{ImageUrl.Substring(1)}";
     }
 }

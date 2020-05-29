@@ -1,4 +1,4 @@
-﻿@model MyCollection.Web.Models.PropertyManagerViewModel
+﻿@model MyCollection.Web.Models.PropertySupervisorViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -11,13 +11,13 @@
     <div class="col-md-4">
         <form asp-action="AddProperty">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ManagerId" />
+            <input type="hidden" asp-for="SupervisorId" />
 
             <partial name="_Property" />
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-outline-primary" />
-                <a asp-action="Details" asp-route-id="@Model.ManagerId" class="btn btn-outline-dark">Back to Manager</a>
+                <a asp-action="Details" asp-route-id="@Model.SupervisorId" class="btn btn-outline-dark">Back to Supervisor</a>
             </div>
         </form>
     </div>

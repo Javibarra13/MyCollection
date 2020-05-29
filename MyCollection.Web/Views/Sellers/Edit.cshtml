@@ -1,10 +1,9 @@
-﻿@model MyCollection.Web.Data.Entities.Seller
-
+﻿@model MyCollection.Web.Models.EditUserViewModel
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h2>Edit</h2>
 
 <h4>Seller</h4>
 <hr />
@@ -13,14 +12,17 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+
+            <partial name="_User" />
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-outline-primary" />
+                <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

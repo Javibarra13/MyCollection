@@ -10,5 +10,9 @@ namespace MyCollection.Web.Helpers
         PropertyCollectorViewModel ToPropertyCollectorViewModel(PropertyCollector propertyCollector);
         Task<PropertyManager> ToPropertyManagerAsync(PropertyManagerViewModel viewModel, bool isNew);
         PropertyManagerViewModel ToPropertyManagerViewModel(PropertyManager propertyManager);
+        Task<PropertySeller> ToPropertySellerAsync(PropertySellerViewModel viewModel, bool isNew);
+        PropertySellerViewModel ToPropertySellerViewModel(PropertySeller propertySeller);
+        Task<PropertySupervisor> ToPropertySupervisorAsync(PropertySupervisorViewModel viewModel, bool isNew);
+        PropertySupervisorViewModel ToPropertySupervisorViewModel(PropertySupervisor propertySupervisor);
     }
 }
