@@ -8,5 +8,7 @@ namespace MyCollection.Web.Helpers
         Task<string> UploadImageAsync(IFormFile imageFile);
 
         Task<string> UploadCustomerImageAsync(IFormFile imageFile);
+
+        Task<string> UploadProductImageAsync(IFormFile imageFile);
     }
 }

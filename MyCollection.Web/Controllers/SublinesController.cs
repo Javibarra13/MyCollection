@@ -7,27 +7,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
+using MyCollection.Web.Helpers;
+using MyCollection.Web.Models;
 
 namespace MyCollection.Web.Controllers
 {
     public class SublinesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
+        private readonly ICombosHelper _combosHelper;
+        private readonly IConverterHelper _converterHelper;
 
-        public SublinesController(DataContext context)
+        public SublinesController(
+            DataContext dataContext,
+            ICombosHelper combosHelper,
+            IConverterHelper converterHelper)
         {
-            _context = context;
+            _dataContext = dataContext;
+            _combosHelper = combosHelper;
+            _converterHelper = converterHelper;
         }
 
-        // GET: Sublines
         public IActionResult Index()
         {
-            return View(_context.Sublines
+            return View(_dataContext.Sublines
                 .Include(s => s.Line)
+                .Include(s => s.Products)
                 .ToList());
         }
 
-        // GET: Sublines/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,7 +43,9 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var subline = await _context.Sublines
+            var subline = await _dataContext.Sublines
+                .Include(s => s.Line)
+                .Include(s => s.Products)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subline == null)
             {
@@ -45,29 +55,29 @@ namespace MyCollection.Web.Controllers
             return View(subline);
         }
 
-        // GET: Sublines/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new SublineViewModel
+            {
+                Lines = _combosHelper.GetComboLines()
+            };
+            return View(model);
         }
 
-        // POST: Sublines/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Subline subline)
+        public async Task<IActionResult> Create(SublineViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subline);
-                await _context.SaveChangesAsync();
+                var subline = await _converterHelper.ToSublineAsync(viewModel, true);
+                _dataContext.Sublines.Add(subline);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(subline);
+            return View(viewModel);
         }
 
-        // GET: Sublines/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,50 +85,32 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var subline = await _context.Sublines.FindAsync(id);
+            var subline = await _dataContext.Sublines
+                .Include(s => s.Line)
+                .FirstOrDefaultAsync(s => s.Id == id);
             if (subline == null)
             {
                 return NotFound();
             }
-            return View(subline);
+
+            var model = _converterHelper.ToSublineViewModel(subline);
+
+            return View(model);
         }
 
-        // POST: Sublines/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Subline subline)
+        public async Task<IActionResult> Edit(SublineViewModel viewModel)
         {
-            if (id != subline.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(subline);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SublineExists(subline.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var subline = await _converterHelper.ToSublineAsync(viewModel, false);
+                _dataContext.Sublines.Update(subline);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("Details", "Sublines", new { id = viewModel.Id });
             }
-            return View(subline);
+            return View(viewModel);
         }
 
-        // GET: Sublines/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +118,29 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var subline = await _context.Sublines
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var subline = await _dataContext.Sublines
+                .Include(s => s.Line)
+                .Include(s => s.Products)
+                .FirstOrDefaultAsync(pc => pc.Id == id.Value);
             if (subline == null)
             {
                 return NotFound();
             }
 
-            return View(subline);
-        }
+            if (subline.Products.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Subline has related registers");
+                return RedirectToAction(nameof(Index));
+            }
 
-        // POST: Sublines/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var subline = await _context.Sublines.FindAsync(id);
-            _context.Sublines.Remove(subline);
-            await _context.SaveChangesAsync();
+            _dataContext.Sublines.Remove(subline);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SublineExists(int id)
         {
-            return _context.Sublines.Any(e => e.Id == id);
+            return _dataContext.Sublines.Any(e => e.Id == id);
         }
     }
 }

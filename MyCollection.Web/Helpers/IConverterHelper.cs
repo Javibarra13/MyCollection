@@ -14,5 +14,9 @@ namespace MyCollection.Web.Helpers
         PropertySellerViewModel ToPropertySellerViewModel(PropertySeller propertySeller);
         Task<PropertySupervisor> ToPropertySupervisorAsync(PropertySupervisorViewModel viewModel, bool isNew);
         PropertySupervisorViewModel ToPropertySupervisorViewModel(PropertySupervisor propertySupervisor);
+        Task<Subline> ToSublineAsync(SublineViewModel viewModel, bool isNew);
+        SublineViewModel ToSublineViewModel(Subline subline);
+        Task<Product> ToProductAsync(ProductViewModel viewModel, bool isNew);
+        ProductViewModel ToProductViewModel(Product product);
     }
 }

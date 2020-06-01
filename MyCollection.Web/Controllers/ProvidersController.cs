@@ -12,20 +12,18 @@ namespace MyCollection.Web.Controllers
 {
     public class ProvidersController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
-        public ProvidersController(DataContext context)
+        public ProvidersController(DataContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
-        // GET: Providers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Providers.ToListAsync());
+            return View(_dataContext.Providers.ToList());
         }
 
-        // GET: Providers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +31,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var provider = await _context.Providers
+            var provider = await _dataContext.Providers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (provider == null)
             {
@@ -43,29 +41,24 @@ namespace MyCollection.Web.Controllers
             return View(provider);
         }
 
-        // GET: Providers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Providers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,Neighborhood,PostalCode,City,RFC,Phone,Contact,UserName,Remarks,IsAvailable")] Provider provider)
+        public async Task<IActionResult> Create(Provider provider)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(provider);
-                await _context.SaveChangesAsync();
+                _dataContext.Add(provider);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(provider);
         }
 
-        // GET: Providers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +66,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var provider = await _context.Providers.FindAsync(id);
+            var provider = await _dataContext.Providers.FindAsync(id);
             if (provider == null)
             {
                 return NotFound();
@@ -81,12 +74,9 @@ namespace MyCollection.Web.Controllers
             return View(provider);
         }
 
-        // POST: Providers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Neighborhood,PostalCode,City,RFC,Phone,Contact,UserName,Remarks,IsAvailable")] Provider provider)
+        public async Task<IActionResult> Edit(int id, Provider provider)
         {
             if (id != provider.Id)
             {
@@ -97,8 +87,8 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(provider);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(provider);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,7 +106,6 @@ namespace MyCollection.Web.Controllers
             return View(provider);
         }
 
-        // GET: Providers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +113,20 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var provider = await _context.Providers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var provider = await _dataContext.Providers.FindAsync(id);
             if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(provider);
-        }
-
-        // POST: Providers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var provider = await _context.Providers.FindAsync(id);
-            _context.Providers.Remove(provider);
-            await _context.SaveChangesAsync();
+            _dataContext.Providers.Remove(provider);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProviderExists(int id)
         {
-            return _context.Providers.Any(e => e.Id == id);
+            return _dataContext.Providers.Any(e => e.Id == id);
         }
     }
 }

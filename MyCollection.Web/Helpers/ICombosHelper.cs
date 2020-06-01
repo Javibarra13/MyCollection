@@ -9,5 +9,8 @@ namespace MyCollection.Web.Helpers
         IEnumerable<SelectListItem> GetComboPropertyTypes();
         IEnumerable<SelectListItem> GetComboHouses();
         IEnumerable<SelectListItem> GetComboCollectors();
+        IEnumerable<SelectListItem> GetComboLines();
+        IEnumerable<SelectListItem> GetComboSublines();
+        IEnumerable<SelectListItem> GetComboProviders();
     }
 }

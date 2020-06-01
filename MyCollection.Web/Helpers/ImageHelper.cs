@@ -41,5 +41,22 @@ namespace MyCollection.Web.Helpers
             return $"~/images/CustomerImages/{file}";
         }
 
+        public async Task<string> UploadProductImageAsync(IFormFile imageFile)
+        {
+            var guid = Guid.NewGuid().ToString();
+            var file = $"{guid}.jpg";
+            var path = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot\\images\\ProductImages",
+                file);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            return $"~/images/ProductImages/{file}";
+        }
+
     }
 }

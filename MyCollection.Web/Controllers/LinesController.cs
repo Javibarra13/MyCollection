@@ -12,20 +12,22 @@ namespace MyCollection.Web.Controllers
 {
     public class LinesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
-        public LinesController(DataContext context)
+        public LinesController(DataContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
         // GET: Lines
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Lines.ToListAsync());
+            return View(_dataContext.Lines
+                .Include(l => l.Products)
+                .Include(l => l.Sublines)
+                .ToList());
         }
 
-        // GET: Lines/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,8 +35,11 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var line = await _context.Lines
+            var line = await _dataContext.Lines
+                .Include(l => l.Products)
+                .Include(l => l.Sublines)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (line == null)
             {
                 return NotFound();
@@ -43,29 +48,24 @@ namespace MyCollection.Web.Controllers
             return View(line);
         }
 
-        // GET: Lines/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Lines/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Line line)
+        public async Task<IActionResult> Create(Line line)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(line);
-                await _context.SaveChangesAsync();
+                _dataContext.Add(line);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(line);
         }
 
-        // GET: Lines/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var line = await _context.Lines.FindAsync(id);
+            var line = await _dataContext.Lines.FindAsync(id);
             if (line == null)
             {
                 return NotFound();
@@ -81,12 +81,9 @@ namespace MyCollection.Web.Controllers
             return View(line);
         }
 
-        // POST: Lines/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Line line)
+        public async Task<IActionResult> Edit(int id,Line line)
         {
             if (id != line.Id)
             {
@@ -97,8 +94,8 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(line);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(line);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,7 +113,6 @@ namespace MyCollection.Web.Controllers
             return View(line);
         }
 
-        // GET: Lines/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +120,30 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var line = await _context.Lines
+            var line = await _dataContext.Lines
+                .Include(l => l.Products)
+                .Include(l => l.Sublines)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (line == null)
             {
                 return NotFound();
             }
 
-            return View(line);
-        }
+            if (line.Sublines.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Line has related registers");
+                return RedirectToAction(nameof(Index));
+            }
 
-        // POST: Lines/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var line = await _context.Lines.FindAsync(id);
-            _context.Lines.Remove(line);
-            await _context.SaveChangesAsync();
+            _dataContext.Lines.Remove(line);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool LineExists(int id)
         {
-            return _context.Lines.Any(e => e.Id == id);
+            return _dataContext.Lines.Any(e => e.Id == id);
         }
     }
 }

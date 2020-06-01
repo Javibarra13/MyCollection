@@ -49,6 +49,8 @@ namespace MyCollection.Web.Data
 
         public DbSet<Provider> Providers { get; set; }
 
+        public DbSet<ProductImage> ProductImages { get; set; }
+
         public DbSet<Warehouse> Warehouses { get; set; }
 
         public DbSet<Product> Products { get; set; }

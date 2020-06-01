@@ -14,6 +14,55 @@ namespace MyCollection.Web.Helpers
         {
             _dataContext = dataContext;
         }
+        public IEnumerable<SelectListItem> GetComboProviders()
+        {
+            var list = _dataContext.Providers.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a provider...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+        public IEnumerable<SelectListItem> GetComboSublines()
+        {
+            var list = _dataContext.Sublines.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a subline...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboLines()
+        {
+            var list = _dataContext.Lines.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a line...)",
+                Value = "0"
+            });
+
+            return list;
+        }
 
         public IEnumerable<SelectListItem> GetComboCollectors()
         {

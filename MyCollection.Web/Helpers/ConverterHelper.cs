@@ -180,5 +180,89 @@ namespace MyCollection.Web.Helpers
                 PropertyTypes = _combosHelper.GetComboPropertyTypes()
             };
         }
+
+        public async Task<Subline> ToSublineAsync(SublineViewModel viewModel, bool isNew)
+        {
+            return new Subline
+            {
+                Id = isNew ? 0 : viewModel.Id,
+                Name = viewModel.Name,
+                Line = await _dataContext.Lines.FindAsync(viewModel.LineId)
+            };
+        }
+
+        public SublineViewModel ToSublineViewModel(Subline subline)
+        {
+            return new SublineViewModel
+            {
+                Id = subline.Id,
+                Name = subline.Name,
+                Line = subline.Line,
+                LineId = subline.Line.Id,
+                Lines = _combosHelper.GetComboLines()
+            };
+        }
+
+        public async Task<Product> ToProductAsync(ProductViewModel viewModel, bool isNew)
+        {
+            return new Product
+            {
+                Id = isNew ? 0 : viewModel.Id,
+                Code = viewModel.Code,
+                Barcode = viewModel.Barcode,
+                Name = viewModel.Name,
+                PurchaseUnit = viewModel.PurchaseUnit,
+                Sale = viewModel.Sale,
+                Factor = viewModel.Factor,
+                IVA = viewModel.IVA,
+                Location = viewModel.Location,
+                Remarks = viewModel.Remarks,
+                Price = viewModel.Price,
+                Price2 = viewModel.Price2,
+                Price3 = viewModel.Price3,
+                Price4 = viewModel.Price4,
+                Price5 = viewModel.Price5,
+                ReorderPoint = viewModel.ReorderPoint,
+                LastCost = viewModel.LastCost,
+                IsAvailable = viewModel.IsAvailable,
+                Line = await _dataContext.Lines.FindAsync(viewModel.LineId),
+                Subline = await _dataContext.Sublines.FindAsync(viewModel.SublineId),
+                Provider = await _dataContext.Providers.FindAsync(viewModel.ProviderId),
+            };
+        }
+
+        public ProductViewModel ToProductViewModel(Product product)
+        {
+            return new ProductViewModel
+            {
+                Id = product.Id,
+                Code = product.Code,
+                Barcode = product.Barcode,
+                Name = product.Name,
+                PurchaseUnit = product.PurchaseUnit,
+                Sale = product.Sale,
+                Factor = product.Factor,
+                IVA = product.IVA,
+                Location = product.Location,
+                Remarks = product.Remarks,
+                Price = product.Price,
+                Price2 = product.Price2,
+                Price3 = product.Price3,
+                Price4 = product.Price4,
+                Price5 = product.Price5,
+                ReorderPoint = product.ReorderPoint,
+                LastCost = product.LastCost,
+                IsAvailable = product.IsAvailable,
+                Line = product.Line,
+                Subline = product.Subline,
+                Provider = product.Provider,
+                LineId = product.Line.Id,
+                SublineId = product.Subline.Id,
+                ProviderId = product.Provider.Id,
+                Lines = _combosHelper.GetComboLines(),
+                Sublines = _combosHelper.GetComboSublines(),
+                Providers = _combosHelper.GetComboProviders()
+            };
+        }
     }
 }

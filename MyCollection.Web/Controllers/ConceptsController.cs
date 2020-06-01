@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyCollection.Web.Controllers
 {
     public class ConceptsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
-        public ConceptsController(DataContext context)
+        public ConceptsController(DataContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
-        // GET: Concepts
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Concepts.ToListAsync());
+            return View(_dataContext.Concepts.ToList());
         }
 
-        // GET: Concepts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +28,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var concept = await _context.Concepts
+            var concept = await _dataContext.Concepts
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (concept == null)
             {
@@ -43,29 +38,24 @@ namespace MyCollection.Web.Controllers
             return View(concept);
         }
 
-        // GET: Concepts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Concepts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Type,IsAvailable")] Concept concept)
+        public async Task<IActionResult> Create(Concept concept)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(concept);
-                await _context.SaveChangesAsync();
+                _dataContext.Add(concept);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(concept);
         }
 
-        // GET: Concepts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +63,7 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var concept = await _context.Concepts.FindAsync(id);
+            var concept = await _dataContext.Concepts.FindAsync(id);
             if (concept == null)
             {
                 return NotFound();
@@ -81,12 +71,9 @@ namespace MyCollection.Web.Controllers
             return View(concept);
         }
 
-        // POST: Concepts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,IsAvailable")] Concept concept)
+        public async Task<IActionResult> Edit(int id,Concept concept)
         {
             if (id != concept.Id)
             {
@@ -97,8 +84,8 @@ namespace MyCollection.Web.Controllers
             {
                 try
                 {
-                    _context.Update(concept);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(concept);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,7 +103,6 @@ namespace MyCollection.Web.Controllers
             return View(concept);
         }
 
-        // GET: Concepts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +110,21 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var concept = await _context.Concepts
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var concept = await _dataContext.Concepts.FindAsync(id);
+
             if (concept == null)
             {
                 return NotFound();
             }
 
-            return View(concept);
-        }
-
-        // POST: Concepts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var concept = await _context.Concepts.FindAsync(id);
-            _context.Concepts.Remove(concept);
-            await _context.SaveChangesAsync();
+            _dataContext.Concepts.Remove(concept);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ConceptExists(int id)
         {
-            return _context.Concepts.Any(e => e.Id == id);
+            return _dataContext.Concepts.Any(e => e.Id == id);
         }
     }
 }

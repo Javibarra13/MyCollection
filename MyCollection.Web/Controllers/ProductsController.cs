@@ -7,25 +7,39 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
+using MyCollection.Web.Helpers;
+using MyCollection.Web.Models;
 
 namespace MyCollection.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
+        private readonly ICombosHelper _combosHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
 
-        public ProductsController(DataContext context)
+        public ProductsController(
+            DataContext dataContext,
+            ICombosHelper combosHelper,
+            IConverterHelper converterHelper,
+            IImageHelper imageHelper)
         {
-            _context = context;
+            _dataContext = dataContext;
+            _combosHelper = combosHelper;
+            _converterHelper = converterHelper;
+            _imageHelper = imageHelper;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(_dataContext.Products
+                .Include(p => p.Line)
+                .Include(p => p.Subline)
+                .Include(p => p.Inventories)
+                .Include(p => p.Provider));
         }
 
-        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,8 +47,12 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var product = await _dataContext.Products
+                .Include(p => p.Line)
+                .Include(p => p.Subline)
+                .Include(p => p.Provider)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
                 return NotFound();
@@ -43,29 +61,31 @@ namespace MyCollection.Web.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new ProductViewModel
+            {
+                Lines = _combosHelper.GetComboLines(),
+                Sublines = _combosHelper.GetComboSublines(),
+                Providers = _combosHelper.GetComboProviders()
+            };
+            return View(model);
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Barcode,Name,PurchaseUnit,Sale,Factor,IVA,Location,Remarks,Price,Price2,Price3,Price4,Price5,ReorderPoint,LastCost,IsAvailable")] Product product)
+        public async Task<IActionResult> Create(ProductViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                var product = await _converterHelper.ToProductAsync(viewModel, true);
+                _dataContext.Products.Add(product);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(viewModel);
         }
 
-        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,50 +93,36 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _dataContext.Products
+            .Include(p => p.Line)
+            .Include(p => p.Subline)
+            .Include(p => p.Provider)
+            .FirstOrDefaultAsync(s => s.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
-            return View(product);
+
+            var model = _converterHelper.ToProductViewModel(product);
+
+            return View(model);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Barcode,Name,PurchaseUnit,Sale,Factor,IVA,Location,Remarks,Price,Price2,Price3,Price4,Price5,ReorderPoint,LastCost,IsAvailable")] Product product)
+        public async Task<IActionResult> Edit(ProductViewModel viewModel)
         {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var product = await _converterHelper.ToProductAsync(viewModel, false);
+                _dataContext.Products.Update(product);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("Details", "Products", new { id = viewModel.Id });
             }
-            return View(product);
+            return View(viewModel);
         }
 
-        // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +130,79 @@ namespace MyCollection.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _dataContext.Products
+                .Include(p => p.Line)
+                .Include(p => p.Subline)
+                .Include(p => p.Provider)
+                .Include(p => p.PurchaseDetails)
+                .FirstOrDefaultAsync(pc => pc.Id == id.Value);
+
             if (product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            if (product.PurchaseDetails.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Product has related registers");
+                return RedirectToAction(nameof(Index));
+            }
+
+            _dataContext.Products.Remove(product);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> AddImage(int? id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _dataContext.Products.FindAsync(id.Value);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ProductImageViewModel
+            {
+                Id = product.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddImage(ProductImageViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+
+                if (viewModel.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadProductImageAsync(viewModel.ImageFile);
+                }
+
+                var productImage = new ProductImage
+                {
+                    ImageUrl = path,
+                    Product = await _dataContext.Products.FindAsync(viewModel.Id)
+                };
+
+                _dataContext.ProductImages.Add(productImage);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("Details", "Products", new { id = viewModel.Id });
+            }
+
+            return View(viewModel);
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _dataContext.Products.Any(e => e.Id == id);
         }
     }
 }

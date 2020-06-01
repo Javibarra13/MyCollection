@@ -13,18 +13,18 @@ namespace MyCollection.Web.Controllers
     {
         private readonly DataContext _dataContext;
 
-        public HousesController(DataContext context)
+        public HousesController(DataContext dataContext)
         {
-            _dataContext = context;
+            _dataContext = dataContext;
         }
 
-        // GET: Houses
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _dataContext.Houses.ToListAsync());
+            return View(_dataContext.Houses
+                .Include(h => h.Customers)
+                .ToList());
         }
 
-        // GET: Houses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,6 +33,8 @@ namespace MyCollection.Web.Controllers
             }
 
             var house = await _dataContext.Houses
+                .Include(h => h.Customers)
+                .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (house == null)
             {
@@ -42,18 +44,14 @@ namespace MyCollection.Web.Controllers
             return View(house);
         }
 
-        // GET: Houses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Houses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,Neighborhood,City,Phone,Contact")] House house)
+        public async Task<IActionResult> Create(House house)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +62,6 @@ namespace MyCollection.Web.Controllers
             return View(house);
         }
 
-        // GET: Houses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,12 +77,9 @@ namespace MyCollection.Web.Controllers
             return View(house);
         }
 
-        // POST: Houses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Neighborhood,City,Phone,Contact")] House house)
+        public async Task<IActionResult> Edit(int id,House house)
         {
             if (id != house.Id)
             {
@@ -115,7 +109,6 @@ namespace MyCollection.Web.Controllers
             return View(house);
         }
 
-        // GET: Houses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,21 +117,20 @@ namespace MyCollection.Web.Controllers
             }
 
             var house = await _dataContext.Houses
+                .Include(l => l.Customers)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (house == null)
             {
                 return NotFound();
             }
 
-            return View(house);
-        }
+            if (house.Customers.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "House has related registers");
+                return RedirectToAction(nameof(Index));
+            }
 
-        // POST: Houses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var house = await _dataContext.Houses.FindAsync(id);
             _dataContext.Houses.Remove(house);
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

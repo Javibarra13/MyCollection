@@ -4,36 +4,48 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+<br />
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Property Types</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-bordered" id="MyTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <partial name="_DeleteDialog" />
 
@@ -41,17 +53,17 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
-    	$(document).ready(function () {
-        	// Delete item
-        	var item_to_delete;
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
 
-        	$('.deleteItem').click((e) => {
-            	item_to_delete = e.currentTarget.dataset.id;
-        	});
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
 
-        	$("#btnYesDelete").click(function () {
-            	window.location.href = '/PropertyTypes/Delete/' + item_to_delete;
-        	});
-    	});
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/PropertyTypes/Delete/' + item_to_delete;
+            });
+        });
     </script>
 }
