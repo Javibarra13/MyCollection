@@ -17,5 +17,7 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<Purchase> Purchases { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        public ICollection<Sale> Sales { get; set; }
     }
 }

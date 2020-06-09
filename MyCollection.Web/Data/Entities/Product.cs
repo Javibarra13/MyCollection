@@ -97,5 +97,9 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
         public ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
+
+        public ICollection<SaleDetail> SaleDetails { get; set; }
+
+        public ICollection<SaleDetailTmp> SaleDetailTmps { get; set; }
     }
 }

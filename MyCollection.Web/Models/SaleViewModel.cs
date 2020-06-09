@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyCollection.Web.Models
 {
-    public class OrderViewModel : Order
+    public class SaleViewModel : Sale
     {
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "House")]
@@ -45,9 +44,9 @@ namespace MyCollection.Web.Models
         [Range(1, int.MaxValue, ErrorMessage = "You must select a state.")]
         public int StateId { get; set; }
 
-        public List<OrderTmp> Details2 { get; set; }
+        public List<SaleTmp> Details2 { get; set; }
 
-        public List<OrderDetailTmp> Details { get; set; }
+        public List<SaleDetailTmp> Details { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public double TotalQuantity { get { return Details == null ? 0 : Details.Sum(d => d.Quantity); } }
@@ -64,6 +63,5 @@ namespace MyCollection.Web.Models
         public IEnumerable<SelectListItem> Sellers { get; set; }
 
         public IEnumerable<SelectListItem> States { get; set; }
-
     }
 }

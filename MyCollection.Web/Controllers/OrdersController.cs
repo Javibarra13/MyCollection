@@ -32,13 +32,8 @@ namespace MyCollection.Web.Controllers
         public IActionResult Index()
         {
             return View(_dataContext.Orders
-                .Include(o => o.House)
                 .Include(o => o.Collector)
                 .ThenInclude(c => c.User)
-                .Include(o => o.TypePayment)
-                .Include(o => o.DayPayment)
-                .Include(o => o.Seller)
-                .ThenInclude(s => s.User)
                 .Include(o => o.Customer)
                 .ThenInclude(c => c.User)
                 .Include(o => o.State)
