@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
 using MyCollection.Web.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyCollection.Web.Helpers
@@ -225,6 +228,7 @@ namespace MyCollection.Web.Helpers
                 ReorderPoint = viewModel.ReorderPoint,
                 LastCost = viewModel.LastCost,
                 IsAvailable = viewModel.IsAvailable,
+                ProductImages = isNew ? new List<ProductImage>() : viewModel.ProductImages,
                 Line = await _dataContext.Lines.FindAsync(viewModel.LineId),
                 Subline = await _dataContext.Sublines.FindAsync(viewModel.SublineId),
                 Provider = await _dataContext.Providers.FindAsync(viewModel.ProviderId),
@@ -259,6 +263,7 @@ namespace MyCollection.Web.Helpers
                 LineId = product.Line.Id,
                 SublineId = product.Subline.Id,
                 ProviderId = product.Provider.Id,
+                ProductImages = product.ProductImages,
                 Lines = _combosHelper.GetComboLines(),
                 Sublines = _combosHelper.GetComboSublines(),
                 Providers = _combosHelper.GetComboProviders()

@@ -12,5 +12,11 @@ namespace MyCollection.Web.Helpers
         IEnumerable<SelectListItem> GetComboLines();
         IEnumerable<SelectListItem> GetComboSublines();
         IEnumerable<SelectListItem> GetComboProviders();
+        IEnumerable<SelectListItem> GetComboTypePayments();
+        IEnumerable<SelectListItem> GetComboDayPayments();
+        IEnumerable<SelectListItem> GetComboSellers();
+        IEnumerable<SelectListItem> GetComboCustomers();
+        IEnumerable<SelectListItem> GetComboStates();
+        IEnumerable<SelectListItem> GetComboProducts();
     }
 }

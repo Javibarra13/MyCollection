@@ -93,5 +93,9 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<PurchaseDetail> PurchaseDetails { get; set; }
 
         public ICollection<ProductImage> ProductImages { get; set; }
+
+        public ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
     }
 }

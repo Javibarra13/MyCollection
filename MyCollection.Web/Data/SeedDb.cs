@@ -37,6 +37,7 @@ namespace MyCollection.Web.Data
             await CheckConceptsAsync();
             await CheckLinesAsync();
             await CheckProvidersAsync();
+            await CheckStatesAsync();
             await CheckProductsAsync();
             await CheckWarehousesAsync();
             await CheckInventoriesAsync();
@@ -280,6 +281,16 @@ namespace MyCollection.Web.Data
                 _context.PropertyTypes.Add(new Entities.PropertyType { Name = "Tablet" });
                 _context.PropertyTypes.Add(new Entities.PropertyType { Name = "Laptop" });
                 _context.PropertyTypes.Add(new Entities.PropertyType { Name = "Automovil" });
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckStatesAsync()
+        {
+            if (!_context.States.Any())
+            {
+                _context.States.Add(new Entities.State { Name = "Created" });
+                _context.States.Add(new Entities.State { Name = "Invoice" });
                 await _context.SaveChangesAsync();
             }
         }

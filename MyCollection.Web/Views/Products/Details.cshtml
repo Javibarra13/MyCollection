@@ -4,140 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Line)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Line.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Subline)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Subline.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Provider)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Provider.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Code)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Code)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Barcode)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Barcode)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchaseUnit)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PurchaseUnit)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sale)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sale)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Factor)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Factor)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IVA)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IVA)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Remarks)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price2)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price2)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price3)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price3)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price4)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price4)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price5)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price5)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ReorderPoint)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ReorderPoint)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastCost)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastCost)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAvailable)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsAvailable)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
-    <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
-</div>
-
-
 <h2>Product</h2>
 <div class="row">
     <div class="col-md-4">
@@ -145,76 +11,76 @@
             <h4>Data</h4>
             <hr />
             <dl class="dl-horizontal">
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Line)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Line.Name)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Subline)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Subline.Name)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Provider)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Provider.Name)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Code)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Code)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Barcode)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Barcode)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Name)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Name)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.PurchaseUnit)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.PurchaseUnit)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Sale)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Sale)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Factor)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Factor)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.IVA)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.IVA)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Location)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Location)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Remarks)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Remarks)
                 </dd>
             </dl>
@@ -222,54 +88,55 @@
     </div>
     <div class="col-md-4">
         <div>
+            <h4>Availble</h4>
             <hr />
             <dl class="dl-horizontal">
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Price)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Price)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Price2)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Price2)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Price3)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Price3)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Price4)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Price4)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.Price5)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.Price5)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.ReorderPoint)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.ReorderPoint)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.LastCost)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.LastCost)
                 </dd>
-                <dt class="col-sm-2">
+                <dt>
                     @Html.DisplayNameFor(model => model.IsAvailable)
                 </dt>
-                <dd class="col-sm-10">
+                <dd>
                     @Html.DisplayFor(model => model.IsAvailable)
                 </dd>
             </dl>
@@ -317,27 +184,62 @@
     </div>
 </div>
 
+<h4>Inventory</h4>
+<hr />
+@if (Model.Inventories.Count == 0)
+{
+    <h5>Not images added yet.</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventories.FirstOrDefault().Warehouse)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventories.FirstOrDefault().Stock)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Inventories)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warehouse.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <partial name="_DeleteDialog" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
-    	$(document).ready(function () {
-        	// Delete item
-        	var item_to_delete;
-        	var action_to_delete;
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
+            var action_to_delete;
 
-        	$('.deleteImage').click((e) => {
-            	item_to_delete = e.currentTarget.dataset.id;
-            	action_to_delete = 1;
-        	});
+            $('.deleteImage').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+                action_to_delete = 1;
+            });
 
-        	$("#btnYesDelete").click(function () {
-            	if (action_to_delete == 1) {
-                	window.location.href = '/Product/DeleteImage/' + item_to_delete;
-            	}
-        	});
-    	});
+            $("#btnYesDelete").click(function () {
+                if (action_to_delete == 1) {
+                    window.location.href = '/Product/DeleteImage/' + item_to_delete;
+                }
+            });
+        });
     </script>
 }

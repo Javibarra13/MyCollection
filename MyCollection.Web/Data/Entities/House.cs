@@ -39,5 +39,7 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<Customer> Customers { get; set; }
 
         public ICollection<Purchase> Purchases { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

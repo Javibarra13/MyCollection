@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCollection.Web.Data;
 
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200601201629_ProductImage")]
+    partial class ProductImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,152 +427,6 @@ namespace MyCollection.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Movements");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CollectorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DayPaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Deposit")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("HouseId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Payment")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Remarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SellerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("StateId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TypePaymentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectorId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("DayPaymentId");
-
-                    b.HasIndex("HouseId");
-
-                    b.HasIndex("SellerId");
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("TypePaymentId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderDetailTmp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetailTmps");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderTmp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("OrderTmps");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
@@ -1180,23 +1036,6 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("Sellers");
                 });
 
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.State", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("States");
-                });
-
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Subline", b =>
                 {
                     b.Property<int>("Id")
@@ -1481,62 +1320,6 @@ namespace MyCollection.Web.Migrations
                     b.HasOne("MyCollection.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Order", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Collector", "Collector")
-                        .WithMany("Orders")
-                        .HasForeignKey("CollectorId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.DayPayment", "DayPayment")
-                        .WithMany("Orders")
-                        .HasForeignKey("DayPaymentId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.House", "House")
-                        .WithMany("Orders")
-                        .HasForeignKey("HouseId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Seller", "Seller")
-                        .WithMany("Orders")
-                        .HasForeignKey("SellerId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.State", "State")
-                        .WithMany("Orders")
-                        .HasForeignKey("StateId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.TypePayment", "TypePayment")
-                        .WithMany("Orders")
-                        .HasForeignKey("TypePaymentId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderDetail", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderDetailTmp", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
-                        .WithMany("OrderDetailTmps")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderTmp", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
-                        .WithMany("OrderTmps")
-                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>

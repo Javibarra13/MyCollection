@@ -1,0 +1,223 @@
+﻿@model MyCollection.Web.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CollectorId" />
+            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for="StateId" />
+
+            <h4 align="center" >Details Customer</h4>
+            <hr />
+            @if (Model.Details2.Count == 0)
+            {
+                <h5>Not details added yet.</h5>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.User.FullName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.User.Address)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.Neighborhood)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.City)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.User.PhoneNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Details2[0].Customer.Status)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Details2)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.User.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.User.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.Neighborhood)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.City)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.User.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.Status)
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+            <div class="form-group">
+                <label asp-for="HouseId" class="control-label"></label>
+                <select asp-for="HouseId" asp-items="Model.Houses" class="form-control"></select>
+                <span asp-validation-for="HouseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TypePaymentId" class="control-label"></label>
+                <select asp-for="TypePaymentId" asp-items="Model.TypePayments" class="form-control"></select>
+                <span asp-validation-for="TypePaymentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DayPaymentId" class="control-label"></label>
+                <select asp-for="DayPaymentId" asp-items="Model.DayPayments" class="form-control"></select>
+                <span asp-validation-for="DayPaymentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SellerId" class="control-label"></label>
+                <select asp-for="SellerId" asp-items="Model.Sellers" class="form-control"></select>
+                <span asp-validation-for="SellerId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment" class="control-label"></label>
+                <input asp-for="Payment" class="form-control" />
+                <span asp-validation-for="Payment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deposit" class="control-label"></label>
+                <input asp-for="Deposit" class="form-control" />
+                <span asp-validation-for="Deposit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <textarea asp-for="Remarks" class="form-control"></textarea>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div>
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+                <a asp-action="AddProduct" class="btn btn-outline-warning">Add Products</a>
+                <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h4 align="center">Details Product</h4>
+<hr />
+@if (Model.Details.Count == 0)
+{
+    <h5>Not details added yet.</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Details[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Details[0].Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Details[0].Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Details[0].Value)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Details)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                </td>
+            </tr>
+            }
+            <tr>
+                <td colspan="2" align="right">
+                   <strong>Total</strong> 
+                </td>
+                <td align="center">
+                    <strong>@Html.DisplayFor(modelItem => Model.TotalQuantity)</strong>
+                </td>
+                <td align="center">
+                    <strong>@Html.DisplayFor(modelItem => Model.TotalValue)</strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
+
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
+
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Orders/DeleteProduct/' + item_to_delete;
+            });
+        });
+    </script>
+}

@@ -49,8 +49,11 @@ namespace MyCollection.Web.Controllers
 
             var product = await _dataContext.Products
                 .Include(p => p.Line)
+                .Include(p => p.Inventories)
+                .ThenInclude(i => i.Warehouse)
                 .Include(p => p.Subline)
                 .Include(p => p.Provider)
+                .Include(p => p.ProductImages) 
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (product == null)

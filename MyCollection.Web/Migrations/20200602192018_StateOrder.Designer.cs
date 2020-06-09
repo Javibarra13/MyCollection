@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCollection.Web.Data;
 
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200602192018_StateOrder")]
+    partial class StateOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -549,28 +551,6 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetailTmps");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderTmp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("OrderTmps");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
@@ -1530,13 +1510,6 @@ namespace MyCollection.Web.Migrations
                     b.HasOne("MyCollection.Web.Data.Entities.Product", "Product")
                         .WithMany("OrderDetailTmps")
                         .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.OrderTmp", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
-                        .WithMany("OrderTmps")
-                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>

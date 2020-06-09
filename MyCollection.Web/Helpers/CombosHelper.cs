@@ -14,6 +14,108 @@ namespace MyCollection.Web.Helpers
         {
             _dataContext = dataContext;
         }
+        public IEnumerable<SelectListItem> GetComboProducts()
+        {
+            var list = _dataContext.Products.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a product...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboStates()
+        {
+            var list = _dataContext.States.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a state...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboCustomers()
+        {
+            var list = _dataContext.Customers.Select(c => new SelectListItem
+            {
+                Text = c.User.FirstName + " " + c.User.LastName,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a customer...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboSellers()
+        {
+            var list = _dataContext.Sellers.Select(c => new SelectListItem
+            {
+                Text = c.User.FirstName + " " + c.User.LastName,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a seller...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboDayPayments()
+        {
+            var list = _dataContext.DayPayments.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a day payment...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboTypePayments()
+        {
+            var list = _dataContext.TypePayments.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a type payment...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
         public IEnumerable<SelectListItem> GetComboProviders()
         {
             var list = _dataContext.Providers.Select(c => new SelectListItem
