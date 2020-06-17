@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="CustomerId" />
             <input type="hidden" asp-for="StateId" />
 
-            <h4 align="center" >Details Customer</h4>
+            <h4 align="center">Details Customer</h4>
             <hr />
             @if (Model.Details2.Count == 0)
             {
@@ -53,29 +53,29 @@
                     <tbody>
                         @foreach (var item in Model.Details2)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.User.FullName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.User.Address)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.Neighborhood)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.City)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.User.PhoneNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Customer.Status)
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.User.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.User.Address)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.Neighborhood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.City)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.User.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.Status)
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -85,6 +85,12 @@
                 <label asp-for="HouseId" class="control-label"></label>
                 <select asp-for="HouseId" asp-items="Model.Houses" class="form-control"></select>
                 <span asp-validation-for="HouseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WarehouseId" class="control-label"></label>
+                <select asp-for="WarehouseId" asp-items="Model.Warehouses" class="form-control"></select>
+                <span asp-validation-for="WarehouseId" class="text-danger"></span>
             </div>
 
             <div class="form-group">

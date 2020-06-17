@@ -43,6 +43,8 @@ namespace MyCollection.Web.Data.Entities
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
+        public Warehouse Warehouse { get; set; }
+
         public House House { get; set; }
 
         public Collector Collector { get; set; }

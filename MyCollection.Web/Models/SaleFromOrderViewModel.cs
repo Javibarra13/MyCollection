@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MyCollection.Web.Data.Entities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MyCollection.Web.Models
 {
-    public class SaleViewModel : Sale
+    public class SaleFromOrderViewModel : Sale
     {
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "Warehouse")]
@@ -49,9 +48,9 @@ namespace MyCollection.Web.Models
         [Range(1, int.MaxValue, ErrorMessage = "You must select a state.")]
         public int StateId { get; set; }
 
-        public List<SaleTmp> Details2 { get; set; }
+        public List<Order> Details2 { get; set; }
 
-        public List<SaleDetailTmp> Details { get; set; }
+        public List<OrderDetail> Details { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public double TotalQuantity { get { return Details == null ? 0 : Details.Sum(d => d.Quantity); } }
@@ -66,8 +65,6 @@ namespace MyCollection.Web.Models
         public IEnumerable<SelectListItem> DayPayments { get; set; }
 
         public IEnumerable<SelectListItem> Sellers { get; set; }
-
-        public IEnumerable<SelectListItem> States { get; set; }
 
         public IEnumerable<SelectListItem> Warehouses { get; set; }
     }

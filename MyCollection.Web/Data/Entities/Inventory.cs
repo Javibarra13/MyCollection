@@ -10,7 +10,7 @@ namespace MyCollection.Web.Data.Entities
     {
         public int Id { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public decimal Stock { get; set; }
 
         public Warehouse Warehouse { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCollection.Web.Data;
 
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200611223909_Payment")]
+    partial class Payment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -600,7 +602,7 @@ namespace MyCollection.Web.Migrations
                     b.Property<double>("Deposit")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SaleId")
+                    b.Property<int?>("PurchaseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
@@ -614,7 +616,7 @@ namespace MyCollection.Web.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("SaleId");
+                    b.HasIndex("PurchaseId");
 
                     b.ToTable("Payments");
                 });
@@ -1754,9 +1756,9 @@ namespace MyCollection.Web.Migrations
                         .WithMany("Payments")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("MyCollection.Web.Data.Entities.Sale", "Sale")
+                    b.HasOne("MyCollection.Web.Data.Entities.Purchase", "Purchase")
                         .WithMany("Payments")
-                        .HasForeignKey("SaleId");
+                        .HasForeignKey("PurchaseId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>

@@ -86,6 +86,8 @@ namespace MyCollection.Web.Data
         public DbSet<SaleDetail> SaleDetails { get; set; }
 
         public DbSet<SaleDetailTmp> SaleDetailTmps { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
     }
 
 }

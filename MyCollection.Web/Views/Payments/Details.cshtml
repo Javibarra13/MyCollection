@@ -1,9 +1,9 @@
-﻿@model MyCollection.Web.Data.Entities.Order
+﻿@model MyCollection.Web.Data.Entities.Sale
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "Sales";
 }
 
-<h2>Order</h2>
+<h2>Sale</h2>
 <div class="row">
     <div class="col-md-3">
         <div>
@@ -67,7 +67,7 @@
             <hr />
             <dl class="dl-horizontal">
                 <dt>
-                    Order Id
+                    Sale Id
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Id)
@@ -109,9 +109,9 @@
         <div>
             <h4>Details Product</h4>
             <hr />
-            @if (Model.OrderDetails.Count == 0)
+            @if (Model.SaleDetails.Count == 0)
             {
-                <h5>Not order added yet.</h5>
+                <h5>Not sale added yet.</h5>
             }
             else
             {
@@ -122,13 +122,13 @@
                                 Product Id
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.OrderDetails.FirstOrDefault().Name)
+                                @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.OrderDetails.FirstOrDefault().Price)
+                                @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Price)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.OrderDetails.FirstOrDefault().Quantity)
+                                @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Quantity)
                             </th>
                             <th>
                                 Images
@@ -137,28 +137,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.OrderDetails)
+                        @foreach (var item in Model.SaleDetails)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Product.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Price)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Quantity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Product.ProductImages.Count)
-                            </td>
-                            <td>
-                                <a asp-action="DetailsProduct" asp-route-id="@Model.Id" class="btn btn-outline-warning">Details</a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.ProductImages.Count)
+                                </td>
+                                <td>
+                                    <a asp-action="DetailsProduct" asp-route-id="@Model.Id" class="btn btn-outline-warning">Details</a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -166,7 +166,90 @@
         </div>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+        <a asp-action="Create" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Payment</a>
         <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
     </div>
 </div>
+
+<div class="col-md-12">
+    <div>
+        <h4>Details Payment</h4>
+        <hr />
+        @if (Model.Payments.Count == 0)
+        {
+            <h5>Not payments added yet.</h5>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Payment Id
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Deposit)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Concept)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Type)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Payments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Deposit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Concept.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+    	$(document).ready(function () {
+        	// Delete item
+        	var item_to_delete;
+
+        	$('.deleteItem').click((e) => {
+            	item_to_delete = e.currentTarget.dataset.id;
+        	});
+
+        	$("#btnYesDelete").click(function () {
+            	window.location.href = '/Payments/Delete/' + item_to_delete;
+        	});
+    	});
+    </script>
+}
+

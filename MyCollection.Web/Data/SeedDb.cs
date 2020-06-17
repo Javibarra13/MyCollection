@@ -290,7 +290,7 @@ namespace MyCollection.Web.Data
             if (!_context.States.Any())
             {
                 _context.States.Add(new Entities.State { Name = "Created" });
-                _context.States.Add(new Entities.State { Name = "Invoice" });
+                _context.States.Add(new Entities.State { Name = "Invoiced" });
                 await _context.SaveChangesAsync();
             }
         }

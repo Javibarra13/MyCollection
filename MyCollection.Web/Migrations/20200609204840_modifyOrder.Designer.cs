@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCollection.Web.Data;
 
 namespace MyCollection.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200609204840_modifyOrder")]
+    partial class modifyOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -576,47 +578,6 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("OrderTmps");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CollectorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ConceptId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Deposit")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("SaleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectorId");
-
-                    b.HasIndex("ConceptId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>
@@ -1738,25 +1699,6 @@ namespace MyCollection.Web.Migrations
                     b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
                         .WithMany("OrderTmps")
                         .HasForeignKey("CustomerId");
-                });
-
-            modelBuilder.Entity("MyCollection.Web.Data.Entities.Payment", b =>
-                {
-                    b.HasOne("MyCollection.Web.Data.Entities.Collector", "Collector")
-                        .WithMany("Payments")
-                        .HasForeignKey("CollectorId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Concept", "Concept")
-                        .WithMany("Payments")
-                        .HasForeignKey("ConceptId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
-                        .WithMany("Payments")
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Sale", "Sale")
-                        .WithMany("Payments")
-                        .HasForeignKey("SaleId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Product", b =>

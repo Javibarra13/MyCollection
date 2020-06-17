@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MyCollection.Web.Data.Entities
@@ -45,6 +46,10 @@ namespace MyCollection.Web.Data.Entities
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
+        public ICollection<Payment> Payments { get; set; }
+
+        public Warehouse Warehouse { get; set; }
+
         public House House { get; set; }
 
         public Collector Collector { get; set; }
@@ -62,5 +67,17 @@ namespace MyCollection.Web.Data.Entities
         public State State { get; set; }
 
         public ICollection<SaleDetail> SaleDetails { get; set; }
+    }
+
+    public static class Extensions
+    {
+        public static Expression<Func<Sale, bool>> IsPaid()
+        {
+            return s => s.Payments.Sum(p => p.Deposit) >= s.SaleDetails.Sum(sd => (double)sd.Price * sd.Quantity);
+        }
+        public static Expression<Func<Sale, bool>> IsntPaid()
+        {
+            return s => s.Payments.Sum(p => p.Deposit) < s.SaleDetails.Sum(sd => (double)sd.Price * sd.Quantity);
+        }
     }
 }

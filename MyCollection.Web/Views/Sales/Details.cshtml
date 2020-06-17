@@ -1,48 +1,172 @@
 ﻿@model MyCollection.Web.Data.Entities.Sale
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Sales";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Sale</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Payment)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Payment)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Deposit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Deposit)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Remarks)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<h2>Sale</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div>
+            <h4>Data</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.House)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.House.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Warehouse)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Warehouse.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Collector)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Collector.User.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TypePayment)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TypePayment.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DayPayment)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DayPayment.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Seller)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Seller.User.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Customer)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Customer.User.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.State)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.State.Name)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div>
+            <h4>References</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Sale Id
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Payment)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Payment)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Deposit)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Deposit)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Remarks)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div>
+            <h4>Details Product</h4>
+            <hr />
+            @if (Model.SaleDetails.Count == 0)
+            {
+                <h5>Not sale added yet.</h5>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Product Id
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Quantity)
+                            </th>
+                            <th>
+                                Images
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SaleDetails)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.ProductImages.Count)
+                                </td>
+                                <td>
+                                    <a asp-action="DetailsProduct" asp-route-id="@Model.Id" class="btn btn-outline-warning">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+    </div>
 </div>

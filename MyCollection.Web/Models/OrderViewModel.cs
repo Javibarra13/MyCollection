@@ -11,6 +11,11 @@ namespace MyCollection.Web.Models
     public class OrderViewModel : Order
     {
         [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Warehouse")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a warehouse.")]
+        public int WarehouseId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "House")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a house.")]
         public int HouseId { get; set; }
@@ -64,6 +69,8 @@ namespace MyCollection.Web.Models
         public IEnumerable<SelectListItem> Sellers { get; set; }
 
         public IEnumerable<SelectListItem> States { get; set; }
+
+        public IEnumerable<SelectListItem> Warehouses { get; set; }
 
     }
 }

@@ -14,6 +14,23 @@ namespace MyCollection.Web.Helpers
         {
             _dataContext = dataContext;
         }
+        public IEnumerable<SelectListItem> GetComboWarehouses()
+        {
+            var list = _dataContext.Warehouses.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a warehouse...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
         public IEnumerable<SelectListItem> GetComboProducts()
         {
             var list = _dataContext.Products.Select(c => new SelectListItem

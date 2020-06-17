@@ -1,0 +1,44 @@
+﻿@model MyCollection.Web.Models.PaymentViewModel
+
+@{
+    ViewData["Title"] = "Add Payment";
+}
+
+<h1>Add</h1>
+
+<h4>Payment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CollectorId" />
+            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for="ConceptId" />
+            <input type="hidden" asp-for="SaleId" />
+
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Deposit" class="control-label"></label>
+                <input asp-for="Deposit" class="form-control" />
+                <span asp-validation-for="Deposit" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <div>
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+                <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

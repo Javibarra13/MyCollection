@@ -66,5 +66,7 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<Sale> Sales { get; set; }
 
         public ICollection<SaleTmp> SaleTmps { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model MyCollection.Web.Models.SaleViewModel
+﻿@model MyCollection.Web.Models.SaleFromOrderViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,11 +6,11 @@
 
 <h1>Create</h1>
 
-<h4>Sale</h4>
+<h4>From Order</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create">
+        <form asp-action="CreateFromOrder">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CollectorId" />
             <input type="hidden" asp-for="CustomerId" />
@@ -138,7 +138,6 @@
             </div>
             <div>
                 <input type="submit" value="Create" class="btn btn-outline-primary" />
-                <a asp-action="AddProduct" class="btn btn-outline-warning">Add Products</a>
                 <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
             </div>
         </form>
@@ -222,7 +221,7 @@ else
             });
 
             $("#btnYesDelete").click(function () {
-                window.location.href = '/Sales/DeleteProduct/' + item_to_delete;
+                window.location.href = '/Orders/DeleteProduct/' + item_to_delete;
             });
         });
     </script>

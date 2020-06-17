@@ -22,5 +22,7 @@ namespace MyCollection.Web.Data.Entities
 
         [Display(Name = "Cancel?")]
         public bool IsAvailable { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
     }
 }
