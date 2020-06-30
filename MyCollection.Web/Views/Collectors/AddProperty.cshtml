@@ -1,11 +1,11 @@
 ﻿@model MyCollection.Web.Models.PropertyCollectorViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
-<h2>Create</h2>
+<h2>Crear</h2>
 
-<h4>Property</h4>
+<h4>Propiedad</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,8 +16,8 @@
             <partial name="_Property" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-outline-primary" />
-                <a asp-action="Details" asp-route-id="@Model.CollectorId" class="btn btn-outline-dark">Back to Collector</a>
+                <input type="submit" value="Crear" class="btn btn-outline-primary" />
+                <a asp-action="Details" asp-route-id="@Model.CollectorId" class="btn btn-outline-dark">Regresar a Cobrador</a>
             </div>
         </form>
     </div>

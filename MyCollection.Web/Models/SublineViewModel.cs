@@ -11,8 +11,8 @@ namespace MyCollection.Web.Models
     public class SublineViewModel : Subline
     {
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Line")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a line...")]
+        [Display(Name = "Linea")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una linea.")]
         public int LineId { get; set; }
 
         public IEnumerable<SelectListItem> Lines { get; set; }

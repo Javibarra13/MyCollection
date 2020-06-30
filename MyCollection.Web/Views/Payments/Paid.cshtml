@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyCollection.Web.Data.Entities.Sale>
 
 @{
-    ViewData["Title"] = "Payments";
+    ViewData["Title"] = "Pagadas";
 }
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 <br />
@@ -10,7 +10,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Paid</h3>
+                <h3 class="panel-title">Pagadas</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-bordered" id="MyTable" style="width:100%">
@@ -66,7 +66,7 @@
                                     @Html.DisplayFor(modelItem => item.State.Name)
                                 </td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Detalles</a>
                                 </td>
                             </tr>
                         }
@@ -86,7 +86,11 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#MyTable').DataTable();
+            $('#MyTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
         });
     </script>
 }

@@ -5,31 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Syncfusion.Xamarin.SfRotator" Version="18.1.0.48" />
-    <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
-    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.726" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1367" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\MyCollection.Common\MyCollection.Common.csproj" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.617" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.5.2" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PropertyCollectorPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\PropertyCollectorsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

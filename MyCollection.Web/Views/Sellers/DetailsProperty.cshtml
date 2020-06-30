@@ -1,9 +1,9 @@
 ﻿@model MyCollection.Web.Data.Entities.PropertySeller
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Property</h2>
+<h2>Propiedad</h2>
 <div class="row">
     <div class="col-md-4">
         <div>
@@ -45,7 +45,7 @@
     </div>
     <div class="col-md-4">
         <div>
-            <h4>Property Details</h4>
+            <h4>Detalles de Propiedad</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
@@ -95,11 +95,11 @@
     </div>
     <div class="col-md-4">
         <div>
-            <h4>Images</h4>
+            <h4>Imagenes</h4>
             <hr />
             @if (Model.PropertySellerImages.Count == 0)
             {
-                <h5>Not images added yet.</h5>
+                <h5>No hay imagenes agregadas.</h5>
             }
             else
             {
@@ -119,7 +119,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                                 </td>
                             </tr>
                         }
@@ -130,8 +130,8 @@
     </div>
 </div>
 <div>
-    <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Image</a>
-    <a asp-action="Details" asp-route-id="@Model.Seller.Id" class="btn btn-outline-dark">Back to Seller</a>
+    <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Agregar Imagenes</a>
+    <a asp-action="Details" asp-route-id="@Model.Seller.Id" class="btn btn-outline-dark">Regresar a Vendedor</a>
 </div>
 
 <partial name="_DeleteDialog" />

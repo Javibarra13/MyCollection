@@ -1,7 +1,6 @@
 ﻿using Foundation;
 using Prism;
 using Prism.Ioc;
-using Syncfusion.SfRotator.XForms.iOS;
 using UIKit;
 
 
@@ -23,8 +22,6 @@ namespace MyCollection.Prism.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
-            new SfRotatorRenderer();
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);

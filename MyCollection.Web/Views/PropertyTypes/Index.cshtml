@@ -1,20 +1,21 @@
 ﻿@model IEnumerable<MyCollection.Web.Data.Entities.PropertyType>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tipos de Propiedad";
 }
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 <br />
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-primary">Crear Nuevo</a>
 </p>
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Property Types</h3>
+                <h3 class="panel-title">Tipos de Propiedad</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-bordered" id="MyTable" style="width:100%">
@@ -34,9 +35,9 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a> |
-                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Editar</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Detalles</a>
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                                 </td>
                             </tr>
                         }
@@ -51,9 +52,16 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#MyTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
             // Delete item
             var item_to_delete;
 

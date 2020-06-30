@@ -1,12 +1,12 @@
 ﻿@model MyCollection.Web.Models.OrderViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
-<h1>Create</h1>
+<h1>Crear</h1>
 
-<h4>Order</h4>
+<h4>Orden</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
@@ -16,11 +16,11 @@
             <input type="hidden" asp-for="CustomerId" />
             <input type="hidden" asp-for="StateId" />
 
-            <h4 align="center">Details Customer</h4>
+            <h4 align="center">Detalles de Cliente</h4>
             <hr />
             @if (Model.Details2.Count == 0)
             {
-                <h5>Not details added yet.</h5>
+                <h5>No hay cliente agregado.</h5>
             }
             else
             {
@@ -137,19 +137,19 @@
                 <span asp-validation-for="Remarks" class="text-danger"></span>
             </div>
             <div>
-                <input type="submit" value="Create" class="btn btn-outline-primary" />
-                <a asp-action="AddProduct" class="btn btn-outline-warning">Add Products</a>
-                <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+                <input type="submit" value="Crear" class="btn btn-outline-primary" />
+                <a asp-action="AddProduct" class="btn btn-outline-warning">Agregar Producto</a>
+                <a asp-action="Index" class="btn btn-outline-dark">Regresar</a>
             </div>
         </form>
     </div>
 </div>
 
-<h4 align="center">Details Product</h4>
+<h4 align="center">Detalles de Productos</h4>
 <hr />
 @if (Model.Details.Count == 0)
 {
-    <h5>Not details added yet.</h5>
+    <h5>No hay productos agregados.</h5>
 }
 else
 {
@@ -188,7 +188,7 @@ else
                     @Html.DisplayFor(modelItem => item.Value)
                 </td>
                 <td>
-                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                 </td>
             </tr>
             }

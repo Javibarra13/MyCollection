@@ -1,13 +1,13 @@
 ﻿@model MyCollection.Web.Data.Entities.Customer
 @{
-    ViewData["Title"] = "Customers";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Customer</h2>
+<h2>Cliente</h2>
 <div class="row">
     <div class="col-md-4">
         <div>
-            <h4>Data</h4>
+            <h4>Datos</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
@@ -59,13 +59,13 @@
                     @Html.DisplayFor(model => model.User.Email)
                 </dd>
                 <dt>
-                    House
+                    Casa Comercial
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.House.Name)
                 </dd>
                 <dt>
-                    Collector
+                    Cobrador
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Collector.User.FullName)
@@ -75,7 +75,7 @@
     </div>
     <div class="col-md-4">
         <div>
-            <h4>References</h4>
+            <h4>Referencias</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
@@ -131,11 +131,11 @@
     </div>
     <div class="col-md-4">
         <div>
-            <h4>Images</h4>
+            <h4>Imagenes</h4>
             <hr />
             @if (Model.CustomerImages.Count == 0)
             {
-                <h5>Not images added yet.</h5>
+                <h5>No hay imagenes agregadas.</h5>
             }
             else
             {
@@ -165,9 +165,9 @@
         </div>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
-        <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Images</a>
-        <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Editar</a>
+        <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Agregar Imagenes</a>
+        <a asp-action="Index" class="btn btn-outline-dark">Regresar</a>
     </div>
 </div>
 

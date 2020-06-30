@@ -7,23 +7,27 @@ namespace MyCollection.Web.Data.Entities
     {
         public int Id { get; set; }
 
+        [Display(Name = "Codigo")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Code { get; set; }
 
+        [Display(Name = "Codigo de barras")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Barcode { get; set; }
 
+        [Display(Name = "Nombre")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Name { get; set; }
 
-        [Display(Name = "Purchase Unit")]
+        [Display(Name = "Unidad de Compra")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string PurchaseUnit { get; set; }
 
+        [Display(Name = "Venta")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Sale { get; set; }
@@ -36,56 +40,61 @@ namespace MyCollection.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
         public decimal IVA { get; set; }
 
+        [Display(Name = "Ubicación")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Location { get; set; }
 
+        [Display(Name = "Notas")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Remarks { get; set; }
 
-        [Display(Name = "Price")]
+        [Display(Name = "Precio")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price { get; set; }
 
-        [Display(Name = "Price 2")]
+        [Display(Name = "Precio 2")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price2 { get; set; }
 
-        [Display(Name = "Price 3")]
+        [Display(Name = "Precio 3")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price3 { get; set; }
 
-        [Display(Name = "Price 4")]
+        [Display(Name = "Precio 4")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price4 { get; set; }
 
-        [Display(Name = "Price 5")]
+        [Display(Name = "Precio 5")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price5 { get; set; }
 
-        [Display(Name = "Reorder Point")]
+        [Display(Name = "Punto de Reorden")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal ReorderPoint { get; set; }
 
-        [Display(Name = "Last Cost")]
+        [Display(Name = "Ultimo Costo")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal LastCost { get; set; }
 
-        [Display(Name = "Is Available?")]
+        [Display(Name = "Está disponible ?")]
         public bool IsAvailable { get; set; }
 
+        [Display(Name = "Linea")]
         public Line Line { get; set; }
 
+        [Display(Name = "Sublinea")]
         public Subline Subline { get; set; }
 
+        [Display(Name = "Proveedor")]
         public Provider Provider { get; set; }
 
         public ICollection<Inventory> Inventories { get; set; }

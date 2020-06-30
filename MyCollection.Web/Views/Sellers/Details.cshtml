@@ -1,13 +1,13 @@
 ﻿@model MyCollection.Web.Data.Entities.Seller
 
 @{
-    ViewData["Title"] = "Seller";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Seller</h2>
+<h2>Vendedor</h2>
 
 <div>
-    <h4>Details</h4>
+    <h4>Detalles</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -35,13 +35,13 @@
             @Html.DisplayFor(model => model.User.Email)
         </dd>
         <dt>
-            Phone Number
+            Teléfono
         </dt>
         <dd>
             @Html.DisplayFor(model => model.User.PhoneNumber)
         </dd>
         <dt>
-            Properties
+            Propiedades
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PropertySellers.Count)
@@ -49,14 +49,14 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
-    <a asp-action="AddProperty" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Property</a>
-    <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Editar</a>
+    <a asp-action="AddProperty" asp-route-id="@Model.Id" class="btn btn-outline-success">Agregar Propiedad</a>
+    <a asp-action="Index" class="btn btn-outline-dark">Regresar</a>
 </div>
-<h4>Properties</h4>
+<h4>Propiedades</h4>
 @if (Model.PropertySellers.Count == 0)
 {
-    <h5>Not properties added yet.</h5>
+    <h5>No hay propiedades agregadas.</h5>
 }
 else
 {
@@ -64,7 +64,7 @@ else
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.PropertySellers.FirstOrDefault().PropertyType.Name)
+                    @Html.DisplayNameFor(model => model.PropertySellers.FirstOrDefault().PropertyType)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PropertySellers.FirstOrDefault().Model)
@@ -79,7 +79,7 @@ else
                     @Html.DisplayNameFor(model => model.PropertySellers.FirstOrDefault().IsAvailable)
                 </th>
                 <th>
-                    Images
+                    Imagenes
                 </th>
                 <th></th>
             </tr>
@@ -107,9 +107,9 @@ else
                         @Html.DisplayFor(modelItem => item.PropertySellerImages.Count)
                     </td>
                     <td>
-                        <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</a>
-                        <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Details</a>
-                        <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                        <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Editar</a>
+                        <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Detalles</a>
+                        <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                     </td>
                 </tr>
             }

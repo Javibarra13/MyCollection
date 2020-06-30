@@ -86,6 +86,9 @@ namespace MyCollection.Web.Controllers
                 await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            viewModel.Lines = _combosHelper.GetComboLines();
+            viewModel.Sublines = _combosHelper.GetComboSublines();
+            viewModel.Providers = _combosHelper.GetComboProviders();
             return View(viewModel);
         }
 

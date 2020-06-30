@@ -10,18 +10,18 @@ namespace MyCollection.Web.Models
     {
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Line")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a line.")]
+        [Display(Name = "Linea")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una linea.")]
         public int LineId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Subline")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a subline.")]
+        [Display(Name = "Sublinea")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una sublinea.")]
         public int SublineId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Provider")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a provider.")]
+        [Display(Name = "Proveedor")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un proveedor.")]
         public int ProviderId { get; set; }
 
         public IEnumerable<SelectListItem> Lines { get; set; }

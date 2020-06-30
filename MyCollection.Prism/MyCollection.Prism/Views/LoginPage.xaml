@@ -5,17 +5,18 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyCollection.Prism.Views.LoginPage"
              Title="{Binding Title}">
+
     <StackLayout
         Padding="10">
-        <Label
+        <Label 
             Text="Email"/>
-        <Entry
+        <Entry 
             Keyboard="Email"
             Placeholder="Enter your email..."
             Text="{Binding Email}"/>
-        <Label
+        <Label 
             Text="Password"/>
-        <Entry
+        <Entry 
             IsPassword="True"
             Placeholder="Enter your password..."
             Text="{Binding Password}"/>
@@ -23,12 +24,8 @@
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
         <Button
-            BackgroundColor="Navy"
-            CornerRadius="23"
+            IsEnabled="{Binding IsEnabled}}"
             Command="{Binding LoginCommand}"
-            HeightRequest="46"
-            IsEnabled="{Binding IsEnabled}"
-            Text="Login"
-            TextColor="White"/>
+            Text="Login"/>
     </StackLayout>
 </ContentPage>

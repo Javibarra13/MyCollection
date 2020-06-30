@@ -335,57 +335,6 @@ namespace MyCollection.Web.Controllers
             return View(viewModel);
         }
 
-        // GET: Sales/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sale = await _dataContext.Sales.FindAsync(id);
-            if (sale == null)
-            {
-                return NotFound();
-            }
-            return View(sale);
-        }
-
-        // POST: Sales/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,Payment,Deposit,Remarks")] Sale sale)
-        {
-            if (id != sale.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _dataContext.Update(sale);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SaleExists(sale.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(sale);
-        }
-
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -403,18 +352,28 @@ namespace MyCollection.Web.Controllers
                 .ThenInclude(s => s.User)
                 .Include(s => s.Customer)
                 .ThenInclude(c => c.User)
+                .Include(s => s.Customer)
+                .ThenInclude(c => c.Orders)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .ThenInclude(sd => sd.Product)
                 .ThenInclude(p => p.ProductImages)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(s => s.Payments)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            var saleDetail = await _dataContext.SaleDetails.Where(sd => sd.Sale.Id == id).FirstOrDefaultAsync();
 
             if (sale == null)
             {
                 return NotFound();
             }
 
+            var inventory = _dataContext.Inventories.Where(i => i.Product.Id == saleDetail.Product.Id).FirstOrDefault();
+            inventory.Stock += (decimal)saleDetail.Quantity;
+            _dataContext.Entry(inventory).State = EntityState.Modified;
+
             _dataContext.SaleDetails.RemoveRange(sale.SaleDetails);
+            _dataContext.Payments.RemoveRange(sale.Payments);
             _dataContext.Sales.Remove(sale);
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

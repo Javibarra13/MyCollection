@@ -11,8 +11,8 @@ namespace MyCollection.Web.Models
         public int SellerId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Property Type")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a property type.")]
+        [Display(Name = "Tipo de Propiedad")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un tipo de propiedad.")]
         public int PropertyTypeId { get; set; }
 
         public IEnumerable<SelectListItem> PropertyTypes { get; set; }

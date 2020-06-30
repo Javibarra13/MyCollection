@@ -3,24 +3,29 @@ using Android.Content.PM;
 using Android.OS;
 using Prism;
 using Prism.Ioc;
-using Syncfusion.SfRotator.XForms.Droid;
 
 namespace MyCollection.Prism.Droid
 {
     [Activity(Label = "MyCollection.Prism", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
-            new SfRotatorRenderer();
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

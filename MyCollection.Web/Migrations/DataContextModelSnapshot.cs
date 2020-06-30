@@ -1100,49 +1100,18 @@ namespace MyCollection.Web.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CollectorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DayPaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Deposit")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("HouseId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Payment")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("SellerId")
-                        .HasColumnType("int");
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TypePaymentId")
+                    b.Property<int?>("WarehouseId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CollectorId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("DayPaymentId");
-
-                    b.HasIndex("HouseId");
-
-                    b.HasIndex("SellerId");
-
-                    b.HasIndex("TypePaymentId");
+                    b.HasIndex("WarehouseId");
 
                     b.ToTable("Purchases");
                 });
@@ -1855,29 +1824,9 @@ namespace MyCollection.Web.Migrations
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.Purchase", b =>
                 {
-                    b.HasOne("MyCollection.Web.Data.Entities.Collector", "Collector")
+                    b.HasOne("MyCollection.Web.Data.Entities.Warehouse", "Warehouse")
                         .WithMany("Purchases")
-                        .HasForeignKey("CollectorId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Customer", "Customer")
-                        .WithMany("Purchases")
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.DayPayment", "DayPayment")
-                        .WithMany("Purchases")
-                        .HasForeignKey("DayPaymentId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.House", "House")
-                        .WithMany("Purchases")
-                        .HasForeignKey("HouseId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.Seller", "Seller")
-                        .WithMany("Purchases")
-                        .HasForeignKey("SellerId");
-
-                    b.HasOne("MyCollection.Web.Data.Entities.TypePayment", "TypePayment")
-                        .WithMany("Purchases")
-                        .HasForeignKey("TypePaymentId");
+                        .HasForeignKey("WarehouseId");
                 });
 
             modelBuilder.Entity("MyCollection.Web.Data.Entities.PurchaseDetail", b =>

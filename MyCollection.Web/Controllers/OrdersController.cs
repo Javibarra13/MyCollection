@@ -12,7 +12,7 @@ using System.Transactions;
 
 namespace MyCollection.Web.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Manager , Seller")]
     public class OrdersController : Controller
     {
         private readonly DataContext _dataContext;
@@ -188,54 +188,6 @@ namespace MyCollection.Web.Controllers
             viewModel.Details = _dataContext.OrderDetailTmps.Where(odt => odt.Username == User.Identity.Name).ToList();
             viewModel.Details2 = _dataContext.OrderTmps.Include(ot => ot.Customer).ThenInclude(c => c.User).Where(ot => ot.Username == User.Identity.Name).ToList();
             return View(viewModel);
-        }
-
-        // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _dataContext.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,Payment,Deposit,Remarks")] Order order)
-        {
-            if (id != order.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _dataContext.Update(order);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
         }
 
         public async Task<IActionResult> Delete(int? id)

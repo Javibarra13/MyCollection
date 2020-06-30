@@ -1,14 +1,14 @@
 ﻿@model MyCollection.Web.Data.Entities.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Product</h2>
+<h2>Producto</h2>
 <div class="row">
     <div class="col-md-4">
         <div>
-            <h4>Data</h4>
+            <h4>Datos</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
@@ -88,7 +88,7 @@
     </div>
     <div class="col-md-4">
         <div>
-            <h4>Availble</h4>
+            <h4>Detalles Producto</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
@@ -144,11 +144,11 @@
     </div>
     <div class="col-md-4">
         <div>
-            <h4>Images</h4>
+            <h4>Imagenes</h4>
             <hr />
             @if (Model.ProductImages.Count == 0)
             {
-                <h5>Not images added yet.</h5>
+                <h5>No hay imagenes agregadas.</h5>
             }
             else
             {
@@ -168,7 +168,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                                 </td>
                             </tr>
                         }
@@ -178,17 +178,17 @@
         </div>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
-        <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Add Images</a>
-        <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Editar</a>
+        <a asp-action="AddImage" asp-route-id="@Model.Id" class="btn btn-outline-success">Agregar Imagenes</a>
+        <a asp-action="Index" class="btn btn-outline-dark">Regresar</a>
     </div>
 </div>
 
-<h4>Inventory</h4>
+<h4>Inventario</h4>
 <hr />
 @if (Model.Inventories.Count == 0)
 {
-    <h5>Not images added yet.</h5>
+    <h5>No hay productos agregados.</h5>
 }
 else
 {

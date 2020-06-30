@@ -25,62 +25,65 @@
                                     Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Collectors" asp-action="Index">Collectors</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Managers" asp-action="Index">Managers</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="Index">Sellers</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Supervisors" asp-action="Index">Supervisors</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Collectors" asp-action="Index">Cobradores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Clientes</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Managers" asp-action="Index">Gerentes</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="Index">Vendedores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Supervisors" asp-action="Index">Supervisores</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Inventory
+                                    Inventario
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Lines" asp-action="Index">Lines</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Providers" asp-action="Index">Providers</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sublines" asp-action="Index">Sublines</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Warehouses" asp-action="Index">Warehouses</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Lines" asp-action="Index">Lineas</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Productos</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Providers" asp-action="Index">Proveedores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sublines" asp-action="Index">Sublineas</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Warehouses" asp-action="Index">Almacenes</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Movements
+                                    Movimientos
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Purchases" asp-action="Index">Purchases</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Ordenes</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Abonos</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Purchases" asp-action="Index">Compras</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Ventas</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Inquiries
+                                    Consultas
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="IsntPaid">Isn'tPaid</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Paid">Paid</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="IsntPaid">No Pagadas</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Paid">Pagadas</a>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="PropertyTypes" asp-action="Index">Property Types</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="PropertyTypes" asp-action="Index">Tipos Propiedades</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Concepts" asp-action="Index">Concepts</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Concepts" asp-action="Index">Conceptos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Houses" asp-action="Index">Houses</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Houses" asp-action="Index">Casas Comerciales</a>
                             </li>
                         }
-                        else
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Collector"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Payments">Abonos</a>
                             </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Seller"))
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Ordenes</a>
                             </li>
                         }
                     </ul>
@@ -92,7 +95,7 @@
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -101,7 +104,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
                             </li>
                         }
                     </ul>

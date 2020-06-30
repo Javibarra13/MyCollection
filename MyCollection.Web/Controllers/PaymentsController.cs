@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ using MyCollection.Web.Models;
 
 namespace MyCollection.Web.Controllers
 {
+    [Authorize(Roles = "Manager , Collector")]
+
     public class PaymentsController : Controller
     {
         private readonly DataContext _dataContext;
@@ -54,6 +57,20 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .Where(Extensions.IsntPaid()));
+        }
+
+        public IActionResult Payments()
+        {
+            var collector = _dataContext.Collectors.Where(s => s.User.UserName == User.Identity.Name).FirstOrDefault();
+            return View(_dataContext.Sales
+                .Include(s => s.Collector)
+                .ThenInclude(c => c.User)
+                .Include(s => s.Customer)
+                .ThenInclude(c => c.User)
+                .Include(s => s.State)
+                .Include(s => s.SaleDetails)
+                .Where(Extensions.IsntPaid())
+                .Where(s => s.Customer.Collector.Id == collector.Id));
         }
 
         public async Task<IActionResult> Details(int? id)

@@ -15,31 +15,33 @@ namespace MyCollection.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Serie { get; set; }
 
-        [Display(Name = "Company")]
+        [Display(Name = "Compañia")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Company { get; set; }
 
-        [Display(Name = "Model")]
+        [Display(Name = "Modelo")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Model { get; set; }
 
-        [Display(Name = "Colour")]
+        [Display(Name = "Color")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Colour { get; set; }
 
-        [Display(Name = "Price")]
+        [Display(Name = "Precio")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price { get; set; }
 
-        [Display(Name = "Is Available?")]
+        [Display(Name = "Está disponible ?")]
         public bool IsAvailable { get; set; }
 
+        [Display(Name = "Notas")]
         public string Remarks { get; set; }
 
+        [Display(Name = "Tipo de Propiedad")]
         public PropertyType PropertyType { get; set; }
 
         public Seller Seller { get; set; }

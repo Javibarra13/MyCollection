@@ -11,42 +11,42 @@ namespace MyCollection.Web.Models
     public class OrderViewModel : Order
     {
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Warehouse")]
+        [Display(Name = "Almacen")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a warehouse.")]
         public int WarehouseId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "House")]
+        [Display(Name = "Casa Comercial")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a house.")]
         public int HouseId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Collector")]
+        [Display(Name = "Cobrador")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a collector.")]
         public int CollectorId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Type Payment")]
+        [Display(Name = "Tipo de Pago")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a type payment.")]
         public int TypePaymentId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Day Payment")]
+        [Display(Name = "Dia de Pago")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a day payment.")]
         public int DayPaymentId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Seller")]
+        [Display(Name = "Vendedor")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a seller.")]
         public int SellerId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Customer")]
+        [Display(Name = "Cliente")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a customer.")]
         public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "State")]
+        [Display(Name = "Estado")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a state.")]
         public int StateId { get; set; }
 

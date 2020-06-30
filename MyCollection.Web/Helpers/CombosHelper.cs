@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a warehouse...)",
+                Text = "(Seleccione un almacen...)",
                 Value = "0"
             });
 
@@ -41,7 +42,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a product...)",
+                Text = "(Seleccione un producto...)",
                 Value = "0"
             });
 
@@ -58,7 +59,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a state...)",
+                Text = "(Seleccione un estado...)",
                 Value = "0"
             });
 
@@ -75,7 +76,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a customer...)",
+                Text = "(Seleccione un cliente...)",
                 Value = "0"
             });
 
@@ -92,7 +93,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a seller...)",
+                Text = "(Seleccione un vendedor...)",
                 Value = "0"
             });
 
@@ -109,7 +110,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a day payment...)",
+                Text = "(Seleccione el dia de pago...)",
                 Value = "0"
             });
 
@@ -126,7 +127,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a type payment...)",
+                Text = "(Seleccione el tipo de pago...)",
                 Value = "0"
             });
 
@@ -143,7 +144,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a provider...)",
+                Text = "(Seleccione un proveedor...)",
                 Value = "0"
             });
 
@@ -159,7 +160,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a subline...)",
+                Text = "(Seleccione una sublinea...)",
                 Value = "0"
             });
 
@@ -176,7 +177,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a line...)",
+                Text = "(Seleccione una linea...)",
                 Value = "0"
             });
 
@@ -193,7 +194,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a collector...)",
+                Text = "(Seleccione un cobrador...)",
                 Value = "0"
             });
 
@@ -210,7 +211,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a house...)",
+                Text = "(Seleccione una casa comercial...)",
                 Value = "0"
             });
 
@@ -227,7 +228,7 @@ namespace MyCollection.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a property type...)",
+                Text = "(Seleccione un tipo de propiedad...)",
                 Value = "0"
             });
 

@@ -10,22 +10,22 @@ namespace MyCollection.Web.Models
     public class PaymentViewModel : Payment
     {
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Collector")]
+        [Display(Name = "Cobrador")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a collector.")]
         public int CollectorId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Customer")]
+        [Display(Name = "Cliente")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a customer.")]
         public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Concept")]
+        [Display(Name = "Concepto")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a concept.")]
         public int ConceptId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Sale")]
+        [Display(Name = "Venta")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a sale.")]
         public int SaleId { get; set; }
     }

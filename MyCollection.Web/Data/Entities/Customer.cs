@@ -11,42 +11,46 @@ namespace MyCollection.Web.Data.Entities
     {
         public int Id { get; set; }
 
+        [Display(Name = "Colonia")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Neighborhood { get; set; }
 
-        [Display(Name = "Postal Code")]
+        [Display(Name = "Codigo Postal")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string PostalCode { get; set; }
 
+        [Display(Name = "Ciudad")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string City { get; set; }
 
+        [Display(Name = "Notas")]
         public string Remarks { get; set; }
 
-        [Display(Name = "Reference Name")]
+        [Display(Name = "Nombre Referencia 1")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string RefName { get; set; }
 
-        [Display(Name = "Reference Address")]
+        [Display(Name = "Dirección Referencia 1")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string RefAddress { get; set; }
 
-        [Display(Name = "Reference Phone")]
+        [Display(Name = "Teléfono Referencia 1")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string RefPhone { get; set; }
 
-        [Display(Name = "Reference Name")]
+        [Display(Name = "Nombre Referencia 2")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string RefName2 { get; set; }
 
-        [Display(Name = "Reference Address")]
+        [Display(Name = "Dirección Referencia 2")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string RefAddress2 { get; set; }
 
-        [Display(Name = "Reference Phone")]
+        [Display(Name = "Teléfono Referencia 2")]
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string RefPhone2 { get; set; }
 
+        [Display(Name = "Estado")]
         public string Status { get; set; }
 
         public User User { get; set; }
@@ -56,8 +60,6 @@ namespace MyCollection.Web.Data.Entities
         public Collector Collector { get; set; }
 
         public ICollection<CustomerImage> CustomerImages { get; set; }
-
-        public ICollection<Purchase> Purchases { get; set; }
 
         public ICollection<Order> Orders { get; set; }
 
