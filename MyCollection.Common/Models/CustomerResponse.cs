@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MyCollection.Common.Models
 {
-    public class CollectorResponse
+    public class CustomerResponse
     {
         public int Id { get; set; }
 
@@ -19,16 +19,5 @@ namespace MyCollection.Common.Models
         public string PhoneNumber { get; set; }
 
         public string Email { get; set; }
-
-        public ICollection<PropertyCollectorResponse> PropertyCollectors { get; set; }
-
-        //public ICollection<CustomerResponse> Customers { get; set; }
-
-        public ICollection<SaleResponse> Sales { get; set; }
-
-        //public ICollection<PaymentResponse> Payments { get; set; }
-
-        public string FullName => $"{FirstName} {LastName}";
-
     }
 }
