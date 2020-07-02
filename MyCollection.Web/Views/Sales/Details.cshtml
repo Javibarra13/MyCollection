@@ -131,9 +131,8 @@
                                 @Html.DisplayNameFor(model => model.SaleDetails.FirstOrDefault().Quantity)
                             </th>
                             <th>
-                                Imagenes
+                                Imagen
                             </th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,10 +152,10 @@
                                     @Html.DisplayFor(modelItem => item.Quantity)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Product.ProductImages.Count)
-                                </td>
-                                <td>
-                                    <a asp-action="DetailsProduct" asp-route-id="@Model.Id" class="btn btn-outline-warning">Detalles</a>
+                                    @if (!string.IsNullOrEmpty(item.Product.FirstImage))
+                                    {
+                                        <img src="@Url.Content(item.Product.FirstImage)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+                                    }
                                 </td>
                             </tr>
                         }

@@ -36,6 +36,7 @@ namespace MyCollection.Prism
             containerRegistry.Register<IApiService, ApiService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<PropertiesPage, PropertiesPageViewModel>();
         }
     }
 }

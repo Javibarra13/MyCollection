@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MyCollection.Web.Data.Entities
 {
@@ -110,5 +111,9 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<SaleDetail> SaleDetails { get; set; }
 
         public ICollection<SaleDetailTmp> SaleDetailTmps { get; set; }
+
+        public string FirstImage => ProductImages == null || ProductImages.Count == 0
+            ? "https://webstudio-mycollection.azurewebsites.net/images/ProductImages/noImage.png"
+            : ProductImages.FirstOrDefault().ImageUrl;
     }
 }

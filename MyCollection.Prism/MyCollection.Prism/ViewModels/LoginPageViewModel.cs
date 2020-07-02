@@ -11,6 +11,7 @@ namespace MyCollection.Prism.ViewModels
 {
     public class LoginPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         private string _password;
         private bool _isRunning;
@@ -22,6 +23,7 @@ namespace MyCollection.Prism.ViewModels
         {
             Title = "Login";
             IsEnabled = true;
+            _navigationService = navigationService;
             _apiService = apiService;
         }
 
@@ -51,28 +53,54 @@ namespace MyCollection.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var connection = await _apiService.CheckConnectionAsync(url);
+            if (!connection)
+            {
+                IsEnabled = true;
+                IsRunning = false;
+                await App.Current.MainPage.DisplayAlert("Error", "Verificar conexión a internet.", "Accept");
+                return;
+            }
+
             var request = new TokenRequest
             {
                 Password = Password,
                 Username = Email
             };
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var response = await _apiService.GetTokenAsync(url, "/Account", "/CreateToken", request);
-
-            IsRunning = false;
-            IsEnabled = true;
 
             if(!response.IsSuccess)
             {
+                IsRunning = false;
+                IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert("Error", "Usuario o Contraseña incorrectos", "Aceptar");
                 Password = string.Empty;
                 return;
             }
 
             var token = response.Result;
+            var response2 = await _apiService.GetCollectorByEmailAsync(url, "api", "/Collectors/GetCollectorByEmail", "bearer", token.Token, Email);
 
-            await App.Current.MainPage.DisplayAlert("Ok", "Fuck Yeah!!!", "Aceptar");
+            if (!response2.IsSuccess)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", "Problemas con datos de usuario. LLamar a soporte", "Aceptar");
+                Password = string.Empty;
+                return;
+            }
+
+            var collector = response2.Result;
+            var parameters = new NavigationParameters
+            {
+                { "collector", collector }
+            };
+
+            await _navigationService.NavigateAsync("PropertiesPage", parameters);
+            IsRunning = false;
+            IsEnabled = true;
         }
     }
 }
