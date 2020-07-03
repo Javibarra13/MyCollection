@@ -11,16 +11,18 @@ namespace MyCollection.Prism.ViewModels
 {
     public class PropertiesPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private CollectorResponse _collector;
-        private ObservableCollection<PropertyCollectorResponse> _properties;
+        private ObservableCollection<PropertyCollectorItemViewModel> _properties;
 
         public PropertiesPageViewModel(
             INavigationService navigationService) : base(navigationService)
         {
             Title = "Properties";
+            _navigationService = navigationService;
         }
 
-        public ObservableCollection<PropertyCollectorResponse> Properties
+        public ObservableCollection<PropertyCollectorItemViewModel> Properties
         {
             get => _properties;
             set => SetProperty(ref _properties, value);
@@ -34,7 +36,19 @@ namespace MyCollection.Prism.ViewModels
             {
                 _collector = parameters.GetValue<CollectorResponse>("collector");
                 Title = $"Propiedades de: {_collector.FullName}";
-                Properties = new ObservableCollection<PropertyCollectorResponse>(_collector.PropertyCollectors);
+                Properties = new ObservableCollection<PropertyCollectorItemViewModel>(_collector.PropertyCollectors.Select(p => new PropertyCollectorItemViewModel(_navigationService)
+                { 
+                    Id = p.Id,
+                    Serie = p.Serie,
+                    Company = p.Company,
+                    Model = p.Model,
+                    Colour = p.Colour,
+                    Price = p.Price,
+                    IsAvailable = p.IsAvailable,
+                    Remarks = p.Remarks,
+                    PropertyType = p.PropertyType,
+                    PropertyCollectorImages = p.PropertyCollectorImages,
+                }).ToList());
             }
         }
     }

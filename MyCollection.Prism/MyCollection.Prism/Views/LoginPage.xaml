@@ -12,20 +12,24 @@
             Text="Email"/>
         <Entry 
             Keyboard="Email"
-            Placeholder="Enter your email..."
+            Placeholder="Ingrese su email..."
             Text="{Binding Email}"/>
         <Label 
-            Text="Password"/>
+            Text="Contraseña"/>
         <Entry 
             IsPassword="True"
-            Placeholder="Enter your password..."
+            Placeholder="Ingrese su contraseña..."
             Text="{Binding Password}"/>
         <ActivityIndicator
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
         <Button
+            BackgroundColor="Navy"
+            CornerRadius="23"
+            HeightRequest="46"
             IsEnabled="{Binding IsEnabled}}"
             Command="{Binding LoginCommand}"
-            Text="Login"/>
+            Text="Iniciar Sesión"
+            TextColor="White"/>
     </StackLayout>
 </ContentPage>
