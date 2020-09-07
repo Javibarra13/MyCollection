@@ -55,6 +55,8 @@ namespace MyCollection.Web.Controllers
                 .ThenInclude(pc => pc.PropertyType)
                 .Include(c => c.PropertyCollectors)
                 .ThenInclude(pc => pc.PropertyCollectorImages)
+                .Include(c => c.Payments)
+                .ThenInclude(p => p.Customer)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (collector == null)
             {

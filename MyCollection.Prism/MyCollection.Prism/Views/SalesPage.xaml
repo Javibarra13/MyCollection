@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MyCollection.Prism.Views.SalesPage"
+             BackgroundColor="Silver"
+             Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <ListView
+            BackgroundColor="Transparent"
+            SeparatorVisibility="None"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Sales}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame
+                            CornerRadius="10"
+                            Margin="0,0,0,10">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectSaleCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout>
+                                <ffimageloading:CachedImage
+	                                Source="{Binding Customer.FirstImage}"
+                                    Aspect="AspectFit"
+	                                LoadingPlaceholder= "LoaderImage"
+	                                ErrorPlaceholder= "ErrorImage"
+                                    HeightRequest="100"
+	                                CacheDuration= "50"
+	                                RetryCount= "3"
+	                                RetryDelay= "600"
+	                                DownsampleToViewSize = "true"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid
+                                Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            Text="Cliente Id"/>
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Text="{Binding Customer.Id}"/>
+                                        
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            Text="Nombre"/>
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Text="{Binding Customer.FullName}"/>
+
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            Text="Dirección"/>
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Text="{Binding Customer.Address}"/>
+
+                                        <Label
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            Text="Teléfono"/>
+                                        <Label
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            Text="{Binding Customer.PhoneNumber}"/>
+                                    </Grid>
+                                    <Image
+                                Grid.Column="2"
+                                Source="ic_more_vert"/>
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

@@ -53,6 +53,65 @@
     <a asp-action="AddProperty" asp-route-id="@Model.Id" class="btn btn-outline-success">Agregar Propiedad</a>
     <a asp-action="Index" class="btn btn-outline-dark">Regresar</a>
 </div>
+
+<h4>Cobranza</h4>
+@if (Model.Payments.Count == 0)
+{
+    <h5>No hay pagos registrados.</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Concept)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Deposit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments.FirstOrDefault().Customer.Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Payments)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Concept.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deposit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                </td>
+                <td>
+                    <a asp-action="EditProperty" asp-route-id="@item.Id" class="btn btn-outline-info">Editar</a>
+                    <a asp-action="DetailsProperty" asp-route-id="@item.Id" class="btn btn-outline-warning">Detalles</a>
+                    <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <h4>Propiedades</h4>
 @if (Model.PropertyCollectors.Count == 0)
 {
@@ -123,17 +182,17 @@ else
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
-    	$(document).ready(function () {
-        	// Delete item
-        	var item_to_delete;
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
 
-        	$('.deleteItem').click((e) => {
-            	item_to_delete = e.currentTarget.dataset.id;
-        	});
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
 
-        	$("#btnYesDelete").click(function () {
-            	window.location.href = '/Collectors/DeleteProperty/' + item_to_delete;
-        	});
-    	});
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Collectors/DeleteProperty/' + item_to_delete;
+            });
+        });
     </script>
 }

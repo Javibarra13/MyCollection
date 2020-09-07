@@ -8,6 +8,7 @@ namespace MyCollection.Common.Helpers
 {
     public static class Settings
     {
+        private const string _customerImages = "CustomerImages";
         private const string _propertyCollectorImages = "PropertyCollectorImages";
         private static readonly string _settingsDefault = string.Empty;
 
@@ -17,6 +18,12 @@ namespace MyCollection.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_propertyCollectorImages, _settingsDefault);
             set => AppSettings.AddOrUpdateValue(_propertyCollectorImages, value);
+        }
+
+        public static string CustomerImages
+        {
+            get => AppSettings.GetValueOrDefault(_customerImages, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_customerImages, value);
         }
     }
 }

@@ -24,22 +24,22 @@ namespace MyCollection.Common.Models
 
         //public ICollection<PaymentResponse> Payments { get; set; }
 
-        public WarehouseResponse Warehouse { get; set; }
+        public string Warehouse { get; set; }
 
-        public HouseResponse House { get; set; }
+        public string House { get; set; }
 
         public CollectorResponse Collector { get; set; }
 
-        public TypePaymentResponse TypePayment { get; set; }
+        public string TypePayment { get; set; }
 
-        public DayPaymentResponse DayPayment { get; set; }
+        public string DayPayment { get; set; }
 
-        public SellerResponse Seller { get; set; }
+        public string Seller { get; set; }
 
         public CustomerResponse Customer { get; set; }
 
-        public StateResponse State { get; set; }
+        public string State { get; set; }
 
-        //public ICollection<SaleDetailResponse> SaleDetails { get; set; }
+        public ICollection<SaleDetailResponse> SaleDetails { get; set; }
     }
 }

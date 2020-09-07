@@ -35,7 +35,6 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.Collector)
                 .ThenInclude(c => c.User)
                 .Include(o => o.Customer)
-                .ThenInclude(c => c.User)
                 .Include(o => o.State)
                 .ToList());
         }
@@ -57,7 +56,6 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.Seller)
                 .ThenInclude(s => s.User)
                 .Include(o => o.Customer)
-                .ThenInclude(c => c.User)
                 .Include(o => o.State)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
@@ -90,7 +88,7 @@ namespace MyCollection.Web.Controllers
                     StartDate = DateTime.Today,
                     EndDate = DateTime.Today.AddYears(1),
                     Details = _dataContext.OrderDetailTmps.Where(odt => odt.Username == User.Identity.Name).ToList(),
-                    Details2 = _dataContext.OrderTmps.Include(ot => ot.Customer).ThenInclude(c => c.User).Where(ot => ot.Username == User.Identity.Name).ToList(),
+                    Details2 = _dataContext.OrderTmps.Include(ot => ot.Customer).Where(ot => ot.Username == User.Identity.Name).ToList(),
                 };
              return View(model);
         }
@@ -186,7 +184,7 @@ namespace MyCollection.Web.Controllers
             viewModel.States = _combosHelper.GetComboStates();
             viewModel.Warehouses = _combosHelper.GetComboWarehouses();
             viewModel.Details = _dataContext.OrderDetailTmps.Where(odt => odt.Username == User.Identity.Name).ToList();
-            viewModel.Details2 = _dataContext.OrderTmps.Include(ot => ot.Customer).ThenInclude(c => c.User).Where(ot => ot.Username == User.Identity.Name).ToList();
+            viewModel.Details2 = _dataContext.OrderTmps.Include(ot => ot.Customer).Where(ot => ot.Username == User.Identity.Name).ToList();
             return View(viewModel);
         }
 
@@ -206,7 +204,6 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.Seller)
                 .ThenInclude(s => s.User)
                 .Include(o => o.Customer)
-                .ThenInclude(c => c.User)
                 .Include(o => o.State)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
@@ -290,7 +287,6 @@ namespace MyCollection.Web.Controllers
         public IActionResult AddCustomer()
         {
             return View(_dataContext.Customers
-                .Include(c => c.User)
                 .Include(c => c.House)
                 .Include(c => c.Collector)
                 .ThenInclude(c => c.User));

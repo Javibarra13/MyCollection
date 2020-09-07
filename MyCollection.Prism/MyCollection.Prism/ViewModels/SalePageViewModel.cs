@@ -2,7 +2,6 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +9,14 @@ using System.Linq;
 
 namespace MyCollection.Prism.ViewModels
 {
-    public class PropertyCollectorPageViewModel : ViewModelBase
+    public class SalePageViewModel : ViewModelBase
     {
-        private PropertyCollectorResponse _property;
+        private SaleResponse _sale;
         private ObservableCollection<RotatorModel> _imageCollection;
 
-        public PropertyCollectorPageViewModel(INavigationService navigationService) : base(navigationService)
+        public SalePageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Property";
+            Title = "Sale";
         }
 
         public ObservableCollection<RotatorModel> ImageCollection
@@ -26,33 +25,32 @@ namespace MyCollection.Prism.ViewModels
             set => SetProperty(ref _imageCollection, value);
         }
 
-        public PropertyCollectorResponse PropertyCollector
+        public SaleResponse Sale
         {
-            get => _property;
-            set => SetProperty(ref _property, value);
+            get => _sale;
+            set => SetProperty(ref _sale, value);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.ContainsKey("property"))
+            if (parameters.ContainsKey("sale"))
             {
-                PropertyCollector = parameters.GetValue<PropertyCollectorResponse>("property");
-                Title = $"Propiedad: {PropertyCollector.Model}";
+                Sale = parameters.GetValue<SaleResponse>("sale");
+                Title = $"Detalles de: {Sale.Customer.FullName}";
                 LoadImages();
             }
         }
         private void LoadImages()
         {
             var list = new List<RotatorModel>();
-            foreach (var propertyCollectorImage in PropertyCollector.PropertyCollectorImages)
+            foreach (var customerImage in Sale.Customer.CustomerImages)
             {
-                list.Add(new RotatorModel { Image = propertyCollectorImage.ImageUrl });
+                list.Add(new RotatorModel { Image = customerImage.ImageUrl });
             }
 
             ImageCollection = new ObservableCollection<RotatorModel>(list);
         }
     }
-
 }

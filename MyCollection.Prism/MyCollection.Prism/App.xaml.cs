@@ -24,6 +24,8 @@ namespace MyCollection.Prism
 
         protected override async void OnInitialized()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mjc5NDY2QDMxMzgyZTMxMmUzMGJ4RnlxU2JkMzhtbXhHalVnOTYwa3VTUEhoclRya2o1S2NhcDF0cDBHWFE9");
+
             InitializeComponent();
 
             await NavigationService.NavigateAsync("NavigationPage/LoginPage");
@@ -38,6 +40,9 @@ namespace MyCollection.Prism
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<PropertiesPage, PropertiesPageViewModel>();
             containerRegistry.RegisterForNavigation<PropertyCollectorPage, PropertyCollectorPageViewModel>();
+            containerRegistry.RegisterForNavigation<SalesPage, SalesPageViewModel>();
+            containerRegistry.RegisterForNavigation<SalePage, SalePageViewModel>();
+            containerRegistry.RegisterForNavigation<SaleDetailsPage, SaleDetailsPageViewModel>();
         }
     }
 }

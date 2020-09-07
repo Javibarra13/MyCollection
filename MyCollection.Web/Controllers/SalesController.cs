@@ -30,6 +30,8 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
+                .Include(s => s.Customer)
+                .ThenInclude(c => c.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .ToList());
@@ -52,7 +54,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Seller)
                 .ThenInclude(s => s.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .ThenInclude(sd => sd.Product)
@@ -78,7 +79,6 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.Seller)
                 .ThenInclude(s => s.User)
                 .Include(o => o.Customer)
-                .ThenInclude(c => c.User)
                 .Include(o => o.State)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
@@ -104,7 +104,7 @@ namespace MyCollection.Web.Controllers
                 Deposit = order.Deposit,
                 Payment = order.Payment,
                 Remarks = order.Remarks,
-                Details2 = _dataContext.Orders.Include(o => o.Customer).ThenInclude(c => c.User).Where(o => o.Id == id).ToList(),
+                Details2 = _dataContext.Orders.Include(o => o.Customer).Where(o => o.Id == id).ToList(),
                 Details = _dataContext.OrderDetails.Include(od => od.Product).Where(sd => sd.Order.Id == id).ToList(),
             };
             return View(model);
@@ -194,7 +194,7 @@ namespace MyCollection.Web.Controllers
             viewModel.DayPayments = _combosHelper.GetComboDayPayments();
             viewModel.Sellers = _combosHelper.GetComboSellers();
             viewModel.Warehouses = _combosHelper.GetComboWarehouses();
-            viewModel.Details2 = _dataContext.Orders.Include(o => o.Customer).ThenInclude(c => c.User).Where(o => o.Id == id).ToList();
+            viewModel.Details2 = _dataContext.Orders.Include(o => o.Customer).Where(o => o.Id == id).ToList();
             viewModel.Details = _dataContext.OrderDetails.Include(od => od.Product).Where(sd => sd.Order.Id == id).ToList();
             return View(viewModel);
         }
@@ -217,7 +217,7 @@ namespace MyCollection.Web.Controllers
                 StartDate = DateTime.Today,
                 EndDate = DateTime.Today.AddYears(1),
                 Details = _dataContext.SaleDetailTmps.Where(sdt => sdt.Username == User.Identity.Name).ToList(),
-                Details2 = _dataContext.SaleTmps.Include(st => st.Customer).ThenInclude(c => c.User).Where(st => st.Username == User.Identity.Name).ToList(),
+                Details2 = _dataContext.SaleTmps.Include(st => st.Customer).Where(st => st.Username == User.Identity.Name).ToList(),
             };
             return View(model);
         }
@@ -276,6 +276,9 @@ namespace MyCollection.Web.Controllers
                             _dataContext.SaleTmps.Remove(detail2);
                         }
 
+                        _dataContext.Sales.Add(sale);
+                        await _dataContext.SaveChangesAsync();
+
                         var payment = new Payment
                         {
                             Sale = await _dataContext.Sales.FindAsync(sale.Id),
@@ -284,13 +287,10 @@ namespace MyCollection.Web.Controllers
                             Deposit = sale.Deposit,
                             Type = "Efectivo",
                             Collector = await _dataContext.Collectors.FindAsync(sale.Customer.Collector.Id),
-                            Concept = await _dataContext.Concepts.FindAsync(8),
+                            Concept = await _dataContext.Concepts.FindAsync(1),
                         };
 
                         _dataContext.Payments.Add(payment);
-                        await _dataContext.SaveChangesAsync();
-
-                        _dataContext.Sales.Add(sale);
                         await _dataContext.SaveChangesAsync();
 
                         var details = _dataContext.SaleDetailTmps.Include(sdt => sdt.Product).Where(sdt => sdt.Username == User.Identity.Name).ToList();
@@ -331,7 +331,7 @@ namespace MyCollection.Web.Controllers
             viewModel.States = _combosHelper.GetComboStates();
             viewModel.Warehouses = _combosHelper.GetComboWarehouses();
             viewModel.Details = _dataContext.SaleDetailTmps.Where(sdt => sdt.Username == User.Identity.Name).ToList();
-            viewModel.Details2 = _dataContext.SaleTmps.Include(st => st.Customer).ThenInclude(c => c.User).Where(ot => ot.Username == User.Identity.Name).ToList();
+            viewModel.Details2 = _dataContext.SaleTmps.Include(st => st.Customer).Where(ot => ot.Username == User.Identity.Name).ToList();
             return View(viewModel);
         }
 
@@ -351,7 +351,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Seller)
                 .ThenInclude(s => s.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
                 .ThenInclude(c => c.Orders)
                 .Include(s => s.State)
@@ -448,7 +447,6 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.Collector)
                 .ThenInclude(c => c.User)
                 .Include(o => o.Customer)
-                .ThenInclude(c => c.User)
                 .Include(o => o.State)
                 .Where(o => o.State.Id == 2)
                 .ToList());
@@ -457,7 +455,6 @@ namespace MyCollection.Web.Controllers
         public IActionResult AddCustomer()
         {
             return View(_dataContext.Customers
-                .Include(c => c.User)
                 .Include(c => c.House)
                 .Include(c => c.Collector)
                 .ThenInclude(c => c.User));

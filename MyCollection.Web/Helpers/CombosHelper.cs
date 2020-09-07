@@ -70,7 +70,7 @@ namespace MyCollection.Web.Helpers
         {
             var list = _dataContext.Customers.Select(c => new SelectListItem
             {
-                Text = c.User.FirstName + " " + c.User.LastName,
+                Text = c.Name,
                 Value = $"{c.Id}"
             }).OrderBy(c => c.Text).ToList();
 

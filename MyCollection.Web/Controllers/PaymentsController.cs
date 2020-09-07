@@ -29,7 +29,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .Where(Extensions.IsntPaid()));
@@ -41,7 +40,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .Where(Extensions.IsPaid()));
@@ -53,7 +51,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .Where(Extensions.IsntPaid()));
@@ -66,7 +63,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .Where(Extensions.IsntPaid())
@@ -90,7 +86,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Seller)
                 .ThenInclude(s => s.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
                 .ThenInclude(sd => sd.Product)
@@ -113,7 +108,6 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Collector)
                 .ThenInclude(c => c.User)
                 .Include(s => s.Customer)
-                .ThenInclude(c => c.User)
                 .FirstOrDefault(s => s.Id == id);
 
             var payment = new PaymentViewModel

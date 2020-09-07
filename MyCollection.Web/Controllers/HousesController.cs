@@ -34,7 +34,6 @@ namespace MyCollection.Web.Controllers
 
             var house = await _dataContext.Houses
                 .Include(h => h.Customers)
-                .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (house == null)
             {

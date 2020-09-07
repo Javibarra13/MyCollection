@@ -23,10 +23,10 @@
                                 N°
                             </th>
                             <th>
-                                Nombres
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().Address)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().Neighborhood)
@@ -35,7 +35,7 @@
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().City)
                             </th>
                             <th>
-                                Teléfono
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
@@ -51,10 +51,10 @@
                                 @Html.DisplayFor(modelItem => item.Id)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.FullName)
+                                @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.Address)
+                                @Html.DisplayFor(modelItem => item.Address)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Neighborhood)
@@ -63,7 +63,7 @@
                                 @Html.DisplayFor(modelItem => item.City)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Status)

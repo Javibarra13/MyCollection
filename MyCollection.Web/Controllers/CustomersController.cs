@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
+using MyCollection.Web.Extensions;
 using MyCollection.Web.Helpers;
 using MyCollection.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,13 +37,87 @@ namespace MyCollection.Web.Controllers
             _converterHelper = converterHelper;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_dataContext.Customers
-                .Include(c => c.User)
-                .Include(c => c.House)
-                .Include(c => c.Collector)
-                .ThenInclude(c => c.User));
+            await SeedData();
+
+            //return View(_dataContext.Customers
+            //    .Include(c => c.House)
+            //    .Include(c => c.Collector)
+            //    .ThenInclude(c => c.User));
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoadTable([FromBody]DtParameters dtParameters)
+        {
+            var searchBy = dtParameters.Search?.Value;
+
+            // if we have an empty search then just order the results by Id ascending
+            var orderCriteria = "Id";
+            var orderAscendingDirection = true;
+
+            if (dtParameters.Order != null)
+            {
+                // in this example we just default sort on the 1st column
+                orderCriteria = dtParameters.Columns[dtParameters.Order[0].Column].Data;
+                orderAscendingDirection = dtParameters.Order[0].Dir.ToString().ToLower() == "asc";
+            }
+
+            var result = _dataContext.Customers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchBy))
+            {
+                result = result.Where(r => r.Name != null && r.Name.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.Address != null && r.Address.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.Neighborhood != null && r.Neighborhood.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.City != null && r.City.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.PhoneNumber != null && r.PhoneNumber.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.Status != null && r.Status.ToUpper().Contains(searchBy.ToUpper()));
+            }
+
+            result = orderAscendingDirection ? result.OrderByDynamic(orderCriteria, DtOrderDir.Asc) : result.OrderByDynamic(orderCriteria, DtOrderDir.Desc);
+
+            // now just get the count of items (without the skip and take) - eg how many could be returned with filtering
+            var filteredResultsCount = await result.CountAsync();
+            var totalResultsCount = await _dataContext.Customers.CountAsync();
+
+            return Json(new DtResult<Customer>
+            {
+                Draw = dtParameters.Draw,
+                RecordsTotal = totalResultsCount,
+                RecordsFiltered = filteredResultsCount,
+                Data = await result
+                    .Skip(dtParameters.Start)
+                    .Take(dtParameters.Length)
+                    .ToListAsync()
+            });
+        }
+
+        public async Task SeedData()
+        {
+            if (!_dataContext.Customers.Any())
+            {
+                for (var i = 0; i < 1000; i++)
+                {
+                    await _dataContext.Customers.AddAsync(new Customer
+                    {
+                        Name = i % 2 == 0 ? Gen.Random.Names.Male()() : Gen.Random.Names.Female()(),
+                        FirstSurname = Gen.Random.Names.Surname()(),
+                        SecondSurname = Gen.Random.Names.Surname()(),
+                        Street = Gen.Random.Names.Full()(),
+                        Phone = Gen.Random.PhoneNumbers.WithRandomFormat()(),
+                        ZipCode = Gen.Random.Numbers.Integers(10000, 99999)().ToString(),
+                        Country = Gen.Random.Countries()(),
+                        Notes = Gen.Random.Text.Short()(),
+                        CreationDate = Gen.Random.Time.Dates(DateTime.Now.AddYears(-100), DateTime.Now)()
+                    });
+                }
+
+                await _dataContext.SaveChangesAsync();
+            }
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -52,7 +128,6 @@ namespace MyCollection.Web.Controllers
             }
 
             var customer = await _dataContext.Customers
-                .Include(c => c.User)
                 .Include(c => c.House)
                 .Include(c => c.CustomerImages)
                 .Include(c => c.Collector)
@@ -113,7 +188,6 @@ namespace MyCollection.Web.Controllers
             return View(viewModel);
         }
 
-        // GET: Customers/Create
         public IActionResult Create()
         {
             var model = new CustomerViewModel
@@ -130,16 +204,12 @@ namespace MyCollection.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await AddUser(viewModel);
-                if (user == null)
-                {
-                    ModelState.AddModelError(string.Empty, "This email is already used.");
-                    return View(viewModel);
-                }
-
                 var customer = new CustomerViewModel
                 {
-                    User = user,
+                    Document = viewModel.Document,
+                    Name = viewModel.Name,
+                    Address = viewModel.Address,
+                    PhoneNumber = viewModel.PhoneNumber,
                     City = viewModel.City,
                     House = await _dataContext.Houses.FindAsync(viewModel.HouseId),
                     Collector = await _dataContext.Collectors.FindAsync(viewModel.CollectorId),
@@ -167,30 +237,6 @@ namespace MyCollection.Web.Controllers
             return View(viewModel);
         }
 
-        private async Task<User> AddUser(CustomerViewModel viewModel)
-        {
-            var user = new User
-            {
-                Address = viewModel.Address,
-                Document = viewModel.Document,
-                Email = viewModel.Username,
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName,
-                PhoneNumber = viewModel.PhoneNumber,
-                UserName = viewModel.Username
-            };
-
-            var result = await _userHelper.AddUserAsync(user, viewModel.Password);
-            if (result != IdentityResult.Success)
-            {
-                return null;
-            }
-
-            var newUser = await _userHelper.GetUserByEmailAsync(viewModel.Username);
-            await _userHelper.AddUserToRoleAsync(newUser, "Customer");
-            return newUser;
-        }
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -199,7 +245,6 @@ namespace MyCollection.Web.Controllers
             }
 
             var customer = await _dataContext.Customers
-                .Include(c => c.User)
                 .Include(c => c.Collector)
                 .ThenInclude(c => c.User)
                 .Include(c => c.House)
@@ -211,12 +256,11 @@ namespace MyCollection.Web.Controllers
 
             var model = new EditCustomerViewModel
             {
-                Address = customer.User.Address,
-                Document = customer.User.Document,
-                FirstName = customer.User.FirstName,
+                Address = customer.Address,
+                Document = customer.Document,
+                Name = customer.Name,
                 Id = customer.Id,
-                LastName = customer.User.LastName,
-                PhoneNumber = customer.User.PhoneNumber,
+                PhoneNumber = customer.PhoneNumber,
                 City = customer.City,
                 Neighborhood = customer.Neighborhood,
                 PostalCode = customer.PostalCode,
@@ -243,17 +287,14 @@ namespace MyCollection.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customer = await _dataContext.Customers
-                    .Include(c => c.User)
-                    .FirstOrDefaultAsync(o => o.Id == viewModel.Id);
+                var customer = await _dataContext.Customers.FirstOrDefaultAsync(o => o.Id == viewModel.Id);
 
-                customer.User.Document = viewModel.Document;
+                customer.Document = viewModel.Document;
                 customer.House = await _dataContext.Houses.FindAsync(viewModel.HouseId);
                 customer.Collector = await _dataContext.Collectors.FindAsync(viewModel.CollectorId);
-                customer.User.FirstName = viewModel.FirstName;
-                customer.User.LastName = viewModel.LastName;
-                customer.User.Address = viewModel.Address;
-                customer.User.PhoneNumber = viewModel.PhoneNumber;
+                customer.Name = viewModel.Name;
+                customer.Address = viewModel.Address;
+                customer.PhoneNumber = viewModel.PhoneNumber;
                 customer.City = viewModel.City;
                 customer.Neighborhood = viewModel.Neighborhood;
                 customer.PostalCode = viewModel.PostalCode;
@@ -266,7 +307,6 @@ namespace MyCollection.Web.Controllers
                 customer.Remarks = viewModel.Remarks;
                 customer.Status = viewModel.Status;
 
-                await _userHelper.UpdateUserAsync(customer.User);
                 return RedirectToAction("Details", "Customers", new { id = customer.Id });
             }
 
@@ -281,7 +321,6 @@ namespace MyCollection.Web.Controllers
             }
 
             var customers = await _dataContext.Customers
-                .Include(c => c.User)
                 .Include(c => c.CustomerImages)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customers == null)
@@ -292,7 +331,6 @@ namespace MyCollection.Web.Controllers
             _dataContext.CustomerImages.RemoveRange(customers.CustomerImages);
             _dataContext.Customers.Remove(customers);
             await _dataContext.SaveChangesAsync();
-            await _userHelper.DeleteUserAsync(customers.User.Email);
             return RedirectToAction(nameof(Index));
         }
 

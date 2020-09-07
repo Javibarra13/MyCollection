@@ -1,4 +1,6 @@
-﻿using MyCollection.Common.Models;
+﻿using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Xaml;

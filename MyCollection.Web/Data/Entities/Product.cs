@@ -32,7 +32,7 @@ namespace MyCollection.Web.Data.Entities
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Sale { get; set; }
-
+        
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Factor { get; set; }
@@ -78,7 +78,7 @@ namespace MyCollection.Web.Data.Entities
 
         [Display(Name = "Punto de Reorden")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public decimal ReorderPoint { get; set; }
 
         [Display(Name = "Ultimo Costo")]

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using MyCollection.Web.Data.Entities;
 using MyCollection.Web.Helpers;
 using System;
@@ -27,7 +28,6 @@ namespace MyCollection.Web.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckRoles();
             var manager = await CheckUserAsync("1010", "Javier", "Ibarra", "frajavi3@gmail.com", "6625129365", "Acacia Blanca 192", "Manager");
-            var customer = await CheckUserAsync("5050", "Javier", "Ayala", "javibarra@gmail.com", "6625129365", "Maytorena 6", "Customer");
             var seller = await CheckUserAsync("2020", "Juan", "Zuluaga", "jzuluaga55@hotmail.com", "350 634 2747", "Calle Luna Calle Sol", "Seller");
             var collector = await CheckUserAsync("2020", "Francisco", "Ayala", "frajavi3@hotmail.com", "6625129365", "De los Tributos 23", "Collector");
             var supervisor = await CheckUserAsync("2020", "Claudia", "Sosa", "clau201569@gmail.com", "6628486267", "Acacia Blanca 192", "Supervisor");
@@ -44,7 +44,7 @@ namespace MyCollection.Web.Data
             await CheckMovementsAsync();
             await CheckTypePaymentsAsync();
             await CheckDayPaymentsAsync();
-            await CheckCustomersAsync(customer);
+            await CheckCustomersAsync();
             await CheckManagersAsync(manager);
             await CheckSellersAsync(seller);
             await CheckCollectorsAsync(collector);
@@ -176,18 +176,22 @@ namespace MyCollection.Web.Data
             }
         }
 
-        private async Task CheckCustomersAsync(User user)
+        private async Task CheckCustomersAsync()
         {
             var collector = _context.Collectors.FirstOrDefault();
             var house = _context.Houses.FirstOrDefault();
             if (!_context.Customers.Any())
             {
-                AddCustomer("Hermosillo", "Villa Colonial", "83106", "Claudia Sosa", "Acacia Blanca 192", "6625129365",  "Javier Ibarra", "Acacia Blanca 192", "6628486267", "Bueno", "Nuevo", user, house, collector);
+                AddCustomer("2020", "Francisco Ibarra", "Acacia Blanca 192", "6625129365", "Hermosillo", "Villa Colonial", "83106", "Claudia Sosa", "Acacia Blanca 192", "6625129365",  "Javier Ibarra", "Acacia Blanca 192", "6628486267", "Bueno", "Nuevo", house, collector);
                 await _context.SaveChangesAsync();
             }
         }
 
         private void AddCustomer(
+            string document,
+            string name,
+            string address,
+            string phonenumber,
             string city,
             string neighborhood,
             string postalCode,
@@ -199,12 +203,15 @@ namespace MyCollection.Web.Data
             string refPhone2,
             string status,
             string remarks,
-            User user,
             House house,
             Collector collector)
         {
             _context.Customers.Add(new Customer
             {
+                Document = document,
+                Name = name,
+                Address = address,
+                PhoneNumber = phonenumber,
                 City = city,
                 Neighborhood = neighborhood,
                 PostalCode = postalCode,
@@ -216,7 +223,6 @@ namespace MyCollection.Web.Data
                 RefPhone2 = refPhone2,
                 Status = status,
                 Remarks = remarks,
-                User = user,
                 House = house,
                 Collector = collector
             });
@@ -258,7 +264,6 @@ namespace MyCollection.Web.Data
         private async Task CheckRoles()
         {
             await _userHelper.CheckRoleAsync("Manager");
-            await _userHelper.CheckRoleAsync("Customer");
             await _userHelper.CheckRoleAsync("Seller");
             await _userHelper.CheckRoleAsync("Collector");
             await _userHelper.CheckRoleAsync("Supervisor");

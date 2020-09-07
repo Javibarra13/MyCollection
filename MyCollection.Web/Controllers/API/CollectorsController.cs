@@ -38,7 +38,8 @@ namespace MyCollection.Web.Controllers.API
                 .Include(c => c.PropertyCollectors)
                 .ThenInclude(pc => pc.PropertyCollectorImages)
                 .Include(c => c.Customers)
-                .ThenInclude(c => c.User)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.CustomerImages)
                 .Include(c => c.Sales)
                 .ThenInclude(s => s.Warehouse)
                 .Include(c => c.Sales)
@@ -54,11 +55,9 @@ namespace MyCollection.Web.Controllers.API
                 .ThenInclude(s => s.Seller)
                 .ThenInclude(s => s.User)
                 .Include(c => c.Sales)
-                .ThenInclude(s => s.Customer)
-                .ThenInclude(c => c.User)
-                .Include(c => c.Sales)
                 .ThenInclude(s => s.State)
-                .Include(c => c.Payments)
+                .Include(c => c.Sales)
+                .ThenInclude(s => s.SaleDetails)
                 .FirstOrDefaultAsync(c => c.User.Email.ToLower() == emailRequest.Email.ToLower());
 
             if (collector == null)
@@ -83,14 +82,21 @@ namespace MyCollection.Web.Controllers.API
                     Payment = s.Payment,
                     Deposit = s.Deposit,
                     Remarks = s.Remarks,
-                    Warehouse = ToWarehouseResponse(s.Warehouse),
-                    House = ToHouseResponse(s.House),
+                    Warehouse = s.Warehouse.Name,
+                    House = s.House.Name,
                     Collector = ToCollectorResponse(s.Collector),
-                    TypePayment = ToTypePaymentResponse(s.TypePayment),
-                    DayPayment = ToDayPaymentResponse(s.DayPayment),
-                    Seller = ToSellerResponse(s.Seller),
+                    TypePayment = s.TypePayment.Name,
+                    DayPayment = s.DayPayment.Name,
+                    Seller = s.Seller.User.FullName,
                     Customer = ToCustomerResponse(s.Customer),
-                    State = ToStateResponse(s.State),
+                    State = s.State.Name,
+                    SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
+                    { 
+                        Id = sd.Id,
+                        Name = sd.Name,
+                        Price = sd.Price,
+                        Quantity = sd.Quantity,
+                    }).ToList(),
                 }).ToList(),
                 PropertyCollectors = collector.PropertyCollectors?.Select(pc => new PropertyCollectorResponse
                 {
@@ -112,23 +118,6 @@ namespace MyCollection.Web.Controllers.API
             };
 
             return Ok(response);
-        }
-        private WarehouseResponse ToWarehouseResponse(Warehouse warehouse)
-        {
-            return new WarehouseResponse
-            {
-                Id = warehouse.Id,
-                Name = warehouse.Name
-            };
-        }
-
-        private HouseResponse ToHouseResponse(House house)
-        {
-            return new HouseResponse
-            {
-                Id = house.Id,
-                Name = house.Name
-            };
         }
 
         private CollectorResponse ToCollectorResponse(Collector collector)
@@ -182,12 +171,15 @@ namespace MyCollection.Web.Controllers.API
             return new CustomerResponse
             {
                 Id = customer.Id,
-                Address = customer.User.Address,
-                Document = customer.User.Document,
-                Email = customer.User.Email,
-                FirstName = customer.User.FirstName,
-                LastName = customer.User.LastName,
-                PhoneNumber = customer.User.PhoneNumber
+                Address = customer.Address,
+                Document = customer.Document,
+                Name = customer.Name,
+                PhoneNumber = customer.PhoneNumber,
+                CustomerImages = customer.CustomerImages?.Select(ci => new CustomerImageResponse
+                {
+                    Id = ci.Id,
+                    ImageUrl = ci.ImageFullPath
+                }).ToList(),
             };
         }
 
