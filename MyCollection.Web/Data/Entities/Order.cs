@@ -70,6 +70,9 @@ namespace MyCollection.Web.Data.Entities
         [Display(Name = "Estado")]
         public State State { get; set; }
 
+        [Display(Name = "Ayudante")]
+        public Helper Helper { get; set; }
+
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<MyCollection.Web.Data.Entities.Customer>
-
 @{
     ViewData["Title"] = "Clientes";
 }
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <br />
+
+<flash dismissable="true" />
 
 <p>
     <a asp-action="Create" class="btn btn-outline-primary">Crear Nuevo</a>
@@ -16,11 +17,11 @@
                 <h3 class="panel-title">Clientes</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-hover table-bordered" id="MyTable" style="width:100%">
+                <table class="table table-hover table-bordered" id="customerDatatable" style="width:100%">
                     <thead>
                         <tr>
                             <th>
-                                N°
+                                Id
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
@@ -40,73 +41,29 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
                             </th>
-                            <th></th>
+                            <th>
+                                Editar
+                            </th>
+                            <th>
+                                Detalles
+                            </th>
+                            <th>
+                                Eliminar
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Address)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Neighborhood)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PhoneNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Status)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Editar</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Detalles</a> |
-                                <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-
 <partial name="_DeleteDialog" />
 
-@section Scripts {
+@section Scripts
+{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#MyTable').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-                }
-            });
-            // Delete item
-            var item_to_delete;
-
-            $('.deleteItem').click((e) => {
-                item_to_delete = e.currentTarget.dataset.id;
-            });
-
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Customers/Delete/' + item_to_delete;
-            });
-        });
-    </script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/customerDatatable.js"></script>
 }

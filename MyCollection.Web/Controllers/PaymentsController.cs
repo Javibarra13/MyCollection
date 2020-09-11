@@ -31,7 +31,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extensions.IsntPaid()));
+                .Where(Extension.IsntPaid()));
         }
 
         public IActionResult Paid()
@@ -42,7 +42,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extensions.IsPaid()));
+                .Where(Extension.IsPaid()));
         }
 
         public IActionResult IsntPaid()
@@ -53,7 +53,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extensions.IsntPaid()));
+                .Where(Extension.IsntPaid()));
         }
 
         public IActionResult Payments()
@@ -65,7 +65,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extensions.IsntPaid())
+                .Where(Extension.IsntPaid())
                 .Where(s => s.Customer.Collector.Id == collector.Id));
         }
 

@@ -9,6 +9,7 @@ using MyCollection.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace MyCollection.Web.Controllers
 {
@@ -20,19 +21,22 @@ namespace MyCollection.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _imageHelper;
+        private readonly IFlashMessage _flashMessage;
 
         public CollectorsController(
             DataContext dataContext,
             IUserHelper userHelper,
             ICombosHelper combosHelper,
             IConverterHelper converterHelper,
-            IImageHelper imageHelper)
+            IImageHelper imageHelper,
+            IFlashMessage flashMessage)
         {
             _dataContext = dataContext;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
             _converterHelper = converterHelper;
             _imageHelper = imageHelper;
+            _flashMessage = flashMessage;
         }
 
         public IActionResult Index()
@@ -80,7 +84,7 @@ namespace MyCollection.Web.Controllers
                 var user = await AddUser(view);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "This email is already used.");
+                    ModelState.AddModelError(string.Empty, "Email esta actualmente en uso.");
                     return View(view);
                 }
 
@@ -92,6 +96,7 @@ namespace MyCollection.Web.Controllers
 
                 _dataContext.Collectors.Add(collector);
                 await _dataContext.SaveChangesAsync();
+                _flashMessage.Confirmation("Registro creado con éxito.");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -150,6 +155,7 @@ namespace MyCollection.Web.Controllers
                 var propertyCollector = await _converterHelper.ToPropertyCollectorAsync(viewModel, true);
                 _dataContext.PropertyCollectors.Add(propertyCollector);
                 await _dataContext.SaveChangesAsync();
+                _flashMessage.Confirmation("Registro creado con éxito.");
                 return RedirectToAction("Details","Collectors", new { id = viewModel.CollectorId });
             }
 
@@ -186,6 +192,7 @@ namespace MyCollection.Web.Controllers
                 var propertyCollector = await _converterHelper.ToPropertyCollectorAsync(viewModel, false);
                 _dataContext.PropertyCollectors.Update(propertyCollector);
                 await _dataContext.SaveChangesAsync();
+                _flashMessage.Info("Registro editado con éxito.");
                 return RedirectToAction("Details", "Collectors", new { id = viewModel.CollectorId });
             }
 
@@ -254,6 +261,7 @@ namespace MyCollection.Web.Controllers
 
                 _dataContext.PropertyCollectorImages.Add(propertyCollectorImage);
                 await _dataContext.SaveChangesAsync();
+                _flashMessage.Confirmation("Registro creado con éxito.");
                 return RedirectToAction("DetailsProperty", "Collectors", new { id = viewModel.Id });
             }
 
@@ -277,6 +285,7 @@ namespace MyCollection.Web.Controllers
 
             _dataContext.PropertyCollectorImages.Remove(propertyCollectorImage);
             await _dataContext.SaveChangesAsync();
+            _flashMessage.Danger("Registro eliminado con éxito.");
             return RedirectToAction("DetailsProperty", "Collectors", new { id = propertyCollectorImage.PropertyCollector.Id });
         }
 
@@ -326,7 +335,8 @@ namespace MyCollection.Web.Controllers
                 collector.User.PhoneNumber = viewModel.PhoneNumber;
 
                 await _userHelper.UpdateUserAsync(collector.User);
-                return RedirectToAction(nameof(Index));
+                _flashMessage.Info("Registro editado con éxito.");
+                return RedirectToAction("Details", "Collectors", new { id = viewModel.Id });
             }
 
             return View(viewModel);
@@ -342,22 +352,33 @@ namespace MyCollection.Web.Controllers
             var collector = await _dataContext.Collectors
                 .Include(c => c.User)
                 .Include(c => c.PropertyCollectors)
+                .Include(c => c.Customers)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (collector == null)
             {
                 return NotFound();
             }
 
-            if (collector.PropertyCollectors.Count != 0)
+            if (collector.PropertyCollectors.Count != 0 || collector.Customers.Count != 0)
             {
-                ModelState.AddModelError(string.Empty, "Collector has related registers");
+                _flashMessage.Danger("Registro no pudo ser eliminado, cuenta con registros relacionados.");
                 return RedirectToAction(nameof(Index));
             }
-
-            _dataContext.Collectors.Remove(collector);
-            await _dataContext.SaveChangesAsync();
-            await _userHelper.DeleteUserAsync(collector.User.Email);
-            return RedirectToAction(nameof(Index));
+            else 
+            {
+                try
+                {
+                    _dataContext.Collectors.Remove(collector);
+                    await _dataContext.SaveChangesAsync();
+                    await _userHelper.DeleteUserAsync(collector.User.Email);
+                    _flashMessage.Danger("Registro eliminado con éxito.");
+                }
+                catch
+                {
+                    _flashMessage.Danger("Registro no pudo ser eliminado, cuenta con registros relacionados.");
+                }
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         public async Task<IActionResult> DeleteProperty(int? id)
@@ -379,6 +400,7 @@ namespace MyCollection.Web.Controllers
             _dataContext.PropertyCollectorImages.RemoveRange(propertyCollector.PropertyCollectorImages);
             _dataContext.PropertyCollectors.Remove(propertyCollector);
             await _dataContext.SaveChangesAsync();
+            _flashMessage.Danger("Registro eliminado con éxito.");
             return RedirectToAction("Details", "Collectors", new { id = propertyCollector.Collector.Id });
         }
 

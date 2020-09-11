@@ -12,6 +12,11 @@ namespace MyCollection.Web.Data.Entities
 
         public User User { get; set; }
 
+        [Display(Name = "Comisión")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        public decimal Bond { get; set; }
+
         public ICollection<PropertySeller> PropertySellers { get; set; }
 
         public ICollection<Order> Orders { get; set; }

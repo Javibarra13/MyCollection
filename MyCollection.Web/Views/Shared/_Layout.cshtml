@@ -1,11 +1,13 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebStudio</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <header>
@@ -25,11 +27,12 @@
                                     Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Collectors" asp-action="Index">Cobradores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Helpers" asp-action="Index">Ayudantes</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Clientes</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Collectors" asp-action="Index">Cobradores</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Managers" asp-action="Index">Gerentes</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="Index">Vendedores</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Supervisors" asp-action="Index">Supervisores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="Index">Vendedores</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -114,6 +117,7 @@
         </nav>
     </header>
     <div class="container">
+        <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

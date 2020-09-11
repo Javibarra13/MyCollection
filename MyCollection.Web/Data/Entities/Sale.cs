@@ -75,10 +75,13 @@ namespace MyCollection.Web.Data.Entities
         [Display(Name = "Estado")]
         public State State { get; set; }
 
+        [Display(Name = "Ayudante")]
+        public Helper Helper { get; set; }
+
         public ICollection<SaleDetail> SaleDetails { get; set; }
     }
 
-    public static class Extensions
+    public static class Extension
     {
         public static Expression<Func<Sale, bool>> IsPaid()
         {

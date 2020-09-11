@@ -32,6 +32,23 @@ namespace MyCollection.Web.Helpers
             return list;
         }
 
+        public IEnumerable<SelectListItem> GetComboHelpers()
+        {
+            var list = _dataContext.Helpers.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = $"{c.Id}"
+            }).OrderBy(c => c.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccione un ayudante...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
         public IEnumerable<SelectListItem> GetComboProducts()
         {
             var list = _dataContext.Products.Select(c => new SelectListItem

@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Detalles";
 }
+    <flash dismissable="true" />
 
 <h2>Cliente</h2>
 <div class="row">
@@ -143,7 +144,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                                    <button data-id="@item.Id" class="btn btn-outline-danger deleteImage" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                                 </td>
                             </tr>
                         }

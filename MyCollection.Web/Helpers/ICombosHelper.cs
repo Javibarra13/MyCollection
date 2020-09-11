@@ -19,5 +19,6 @@ namespace MyCollection.Web.Helpers
         IEnumerable<SelectListItem> GetComboStates();
         IEnumerable<SelectListItem> GetComboProducts();
         IEnumerable<SelectListItem> GetComboWarehouses();
+        IEnumerable<SelectListItem> GetComboHelpers();
     }
 }

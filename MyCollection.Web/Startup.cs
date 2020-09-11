@@ -10,6 +10,7 @@ using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
 using MyCollection.Web.Helpers;
 using System.Text;
+using Vereyon.Web;
 
 namespace MyCollection.Web
 {
@@ -39,6 +40,8 @@ namespace MyCollection.Web
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddControllers();
+            services.AddRazorPages();
             services.AddAuthentication()
             .AddCookie()
             .AddJwtBearer(cfg =>
@@ -56,6 +59,7 @@ namespace MyCollection.Web
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddFlashMessage();
             services.AddControllersWithViews();
         }
 
@@ -82,6 +86,8 @@ namespace MyCollection.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

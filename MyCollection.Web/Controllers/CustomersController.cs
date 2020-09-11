@@ -7,10 +7,13 @@ using MyCollection.Web.Data.Entities;
 using MyCollection.Web.Extensions;
 using MyCollection.Web.Helpers;
 using MyCollection.Web.Models;
+using RandomGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace MyCollection.Web.Controllers
 {
@@ -22,105 +25,69 @@ namespace MyCollection.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly ICombosHelper _combosHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IFlashMessage _flashMessage;
 
         public CustomersController(
             DataContext dataContext,
             IImageHelper imageHelper,
             IUserHelper userHelper,
             ICombosHelper combosHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            IFlashMessage flashMessage)
         {
             _dataContext = dataContext;
             _imageHelper = imageHelper;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
             _converterHelper = converterHelper;
+            _flashMessage = flashMessage;
         }
 
-        //public IActionResult Index()
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            await SeedData();
-
-            //return View(_dataContext.Customers
-            //    .Include(c => c.House)
-            //    .Include(c => c.Collector)
-            //    .ThenInclude(c => c.User));
-
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoadTable([FromBody]DtParameters dtParameters)
+        public IActionResult GetCustomers()
         {
-            var searchBy = dtParameters.Search?.Value;
-
-            // if we have an empty search then just order the results by Id ascending
-            var orderCriteria = "Id";
-            var orderAscendingDirection = true;
-
-            if (dtParameters.Order != null)
+            try
             {
-                // in this example we just default sort on the 1st column
-                orderCriteria = dtParameters.Columns[dtParameters.Order[0].Column].Data;
-                orderAscendingDirection = dtParameters.Order[0].Dir.ToString().ToLower() == "asc";
-            }
-
-            var result = _dataContext.Customers.AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchBy))
-            {
-                result = result.Where(r => r.Name != null && r.Name.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.Address != null && r.Address.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.Neighborhood != null && r.Neighborhood.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.City != null && r.City.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.PhoneNumber != null && r.PhoneNumber.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.Status != null && r.Status.ToUpper().Contains(searchBy.ToUpper()));
-            }
-
-            result = orderAscendingDirection ? result.OrderByDynamic(orderCriteria, DtOrderDir.Asc) : result.OrderByDynamic(orderCriteria, DtOrderDir.Desc);
-
-            // now just get the count of items (without the skip and take) - eg how many could be returned with filtering
-            var filteredResultsCount = await result.CountAsync();
-            var totalResultsCount = await _dataContext.Customers.CountAsync();
-
-            return Json(new DtResult<Customer>
-            {
-                Draw = dtParameters.Draw,
-                RecordsTotal = totalResultsCount,
-                RecordsFiltered = filteredResultsCount,
-                Data = await result
-                    .Skip(dtParameters.Start)
-                    .Take(dtParameters.Length)
-                    .ToListAsync()
-            });
-        }
-
-        public async Task SeedData()
-        {
-            if (!_dataContext.Customers.Any())
-            {
-                for (var i = 0; i < 1000; i++)
+                var draw = Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                var customerData = (from c in _dataContext.Customers select c);
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
-                    await _dataContext.Customers.AddAsync(new Customer
-                    {
-                        Name = i % 2 == 0 ? Gen.Random.Names.Male()() : Gen.Random.Names.Female()(),
-                        FirstSurname = Gen.Random.Names.Surname()(),
-                        SecondSurname = Gen.Random.Names.Surname()(),
-                        Street = Gen.Random.Names.Full()(),
-                        Phone = Gen.Random.PhoneNumbers.WithRandomFormat()(),
-                        ZipCode = Gen.Random.Numbers.Integers(10000, 99999)().ToString(),
-                        Country = Gen.Random.Countries()(),
-                        Notes = Gen.Random.Text.Short()(),
-                        CreationDate = Gen.Random.Time.Dates(DateTime.Now.AddYears(-100), DateTime.Now)()
-                    });
+                    customerData = customerData.OrderBy(sortColumn + " " + sortColumnDirection);
                 }
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    customerData = customerData.Where(m => m.Name.Contains(searchValue)
+                                                || m.Address.Contains(searchValue)
+                                                || m.Neighborhood.Contains(searchValue)
+                                                || m.City.Contains(searchValue)
+                                                || m.Status.Contains(searchValue));
+                }
+                recordsTotal = customerData.Count();
+                var data = customerData.Skip(skip).Take(pageSize).ToList();
+                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+                return Ok(jsonData);
 
-                await _dataContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
-        public async Task<IActionResult> Details(int? id)
+    public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -249,6 +216,7 @@ namespace MyCollection.Web.Controllers
                 .ThenInclude(c => c.User)
                 .Include(c => c.House)
                 .FirstOrDefaultAsync(c => c.Id == id.Value);
+
             if (customer == null)
             {
                 return NotFound();
@@ -287,7 +255,11 @@ namespace MyCollection.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customer = await _dataContext.Customers.FirstOrDefaultAsync(o => o.Id == viewModel.Id);
+                var customer = await _dataContext.Customers
+                    .Include(c => c.House)
+                    .Include(c => c.Collector)
+                    .ThenInclude(c => c.User)
+                    .FirstOrDefaultAsync(o => o.Id == viewModel.Id);
 
                 customer.Document = viewModel.Document;
                 customer.House = await _dataContext.Houses.FindAsync(viewModel.HouseId);
@@ -307,6 +279,9 @@ namespace MyCollection.Web.Controllers
                 customer.Remarks = viewModel.Remarks;
                 customer.Status = viewModel.Status;
 
+                await _dataContext.SaveChangesAsync();
+                _flashMessage.Info("Registro editado con éxito.");
+
                 return RedirectToAction("Details", "Customers", new { id = customer.Id });
             }
 
@@ -322,15 +297,32 @@ namespace MyCollection.Web.Controllers
 
             var customers = await _dataContext.Customers
                 .Include(c => c.CustomerImages)
+                .Include(c => c.Sales)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (customers == null)
             {
                 return NotFound();
             }
 
-            _dataContext.CustomerImages.RemoveRange(customers.CustomerImages);
-            _dataContext.Customers.Remove(customers);
-            await _dataContext.SaveChangesAsync();
+            if (customers.Sales.Count != 0)
+            {
+                _flashMessage.Danger("Registro no pudo ser eliminado, cuenta con registros relacionados.");
+                return RedirectToAction(nameof(Index));
+            }
+            try
+            {
+                _dataContext.CustomerImages.RemoveRange(customers.CustomerImages);
+                _dataContext.Customers.Remove(customers);
+                await _dataContext.SaveChangesAsync();
+                _flashMessage.Confirmation("Registro eliminado con éxito.");
+            }
+            catch
+            {
+
+                _flashMessage.Danger("Registro no pudo ser eliminado, cuenta con registros relacionados.");
+            }
+            
             return RedirectToAction(nameof(Index));
         }
 
@@ -344,6 +336,7 @@ namespace MyCollection.Web.Controllers
             var customerImage = await _dataContext.CustomerImages
                 .Include(c => c.Customer)
                 .FirstOrDefaultAsync(pci => pci.Id == id.Value);
+
             if (customerImage == null)
             {
                 return NotFound();
@@ -351,7 +344,7 @@ namespace MyCollection.Web.Controllers
 
             _dataContext.CustomerImages.Remove(customerImage);
             await _dataContext.SaveChangesAsync();
-            return RedirectToAction("Details", "Customers", new { id = customerImage.Id });
+            return RedirectToAction("Details", "Customers", new { id = customerImage.Customer.Id });
         }
 
         private bool CustomerExists(int id)

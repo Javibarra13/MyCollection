@@ -32,6 +32,7 @@ namespace MyCollection.Web.Data
             var collector = await CheckUserAsync("2020", "Francisco", "Ayala", "frajavi3@hotmail.com", "6625129365", "De los Tributos 23", "Collector");
             var supervisor = await CheckUserAsync("2020", "Claudia", "Sosa", "clau201569@gmail.com", "6628486267", "Acacia Blanca 192", "Supervisor");
             await CheckPropertyTypesAsync();
+            await CheckHelpersAsync();
             await CheckHousesAsync();
             await CheckSublinesAsync();
             await CheckConceptsAsync();
@@ -73,6 +74,15 @@ namespace MyCollection.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckHelpersAsync()
+        {
+            if (!_context.Helpers.Any())
+            {
+                _context.Helpers.Add(new Entities.Helper { Name = "Fryda Sosa", Document = "2020", Address = "Avenida Central 798", PhoneNumber = "6625129365", Neighborhood = "Villa Central", City = "Hermosillo", Bond= .16M });
+                await _context.SaveChangesAsync();
+            }
+        }
+
         private async Task CheckDayPaymentsAsync()
         {
             if (!_context.DayPayments.Any())
@@ -273,7 +283,7 @@ namespace MyCollection.Web.Data
         {
             if (!_context.Sellers.Any())
             {
-                _context.Sellers.Add(new Seller { User = user });
+                _context.Sellers.Add(new Seller { User = user, Bond = .16M });
                 await _context.SaveChangesAsync();
             }
         }

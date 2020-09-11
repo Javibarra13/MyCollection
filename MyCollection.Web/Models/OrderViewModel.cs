@@ -50,6 +50,11 @@ namespace MyCollection.Web.Models
         [Range(1, int.MaxValue, ErrorMessage = "You must select a state.")]
         public int StateId { get; set; }
 
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Ayudante")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a helper.")]
+        public int HelperId { get; set; }
+
         public List<OrderTmp> Details2 { get; set; }
 
         public List<OrderDetailTmp> Details { get; set; }
@@ -72,5 +77,6 @@ namespace MyCollection.Web.Models
 
         public IEnumerable<SelectListItem> Warehouses { get; set; }
 
+        public IEnumerable<SelectListItem> Helpers { get; set; }
     }
 }

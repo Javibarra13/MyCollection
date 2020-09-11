@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyCollection.Web.Models
 {
+    ///This view model class has been referred from example created by Marien Monnier at Soft.it. All credits to Marien for this class
+
+    /// <summary>
+    /// A full result, as understood by jQuery DataTables.
+    /// </summary>
+    /// <typeparam name="T">The data type of each row.</typeparam>
     public class DtResult<T>
     {
         /// <summary>
@@ -207,4 +213,4 @@ namespace MyCollection.Web.Models
         /// </summary>
         public bool Regex { get; set; }
     }
-    }
+}

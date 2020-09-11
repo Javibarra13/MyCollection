@@ -311,6 +311,47 @@ namespace MyCollection.Web.Migrations
                     b.ToTable("DayPayments");
                 });
 
+            modelBuilder.Entity("MyCollection.Web.Data.Entities.Helper", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<decimal>("Bond")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Helpers");
+                });
+
             modelBuilder.Entity("MyCollection.Web.Data.Entities.House", b =>
                 {
                     b.Property<int>("Id")
@@ -462,6 +503,9 @@ namespace MyCollection.Web.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("HelperId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("HouseId")
                         .HasColumnType("int");
 
@@ -493,6 +537,8 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DayPaymentId");
+
+                    b.HasIndex("HelperId");
 
                     b.HasIndex("HouseId");
 
@@ -1213,6 +1259,9 @@ namespace MyCollection.Web.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("HelperId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("HouseId")
                         .HasColumnType("int");
 
@@ -1244,6 +1293,8 @@ namespace MyCollection.Web.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DayPaymentId");
+
+                    b.HasIndex("HelperId");
 
                     b.HasIndex("HouseId");
 
@@ -1348,6 +1399,9 @@ namespace MyCollection.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Bond")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -1672,6 +1726,10 @@ namespace MyCollection.Web.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("DayPaymentId");
 
+                    b.HasOne("MyCollection.Web.Data.Entities.Helper", "Helper")
+                        .WithMany("Orders")
+                        .HasForeignKey("HelperId");
+
                     b.HasOne("MyCollection.Web.Data.Entities.House", "House")
                         .WithMany("Orders")
                         .HasForeignKey("HouseId");
@@ -1869,6 +1927,10 @@ namespace MyCollection.Web.Migrations
                     b.HasOne("MyCollection.Web.Data.Entities.DayPayment", "DayPayment")
                         .WithMany("Sales")
                         .HasForeignKey("DayPaymentId");
+
+                    b.HasOne("MyCollection.Web.Data.Entities.Helper", "Helper")
+                        .WithMany("Sales")
+                        .HasForeignKey("HelperId");
 
                     b.HasOne("MyCollection.Web.Data.Entities.House", "House")
                         .WithMany("Sales")

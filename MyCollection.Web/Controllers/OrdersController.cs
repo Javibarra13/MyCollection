@@ -55,6 +55,7 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.DayPayment)
                 .Include(o => o.Seller)
                 .ThenInclude(s => s.User)
+                .Include(o => o.Helper)
                 .Include(o => o.Customer)
                 .Include(o => o.State)
                 .Include(o => o.OrderDetails)
@@ -81,6 +82,7 @@ namespace MyCollection.Web.Controllers
                     TypePayments = _combosHelper.GetComboTypePayments(),
                     DayPayments = _combosHelper.GetComboDayPayments(),
                     Sellers = _combosHelper.GetComboSellers(),
+                    Helpers = _combosHelper.GetComboHelpers(),
                     Warehouses = _combosHelper.GetComboWarehouses(),
                     CustomerId = orderTmp.Customer.Id,
                     CollectorId = orderTmp.Customer.Collector.Id,
@@ -118,6 +120,7 @@ namespace MyCollection.Web.Controllers
                             DayPayment = await _dataContext.DayPayments.FindAsync(viewModel.DayPaymentId),
                             TypePayment = await _dataContext.TypePayments.FindAsync(viewModel.TypePaymentId),
                             Seller = await _dataContext.Sellers.FindAsync(viewModel.SellerId),
+                            Helper = await _dataContext.Helpers.FindAsync(viewModel.HelperId),
                             Collector = await _dataContext.Collectors.FindAsync(viewModel.CollectorId),
                             State = await _dataContext.States.FindAsync(viewModel.StateId),
                         };
@@ -139,6 +142,7 @@ namespace MyCollection.Web.Controllers
                                 DayPayment = await _dataContext.DayPayments.FindAsync(viewModel.DayPaymentId),
                                 TypePayment = await _dataContext.TypePayments.FindAsync(viewModel.TypePaymentId),
                                 Seller = await _dataContext.Sellers.FindAsync(viewModel.SellerId),
+                                Helper = await _dataContext.Helpers.FindAsync(viewModel.HelperId),
                                 Collector = await _dataContext.Collectors.FindAsync(detail2.Customer.Collector.Id),
                                 State = await _dataContext.States.FindAsync(viewModel.StateId),
                             };
@@ -181,6 +185,7 @@ namespace MyCollection.Web.Controllers
             viewModel.TypePayments = _combosHelper.GetComboTypePayments();
             viewModel.DayPayments = _combosHelper.GetComboDayPayments();
             viewModel.Sellers = _combosHelper.GetComboSellers();
+            viewModel.Helpers = _combosHelper.GetComboHelpers();
             viewModel.States = _combosHelper.GetComboStates();
             viewModel.Warehouses = _combosHelper.GetComboWarehouses();
             viewModel.Details = _dataContext.OrderDetailTmps.Where(odt => odt.Username == User.Identity.Name).ToList();
@@ -203,6 +208,7 @@ namespace MyCollection.Web.Controllers
                 .Include(o => o.DayPayment)
                 .Include(o => o.Seller)
                 .ThenInclude(s => s.User)
+                .Include(o => o.Helper)
                 .Include(o => o.Customer)
                 .Include(o => o.State)
                 .Include(o => o.OrderDetails)
