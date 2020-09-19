@@ -55,17 +55,23 @@ namespace MyCollection.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
+            var url = App.Current.Resources["UrlApi"].ToString();
+            var connection = await _apiService.CheckConnectionAsync(url);
+            if (!connection)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", "Revisar conexión a internet.", "Aceptar");
+                return;
+            }
+
             var request = new TokenRequest
             {
                 Password = Password,
                 Username = Email
             };
 
-            var url = App.Current.Resources["UrlApi"].ToString();
             var response = await _apiService.GetTokenAsync(url, "/Account", "/CreateToken", request);
-
-            IsRunning = false;
-            IsEnabled = true;
 
             if (!response.IsSuccess)
             {
@@ -75,8 +81,25 @@ namespace MyCollection.Prism.ViewModels
             }
 
             var token = response.Result;
+            var response2 = await _apiService.GetCollectorByEmailAsync(url, "api", "/Collectors/GetCollectorByEmail", "bearer", token.Token, Email);
+            
+            if (!response2.IsSuccess)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", "Problema con datos de usuario, llamar a soporte.", "Aceptar");
+                return;
+            }
 
-            await App.Current.MainPage.DisplayAlert("Ok", "Fuck Yeah!!!.", "Aceptar");
+            var collector = response2.Result;
+            var parameters = new NavigationParameters
+            {
+                { "collector", collector }
+            };
+
+            await _navigationService.NavigateAsync("SalesPage", parameters);
+            IsRunning = false;
+            IsEnabled = true;
         }
     }
 }
