@@ -9,5 +9,9 @@ namespace MyCollection.Common.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public ICollection<OrderResponse> Orders { get; set; }
+
+        public ICollection<SaleResponse> Sales { get; set; }
     }
 }

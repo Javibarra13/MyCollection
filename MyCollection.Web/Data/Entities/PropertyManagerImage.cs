@@ -17,7 +17,7 @@ namespace MyCollection.Web.Data.Entities
 
         // TODO: Change the path when publish
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
-            ? "https://webstudio-mycollection.azurewebsites.net/images/PropertyManagerImages/noImage.png"
-            : $"https://webstudio-mycollection.azurewebsites.net{ImageUrl.Substring(1)}";
+            ? "https://mycollectionweb.azurewebsites.net/images/PropertyManagerImages/noImage.png"
+            : $"https://mycollectionweb.azurewebsites.net{ImageUrl.Substring(1)}";
     }
 }

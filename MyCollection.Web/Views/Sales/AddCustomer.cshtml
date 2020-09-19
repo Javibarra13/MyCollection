@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MyCollection.Web.Data.Entities.Customer>
-
 @{
     ViewData["Title"] = "Agregar Cliente";
 }
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <br />
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -12,14 +12,14 @@
                 <h3 class="panel-title">Agregar Cliente</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-hover table-bordered" id="MyTable" style="width:100%">
+                <table class="table table-hover table-bordered" id="addCustomers" style="width:100%">
                     <thead>
                         <tr>
                             <th>
-                                N°
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
                             </th>
                             <th>
-                                Nombre
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().Address)
@@ -31,94 +31,27 @@
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().City)
                             </th>
                             <th>
-                                Teléfono
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
                             </th>
-                            <th></th>
+                            <th>
+                                Agregar
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Address)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Neighborhood)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.City)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Status)
-                                </td>
-                                <td>
-                                    <button data-id="@item.Id" class="btn btn-outline-success addItem" data-toggle="modal" data-target="#addDialog">Agregar Cliente</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-<!--Delete Item-->
-<div class="modal fade" id="addDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Quieres agregar este registro?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-outline-success" id="btnYesDelete">Agregar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
+@section Scripts
+{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#MyTable').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-                }
-            });
-            // Delete item
-            var item_to_add;
-
-            $('.addItem').click((e) => {
-                item_to_add = e.currentTarget.dataset.id;
-            });
-
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Sales/AddCustomers/' + item_to_add;
-            });
-        });
-    </script>
+    <script src="~/js/addCustomer.js"></script>
 }

@@ -20,6 +20,14 @@ namespace MyCollection.Common.Models
 
         public string Email { get; set; }
 
+        public decimal Bond { get; set; }
+
+        public ICollection<PropertySellerResponse> PropertySellers { get; set; }
+
+        public ICollection<OrderResponse> Orders { get; set; }
+
+        public ICollection<SaleResponse> Sales { get; set; }
+
         public string FullName => $"{FirstName} {LastName}";
     }
 }

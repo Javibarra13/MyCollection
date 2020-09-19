@@ -13,5 +13,11 @@ namespace MyCollection.Common.Models
         public decimal Price { get; set; }
 
         public double Quantity { get; set; }
+
+        public decimal Value { get { return Price * (decimal)Quantity; } }
+
+        public int Sale { get; set; }
+
+        public int Product { get; set; }
     }
 }

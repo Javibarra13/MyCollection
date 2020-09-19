@@ -12,7 +12,7 @@ namespace MyCollection.Web.Data.Entities
         public Product Product { get; set; }
 
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
-    ? "https://webstudio-mycollection.azurewebsites.net/images/ProductImages/noImage.png"
-    : $"https://webstudio-mycollection.azurewebsites.net{ImageUrl.Substring(1)}";
+    ? "https://mycollectionweb.azurewebsites.net/images/ProductImages/noImage.png"
+    : $"https://mycollectionweb.azurewebsites.net{ImageUrl.Substring(1)}";
     }
 }

@@ -18,7 +18,8 @@ namespace MyCollection.Prism.ViewModels
         private bool _isEnabled;
         private DelegateCommand _loginCommand;
 
-        public LoginPageViewModel(INavigationService navigationService,
+        public LoginPageViewModel(
+            INavigationService navigationService,
             IApiService apiService) : base(navigationService)
         {
             Title = "Login";
@@ -41,27 +42,18 @@ namespace MyCollection.Prism.ViewModels
         {
             if (string.IsNullOrEmpty(Email))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Debes ingresar un Email", "Aceptar");
+                await App.Current.MainPage.DisplayAlert("Error", "Debe ingrasar un email.", "Aceptar");
                 return;
             }
+
             if (string.IsNullOrEmpty(Password))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Debes ingresar una Contraseña", "Aceptar");
+                await App.Current.MainPage.DisplayAlert("Error", "Debe ingrasar una contraseña.", "Aceptar");
                 return;
             }
 
             IsRunning = true;
             IsEnabled = false;
-
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var connection = await _apiService.CheckConnectionAsync(url);
-            if (!connection)
-            {
-                IsEnabled = true;
-                IsRunning = false;
-                await App.Current.MainPage.DisplayAlert("Error", "Verificar conexión a internet.", "Accept");
-                return;
-            }
 
             var request = new TokenRequest
             {
@@ -69,38 +61,22 @@ namespace MyCollection.Prism.ViewModels
                 Username = Email
             };
 
+            var url = App.Current.Resources["UrlApi"].ToString();
             var response = await _apiService.GetTokenAsync(url, "/Account", "/CreateToken", request);
 
-            if(!response.IsSuccess)
+            IsRunning = false;
+            IsEnabled = true;
+
+            if (!response.IsSuccess)
             {
-                IsRunning = false;
-                IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert("Error", "Usuario o Contraseña incorrectos", "Aceptar");
+                await App.Current.MainPage.DisplayAlert("Error", "Email o contraseña son incorrectos.", "Aceptar");
                 Password = string.Empty;
                 return;
             }
 
             var token = response.Result;
-            var response2 = await _apiService.GetCollectorByEmailAsync(url, "api", "/Collectors/GetCollectorByEmail", "bearer", token.Token, Email);
 
-            if (!response2.IsSuccess)
-            {
-                IsRunning = false;
-                IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert("Error", "Problemas con datos de usuario. LLamar a soporte", "Aceptar");
-                Password = string.Empty;
-                return;
-            }
-
-            var collector = response2.Result;
-            var parameters = new NavigationParameters
-            {
-                { "collector", collector }
-            };
-
-            await _navigationService.NavigateAsync("SalesPage", parameters);
-            IsRunning = false;
-            IsEnabled = true;
+            await App.Current.MainPage.DisplayAlert("Ok", "Fuck Yeah!!!.", "Aceptar");
         }
     }
 }

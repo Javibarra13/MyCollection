@@ -113,7 +113,7 @@ namespace MyCollection.Web.Data.Entities
         public ICollection<SaleDetailTmp> SaleDetailTmps { get; set; }
 
         public string FirstImage => ProductImages == null || ProductImages.Count == 0
-            ? "https://webstudio-mycollection.azurewebsites.net/images/ProductImages/noImage.png"
+            ? "https://mycollectionweb.azurewebsites.net/images/ProductImages/noImage.png"
             : ProductImages.FirstOrDefault().ImageUrl;
     }
 }

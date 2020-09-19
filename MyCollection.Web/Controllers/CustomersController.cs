@@ -48,46 +48,58 @@ namespace MyCollection.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult GetCustomers()
+        public IActionResult LoadData()
         {
             try
             {
-                var draw = Request.Form["draw"].FirstOrDefault();
+                var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
+
                 var start = Request.Form["start"].FirstOrDefault();
+
                 var length = Request.Form["length"].FirstOrDefault();
+
                 var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+
                 var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+
                 var searchValue = Request.Form["search[value]"].FirstOrDefault();
+
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
+
                 int skip = start != null ? Convert.ToInt32(start) : 0;
+
                 int recordsTotal = 0;
-                var customerData = (from c in _dataContext.Customers select c);
+
+                var customerData = _dataContext.Customers.AsQueryable();
+
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
                     customerData = customerData.OrderBy(sortColumn + " " + sortColumnDirection);
                 }
+
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    customerData = customerData.Where(m => m.Name.Contains(searchValue)
-                                                || m.Address.Contains(searchValue)
-                                                || m.Neighborhood.Contains(searchValue)
-                                                || m.City.Contains(searchValue)
-                                                || m.Status.Contains(searchValue));
+                    customerData = customerData.Where(m => m.Name.Contains(searchValue) ||
+                                                           m.Address.Contains(searchValue) ||
+                                                           m.Neighborhood.Contains(searchValue) ||
+                                                           m.Id.ToString().Contains(searchValue)).AsQueryable();
                 }
+
                 recordsTotal = customerData.Count();
+
                 var data = customerData.Skip(skip).Take(pageSize).ToList();
-                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
-                return Ok(jsonData);
+
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
+
         }
 
-    public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {

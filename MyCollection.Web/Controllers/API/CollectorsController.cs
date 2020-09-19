@@ -24,7 +24,7 @@ namespace MyCollection.Web.Controllers.API
 
         [HttpPost]
         [Route("GetCollectorByEmail")]
-        public async Task<IActionResult> GetCollectorByEmailAsync(EmailRequest emailRequest)
+        public async Task<IActionResult> GetCollectorByEmailAsync(EmailRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -37,16 +37,6 @@ namespace MyCollection.Web.Controllers.API
                 .ThenInclude(pc => pc.PropertyType)
                 .Include(c => c.PropertyCollectors)
                 .ThenInclude(pc => pc.PropertyCollectorImages)
-                .Include(c => c.Customers)
-                .Include(c => c.Customers)
-                .ThenInclude(c => c.CustomerImages)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.Warehouse)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.House)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.Collector)
-                .ThenInclude(c => c.User)
                 .Include(c => c.Sales)
                 .ThenInclude(s => s.TypePayment)
                 .Include(c => c.Sales)
@@ -55,10 +45,14 @@ namespace MyCollection.Web.Controllers.API
                 .ThenInclude(s => s.Seller)
                 .ThenInclude(s => s.User)
                 .Include(c => c.Sales)
-                .ThenInclude(s => s.State)
+                .ThenInclude(s => s.Customer)
                 .Include(c => c.Sales)
                 .ThenInclude(s => s.SaleDetails)
-                .FirstOrDefaultAsync(c => c.User.Email.ToLower() == emailRequest.Email.ToLower());
+                .ThenInclude(sd => sd.Product)
+                .Include(c => c.Sales)
+                .ThenInclude(s => s.Payments)
+                .ThenInclude(p => p.Concept)
+                .FirstOrDefaultAsync(c => c.User.Email.ToLower() == request.Email.ToLower());
 
             if (collector == null)
             {
@@ -74,30 +68,6 @@ namespace MyCollection.Web.Controllers.API
                 Document = collector.User.Document,
                 Email = collector.User.Email,
                 PhoneNumber = collector.User.PhoneNumber,
-                Sales = collector.Sales?.Select(s => new SaleResponse
-                { 
-                    Id = s.Id,
-                    StartDate = s.StartDate,
-                    EndDate = s.EndDate,
-                    Payment = s.Payment,
-                    Deposit = s.Deposit,
-                    Remarks = s.Remarks,
-                    Warehouse = s.Warehouse.Name,
-                    House = s.House.Name,
-                    Collector = ToCollectorResponse(s.Collector),
-                    TypePayment = s.TypePayment.Name,
-                    DayPayment = s.DayPayment.Name,
-                    Seller = s.Seller.User.FullName,
-                    Customer = ToCustomerResponse(s.Customer),
-                    State = s.State.Name,
-                    SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
-                    { 
-                        Id = sd.Id,
-                        Name = sd.Name,
-                        Price = sd.Price,
-                        Quantity = sd.Quantity,
-                    }).ToList(),
-                }).ToList(),
                 PropertyCollectors = collector.PropertyCollectors?.Select(pc => new PropertyCollectorResponse
                 {
                     Id = pc.Id,
@@ -108,88 +78,66 @@ namespace MyCollection.Web.Controllers.API
                     Price = pc.Price,
                     IsAvailable = pc.IsAvailable,
                     Remarks = pc.Remarks,
+                    PropertyType = pc.PropertyType.Name,
                     PropertyCollectorImages = pc.PropertyCollectorImages?.Select(pci => new PropertyCollectorImageResponse
                     {
                         Id = pci.Id,
                         ImageUrl = pci.ImageFullPath
+                    }).ToList()
+                }).ToList(),
+                Sales = collector.Sales?.Select(s => new SaleResponse
+                { 
+                    Id = s.Id,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    Payment = s.Payment,
+                    Deposit = s.Deposit,
+                    Remarks = s.Remarks,
+                    TypePayment = s.TypePayment.Name,
+                    DayPayment = s.DayPayment.Name,
+                    Seller = s.Seller.User.FullName,
+                    Collector = s.Collector.Id,
+                    Customer = s.Customer.Id,
+                    SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
+                    { 
+                        Id = sd.Id,
+                        Name = sd.Name,
+                        Price = sd.Price,
+                        Quantity = sd.Quantity,
+                        Sale = sd.Sale.Id,
+                        Product = sd.Product.Id
                     }).ToList(),
-                    PropertyType = pc.PropertyType.Name,
+                    Payments = s.Payments?.Select(p => new PaymentResponse
+                    { 
+                        Id = p.Id,
+                        Collector = p.Collector.Id,
+                        Sale = p.Sale.Id,
+                        Customer = p.Customer.Id,
+                        Concept = p.Concept.Name,
+                        Type = p.Type,
+                        Date = p.Date,
+                        Deposit = p.Deposit
+                    }).ToList()
                 }).ToList()
             };
 
             return Ok(response);
         }
 
-        private CollectorResponse ToCollectorResponse(Collector collector)
-        {
-            return new CollectorResponse
-            {
-                Id = collector.Id,
-                Address = collector.User.Address,
-                Document = collector.User.Document,
-                Email = collector.User.Email,
-                FirstName = collector.User.FirstName,
-                LastName = collector.User.LastName,
-                PhoneNumber = collector.User.PhoneNumber
-            };
-        }
+        //private CollectorResponse ToCollectorsResponse(Collector collector)
+        //{
+        //    return new CollectorResponse
+        //    {
+        //        Id = collector.Id,
+        //        FirstName = collector.User.FirstName,
+        //        LastName = collector.User.LastName,
+        //        Document = collector.User.Document,
+        //        Address = collector.User.Address,
+        //        PhoneNumber = collector.User.PhoneNumber,
+        //        Email = collector.User.Email
+        //    };
+        //}
 
-        private TypePaymentResponse ToTypePaymentResponse(TypePayment typePayment)
-        {
-            return new TypePaymentResponse
-            {
-                Id = typePayment.Id,
-                Name = typePayment.Name
-            };
-        }
-
-        private DayPaymentResponse ToDayPaymentResponse(DayPayment dayPayment)
-        {
-            return new DayPaymentResponse
-            {
-                Id = dayPayment.Id,
-                Name = dayPayment.Name
-            };
-        }
-
-        private SellerResponse ToSellerResponse(Seller seller)
-        {
-            return new SellerResponse
-            {
-                Id = seller.Id,
-                Address = seller.User.Address,
-                Document = seller.User.Document,
-                Email = seller.User.Email,
-                FirstName = seller.User.FirstName,
-                LastName = seller.User.LastName,
-                PhoneNumber = seller.User.PhoneNumber
-            };
-        }
-
-        private CustomerResponse ToCustomerResponse(Customer customer)
-        {
-            return new CustomerResponse
-            {
-                Id = customer.Id,
-                Address = customer.Address,
-                Document = customer.Document,
-                Name = customer.Name,
-                PhoneNumber = customer.PhoneNumber,
-                CustomerImages = customer.CustomerImages?.Select(ci => new CustomerImageResponse
-                {
-                    Id = ci.Id,
-                    ImageUrl = ci.ImageFullPath
-                }).ToList(),
-            };
-        }
-
-        private StateResponse ToStateResponse(State state)
-        {
-            return new StateResponse
-            {
-                Id = state.Id,
-                Name = state.Name
-            };
-        }
     }
+
 }
