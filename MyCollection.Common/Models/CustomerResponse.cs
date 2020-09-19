@@ -39,9 +39,9 @@ namespace MyCollection.Common.Models
 
         //public string Status { get; set; }
 
-        public string House { get; set; }
+        public int House { get; set; }
 
-        public string Collector { get; set; }
+        public int Collector { get; set; }
 
         public ICollection<CustomerImageResponse> CustomerImages { get; set; }
 

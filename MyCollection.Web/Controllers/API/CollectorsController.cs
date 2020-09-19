@@ -37,6 +37,10 @@ namespace MyCollection.Web.Controllers.API
                 .ThenInclude(pc => pc.PropertyType)
                 .Include(c => c.PropertyCollectors)
                 .ThenInclude(pc => pc.PropertyCollectorImages)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.House)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.CustomerImages)
                 .Include(c => c.Sales)
                 .ThenInclude(s => s.TypePayment)
                 .Include(c => c.Sales)
@@ -83,6 +87,75 @@ namespace MyCollection.Web.Controllers.API
                     {
                         Id = pci.Id,
                         ImageUrl = pci.ImageFullPath
+                    }).ToList()
+                }).ToList(),
+                Customers = collector.Customers?.Select(c => new CustomerResponse
+                { 
+                    Id = c.Id,
+                    Name = c.Name,
+                    Address = c.Address,
+                    Neighborhood = c.Neighborhood,
+                    City = c.City,
+                    PhoneNumber = c.PhoneNumber,
+                    PostalCode = c.PostalCode,
+                    Remarks = c.Remarks,
+                    RefName = c.RefName,
+                    RefAddress = c.RefAddress,
+                    RefPhone = c.RefPhone,
+                    RefName2 = c.RefName2,
+                    RefAddress2 = c.RefAddress2,
+                    RefPhone2 = c.RefPhone2,
+                    House = c.House.Id,
+                    Collector = c.Collector.Id,
+                    CustomerImages = c.CustomerImages?.Select(ci => new CustomerImageResponse
+                    {
+                        Id = ci.Id,
+                        ImageUrl = ci.ImageFullPath
+                    }).ToList(),
+                    Sales = c.Sales?.Select(s => new SaleResponse
+                    {
+                        Id = s.Id,
+                        StartDate = s.StartDate,
+                        EndDate = s.EndDate,
+                        Payment = s.Payment,
+                        Deposit = s.Deposit,
+                        Remarks = s.Remarks,
+                        TypePayment = s.TypePayment.Name,
+                        DayPayment = s.DayPayment.Name,
+                        Seller = s.Seller.User.FullName,
+                        Collector = s.Collector.Id,
+                        Customer = s.Customer.Id,
+                        SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
+                        {
+                            Id = sd.Id,
+                            Name = sd.Name,
+                            Price = sd.Price,
+                            Quantity = sd.Quantity,
+                            Sale = sd.Sale.Id,
+                            Product = sd.Product.Id
+                        }).ToList(),
+                        Payments = s.Payments?.Select(p => new PaymentResponse
+                        {
+                            Id = p.Id,
+                            Collector = p.Collector.Id,
+                            Sale = p.Sale.Id,
+                            Customer = p.Customer.Id,
+                            Concept = p.Concept.Name,
+                            Type = p.Type,
+                            Date = p.Date,
+                            Deposit = p.Deposit
+                        }).ToList()
+                    }).ToList(),
+                    Payments = c.Payments?.Select(p => new PaymentResponse
+                    {
+                        Id = p.Id,
+                        Collector = p.Collector.Id,
+                        Sale = p.Sale.Id,
+                        Customer = p.Customer.Id,
+                        Concept = p.Concept.Name,
+                        Type = p.Type,
+                        Date = p.Date,
+                        Deposit = p.Deposit
                     }).ToList()
                 }).ToList(),
                 Sales = collector.Sales?.Select(s => new SaleResponse

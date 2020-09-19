@@ -32,6 +32,7 @@ namespace MyCollection.Prism
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<SalesPage, SalesPageViewModel>();
+            containerRegistry.RegisterForNavigation<CustomersPage, CustomersPageViewModel>();
         }
     }
 }

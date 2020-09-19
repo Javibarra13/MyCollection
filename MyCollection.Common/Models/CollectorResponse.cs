@@ -22,7 +22,7 @@ namespace MyCollection.Common.Models
 
         public ICollection<PropertyCollectorResponse> PropertyCollectors { get; set; }
 
-        //public ICollection<CustomerResponse> Customers { get; set; }
+        public ICollection<CustomerResponse> Customers { get; set; }
 
         //public ICollection<OrderResponse> Orders { get; set; }
 

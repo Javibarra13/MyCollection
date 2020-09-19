@@ -97,7 +97,7 @@ namespace MyCollection.Prism.ViewModels
                 { "collector", collector }
             };
 
-            await _navigationService.NavigateAsync("SalesPage", parameters);
+            await _navigationService.NavigateAsync("CustomersPage", parameters);
             IsRunning = false;
             IsEnabled = true;
         }

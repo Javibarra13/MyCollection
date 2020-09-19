@@ -4,23 +4,22 @@ using System.Collections.ObjectModel;
 
 namespace MyCollection.Prism.ViewModels
 {
-    public class SalesPageViewModel : ViewModelBase
+    public class CustomersPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private CollectorResponse _collector;
-        private ObservableCollection<SaleResponse> _sales;
+        private ObservableCollection<CustomerResponse> _customers;
 
-        public SalesPageViewModel(
-            INavigationService navigationService) : base(navigationService)
+        public CustomersPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Ventas";
+            Title = "Clientes";
             _navigationService = navigationService;
         }
 
-        public ObservableCollection<SaleResponse> Sales
+        public ObservableCollection<CustomerResponse> Customers
         {
-            get => _sales;
-            set => SetProperty(ref _sales, value);
+            get => _customers;
+            set => SetProperty(ref _customers, value);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -30,8 +29,8 @@ namespace MyCollection.Prism.ViewModels
             if (parameters.ContainsKey("collector"))
             {
                 _collector = parameters.GetValue<CollectorResponse>("collector");
-                Title = $"Ventas de: {_collector.FullName}";
-                Sales = new ObservableCollection<SaleResponse>(_collector.Sales);
+                Title = $"Clientes de: {_collector.FullName}";
+                Customers = new ObservableCollection<CustomerResponse>(_collector.Customers);
             }
         }
     }
