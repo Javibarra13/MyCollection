@@ -1,0 +1,30 @@
+﻿using MyCollection.Common.Models;
+using Prism.Commands;
+using Prism.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MyCollection.Prism.ViewModels
+{
+    public class CustomerItemViewModel : CustomerResponse
+    {
+        private readonly INavigationService _navigationService;
+        private DelegateCommand _selectCustomerCommand;
+        public CustomerItemViewModel(INavigationService navigationService) 
+        {
+            _navigationService = navigationService;
+        }
+
+        public DelegateCommand SelectCustomerCommand => _selectCustomerCommand ?? (_selectCustomerCommand = new DelegateCommand(SelectCustomer));
+
+        private async void SelectCustomer()
+        {
+            var parameters = new NavigationParameters
+            {
+                { "customer", this }
+            };
+            await _navigationService.NavigateAsync("CustomerPage", parameters);
+        }
+    }
+}

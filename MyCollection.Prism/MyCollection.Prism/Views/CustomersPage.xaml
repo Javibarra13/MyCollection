@@ -20,6 +20,9 @@
                         <Frame
                             CornerRadius="10"
                             Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectCustomerCommand}"/>
+                            </Frame.GestureRecognizers>
                             <StackLayout>
                                 <ffimageloading:CachedImage
 	                            Source="{Binding FirstImage}"
@@ -32,8 +35,8 @@
 	                            WidthRequest="200"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid
                                 Grid.Column="0">
@@ -91,7 +94,7 @@
                                     Grid.Row="4"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    Text="City"/>
+                                    Text="Ciudad"/>
                                         <Label
                                     Grid.Row="4"
                                     Grid.Column="1"
@@ -100,7 +103,7 @@
                                     Grid.Row="5"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    Text="Télefono"/>
+                                    Text="Teléfono"/>
                                         <Label
                                     Grid.Row="5"
                                     Grid.Column="1"
