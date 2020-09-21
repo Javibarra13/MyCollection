@@ -1,4 +1,6 @@
-﻿using MyCollection.Common.Models;
+﻿using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -24,7 +26,7 @@ namespace MyCollection.Prism.ViewModels
             {
                 { "customer", this }
             };
-            await _navigationService.NavigateAsync("CustomerPage", parameters);
+            await _navigationService.NavigateAsync("SalesPage", parameters);
         }
     }
 }

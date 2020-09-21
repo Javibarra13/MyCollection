@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MyCollection.Prism.Views.SalePage"
+             Title="{Binding Title}">
+    <ScrollView>
+        <StackLayout
+            Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Id"/>
+                <Label 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.Id}"/>
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Fecha Inicio"/>
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.StartDate, StringFormat='{0:dd:MM:yyyy}'}"/>
+                <Label 
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Fecha Final"/>
+                <Label 
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.EndDate, StringFormat='{0:dd:MM:yyyy}'}"/>
+                <Label 
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Notas"/>
+                <Label 
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.Remarks}"/>
+                <Label 
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Abono"/>
+                <Label 
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.Deposit, StringFormat='{0:C2}'}"/>
+                <Label 
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Vendedor"/>
+                <Label 
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.Seller}"/>
+                <Label 
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Tipo de Pago"/>
+                <Label 
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.TypePayment}"/>
+                <Label 
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Dia de Pago"/>
+                <Label 
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Text="{Binding Sale.DayPayment}"/>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+  
+</ContentPage>

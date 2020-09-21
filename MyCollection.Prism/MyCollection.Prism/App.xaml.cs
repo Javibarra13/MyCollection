@@ -18,6 +18,8 @@ namespace MyCollection.Prism
 
         protected override async void OnInitialized()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzE5Nzk1QDMxMzgyZTMyMmUzMGwrV0pvYjFlSXY1WmFaNTMrU1lEVzNGWGJJYUJiMElBVUxnWHBzTllDeVk9");
+
             InitializeComponent();
 
             await NavigationService.NavigateAsync("NavigationPage/LoginPage");
@@ -34,6 +36,7 @@ namespace MyCollection.Prism
             containerRegistry.RegisterForNavigation<SalesPage, SalesPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomersPage, CustomersPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomerPage, CustomerPageViewModel>();
+            containerRegistry.RegisterForNavigation<SalePage, SalePageViewModel>();
         }
     }
 }

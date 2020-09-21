@@ -12,6 +12,7 @@
         Padding="10">
         <ListView
             HasUnevenRows="True"
+            BackgroundColor="Transparent"
             ItemsSource="{Binding Customers}"
             SeparatorVisibility="None">
             <ListView.ItemTemplate>
@@ -25,8 +26,10 @@
                             </Frame.GestureRecognizers>
                             <StackLayout>
                                 <ffimageloading:CachedImage
+                                Aspect="AspectFit"
 	                            Source="{Binding FirstImage}"
 	                            LoadingPlaceholder= "LoaderImage"
+                                HeightRequest="200"
 	                            ErrorPlaceholder= "ErrorImage"
 	                            CacheDuration= "50"
 	                            RetryCount= "3"
