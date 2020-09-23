@@ -1,6 +1,7 @@
-﻿using MyCollection.Common.Models;
+﻿using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
+using Newtonsoft.Json;
 using Prism.Navigation;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -9,34 +10,24 @@ namespace MyCollection.Prism.ViewModels
     public class SalesPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private CollectorResponse _collector;
         private CustomerResponse _customer;
         private ObservableCollection<SaleItemViewModel> _sales;
 
-        public SalesPageViewModel(
-            INavigationService navigationService) : base(navigationService)
+        public SalesPageViewModel(INavigationService navigationService) : base(navigationService)
         {
+            Customer = JsonConvert.DeserializeObject<CustomerResponse>(Settings.Customer);
+            LoadSales();
             Title = "Ventas";
             _navigationService = navigationService;
         }
+        public CustomerResponse Customer { get => _customer; set => SetProperty(ref _customer, value); }
 
-        public ObservableCollection<SaleItemViewModel> Sales{ get => _sales; set => SetProperty(ref _sales, value); }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            if (parameters.ContainsKey("customer"))
-            {
-                _customer = parameters.GetValue<CustomerResponse>("customer");
-                LoadSales();
-            }
-        }
+        public ObservableCollection<SaleItemViewModel> Sales { get => _sales; set => SetProperty(ref _sales, value); }
 
         private void LoadSales()
         {
-            Sales = new ObservableCollection<SaleItemViewModel>(_customer.Sales.Select(s => new SaleItemViewModel(_navigationService)
-            { 
+            Sales = new ObservableCollection<SaleItemViewModel>(Customer.Sales.Select(s => new SaleItemViewModel(_navigationService)
+            {
                 Id = s.Id,
                 StartDate = s.StartDate,
                 EndDate = s.EndDate,

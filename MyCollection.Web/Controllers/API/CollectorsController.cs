@@ -197,20 +197,6 @@ namespace MyCollection.Web.Controllers.API
             return Ok(response);
         }
 
-        //private CollectorResponse ToCollectorsResponse(Collector collector)
-        //{
-        //    return new CollectorResponse
-        //    {
-        //        Id = collector.Id,
-        //        FirstName = collector.User.FirstName,
-        //        LastName = collector.User.LastName,
-        //        Document = collector.User.Document,
-        //        Address = collector.User.Address,
-        //        PhoneNumber = collector.User.PhoneNumber,
-        //        Email = collector.User.Email
-        //    };
-        //}
-
     }
 
 }

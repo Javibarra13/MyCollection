@@ -22,11 +22,8 @@ namespace MyCollection.Prism.ViewModels
 
         private async void SelectCustomer()
         {
-            var parameters = new NavigationParameters
-            {
-                { "customer", this }
-            };
-            await _navigationService.NavigateAsync("SalesPage", parameters);
+            Settings.Customer = JsonConvert.SerializeObject(this);
+            await _navigationService.NavigateAsync("DetailsTabbedPage");
         }
     }
 }

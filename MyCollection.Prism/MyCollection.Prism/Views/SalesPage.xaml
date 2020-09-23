@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyCollection.Prism.Views.SalesPage"
+             IconImageSource="ic_action_list_alt"
              Title="{Binding Title}">
 
     <StackLayout

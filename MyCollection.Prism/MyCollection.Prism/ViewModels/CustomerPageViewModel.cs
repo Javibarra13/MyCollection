@@ -1,4 +1,6 @@
-﻿using MyCollection.Common.Models;
+﻿using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -17,7 +19,7 @@ namespace MyCollection.Prism.ViewModels
 
         public CustomerPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Cliente";
+            Title = "Detalles";
             _navigationService = navigationService;
         }
 
@@ -28,23 +30,16 @@ namespace MyCollection.Prism.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-
-            if (parameters.ContainsKey("customer"))
-            {
-                Customer = parameters.GetValue<CustomerResponse>("customer");
-                Title = $"Cliente: {Customer.Name}";
-                LoadImages();
-            }
+            Customer = JsonConvert.DeserializeObject<CustomerResponse>(Settings.Customer);
+            LoadImages();
         }
+
         private void LoadImages()
         {
-            var list = new List<RotatorModel>();
-            foreach (var customerImage in Customer.CustomerImages)
+            ImageCollection = new ObservableCollection<RotatorModel>(_customer.CustomerImages.Select(ci => new RotatorModel
             {
-                list.Add(new RotatorModel { Image = customerImage.ImageUrl });
-            }
-
-            ImageCollection = new ObservableCollection<RotatorModel>(list);
+                Image = ci.ImageUrl
+            }).ToList());
         }
     }
 }

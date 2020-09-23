@@ -24,6 +24,7 @@ namespace MyCollection.Prism.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
             if (parameters.ContainsKey("sale"))
             {
                 Sale = parameters.GetValue<SaleResponse>("sale");

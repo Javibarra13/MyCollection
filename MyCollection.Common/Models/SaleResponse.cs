@@ -35,13 +35,5 @@ namespace MyCollection.Common.Models
         public ICollection<PaymentResponse> Payments { get; set; }
 
         public ICollection<SaleDetailResponse> SaleDetails { get; set; }
-
-        //public WarehouseResponse Warehouse { get; set; }
-
-        //public HouseResponse House { get; set; }
-
-        //public StateResponse State { get; set; }
-
-        //public HelperResponse Helper { get; set; }
     }
 }

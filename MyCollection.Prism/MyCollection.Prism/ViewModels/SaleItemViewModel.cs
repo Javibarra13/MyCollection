@@ -1,7 +1,6 @@
 ﻿using MyCollection.Common.Models;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 
 namespace MyCollection.Prism.ViewModels
 {
@@ -23,6 +22,7 @@ namespace MyCollection.Prism.ViewModels
             {
                 { "sale", this }
             };
+
             await _navigationService.NavigateAsync("SalePage", parameters);
         }
     }
