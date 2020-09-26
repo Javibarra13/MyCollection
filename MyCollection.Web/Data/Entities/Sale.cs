@@ -78,6 +78,9 @@ namespace MyCollection.Web.Data.Entities
         [Display(Name = "Ayudante")]
         public Helper Helper { get; set; }
 
+        [Display(Name = "Pagado?")]
+        public bool Pending { get; set; }
+
         public ICollection<SaleDetail> SaleDetails { get; set; }
     }
 

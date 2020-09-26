@@ -5,6 +5,7 @@
             xmlns:views="clr-namespace:MyCollection.Prism.Views"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="MyCollection.Prism.Views.DetailsTabbedPage"
+            BackgroundColor="{StaticResource colorBackground}"
             Title="{Binding Title}">
     
     <TabbedPage.Children>

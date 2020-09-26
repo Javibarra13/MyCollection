@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace MyCollection.Common.Models
@@ -32,8 +34,11 @@ namespace MyCollection.Common.Models
 
         public int Customer { get; set; }
 
+        public bool Pending { get; set; }
+
         public ICollection<PaymentResponse> Payments { get; set; }
 
         public ICollection<SaleDetailResponse> SaleDetails { get; set; }
+
     }
 }

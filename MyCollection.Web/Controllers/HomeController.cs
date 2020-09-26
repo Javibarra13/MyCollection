@@ -18,6 +18,12 @@ namespace MyCollection.Web.Controllers
             _logger = logger;
         }
 
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

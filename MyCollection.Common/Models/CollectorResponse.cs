@@ -26,7 +26,7 @@ namespace MyCollection.Common.Models
 
         //public ICollection<OrderResponse> Orders { get; set; }
 
-        public ICollection<SaleResponse> Sales { get; set; }
+        //public ICollection<SaleResponse> Sales { get; set; }
 
         //public ICollection<PaymentResponse> Payments { get; set; }
 

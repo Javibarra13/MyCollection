@@ -1,11 +1,7 @@
 ﻿using MyCollection.Common.Helpers;
 using MyCollection.Common.Models;
 using Newtonsoft.Json;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -23,7 +19,7 @@ namespace MyCollection.Prism.ViewModels
             _navigationService = navigationService;
         }
 
-        public ObservableCollection<RotatorModel> ImageCollection { get => _imageCollection; set => SetProperty(ref _imageCollection, value);}
+        public ObservableCollection<RotatorModel> ImageCollection { get => _imageCollection; set => SetProperty(ref _imageCollection, value); }
 
         public CustomerResponse Customer { get => _customer; set => SetProperty(ref _customer, value); }
 

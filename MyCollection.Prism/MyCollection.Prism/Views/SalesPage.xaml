@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyCollection.Prism.Views.SalesPage"
              IconImageSource="ic_action_list_alt"
+             BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
 
     <StackLayout

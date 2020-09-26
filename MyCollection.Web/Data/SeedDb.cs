@@ -28,9 +28,9 @@ namespace MyCollection.Web.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckRoles();
             var manager = await CheckUserAsync("1010", "Javier", "Ibarra", "frajavi3@gmail.com", "6625129365", "Acacia Blanca 192", "Manager");
-            var seller = await CheckUserAsync("2020", "Juan", "Zuluaga", "jzuluaga55@hotmail.com", "350 634 2747", "Calle Luna Calle Sol", "Seller");
-            var collector = await CheckUserAsync("2020", "Francisco", "Ayala", "frajavi3@hotmail.com", "6625129365", "De los Tributos 23", "Collector");
-            var supervisor = await CheckUserAsync("2020", "Claudia", "Sosa", "clau201569@gmail.com", "6628486267", "Acacia Blanca 192", "Supervisor");
+            var seller = await CheckUserAsync("2020", "Juan", "Zuluaga", "Vendedor01@yopmail.com", "350 634 2747", "Calle Luna Calle Sol", "Seller");
+            var collector = await CheckUserAsync("2020", "Francisco", "Ayala", "Cobrador01@yopmail.com", "6625129365", "De los Tributos 23", "Collector");
+            var supervisor = await CheckUserAsync("2020", "Claudia", "Sosa", "Supervisor01@yopmail.com", "6628486267", "Acacia Blanca 192", "Supervisor");
             await CheckPropertyTypesAsync();
             await CheckHelpersAsync();
             await CheckHousesAsync();
@@ -265,6 +265,9 @@ namespace MyCollection.Web.Data
 
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, role);
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
             }
 
             return user;

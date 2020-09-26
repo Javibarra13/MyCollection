@@ -53,7 +53,7 @@ namespace MyCollection.Common.Models
 
         //public ICollection<SaleTmpResponse> SaleTmps { get; set; }
 
-        public ICollection<PaymentResponse> Payments { get; set; }
+        //public ICollection<PaymentResponse> Payments { get; set; }
 
         public string FirstImage => CustomerImages == null || CustomerImages.Count == 0
             ? "https://mycollectionweb.azurewebsites.net/images/CustomerImages/noImage.png"

@@ -6,6 +6,7 @@ using MyCollection.Common.Models;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MyCollection.Web.Controllers.API
@@ -41,20 +42,24 @@ namespace MyCollection.Web.Controllers.API
                 .ThenInclude(c => c.House)
                 .Include(c => c.Customers)
                 .ThenInclude(c => c.CustomerImages)
-                .Include(c => c.Sales)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
                 .ThenInclude(s => s.TypePayment)
-                .Include(c => c.Sales)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
                 .ThenInclude(s => s.DayPayment)
-                .Include(c => c.Sales)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
                 .ThenInclude(s => s.Seller)
                 .ThenInclude(s => s.User)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.Customer)
-                .Include(c => c.Sales)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
                 .ThenInclude(s => s.SaleDetails)
-                .ThenInclude(sd => sd.Product)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.Payments)
+                .ThenInclude(s => s.Product)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Payments)
                 .ThenInclude(p => p.Concept)
                 .FirstOrDefaultAsync(c => c.User.Email.ToLower() == request.Email.ToLower());
 
@@ -125,6 +130,7 @@ namespace MyCollection.Web.Controllers.API
                         Seller = s.Seller.User.FullName,
                         Collector = s.Collector.Id,
                         Customer = s.Customer.Id,
+                        Pending = s.Pending,
                         SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
                         {
                             Id = sd.Id,
@@ -144,54 +150,9 @@ namespace MyCollection.Web.Controllers.API
                             Type = p.Type,
                             Date = p.Date,
                             Deposit = p.Deposit
-                        }).ToList()
-                    }).ToList(),
-                    Payments = c.Payments?.Select(p => new PaymentResponse
-                    {
-                        Id = p.Id,
-                        Collector = p.Collector.Id,
-                        Sale = p.Sale.Id,
-                        Customer = p.Customer.Id,
-                        Concept = p.Concept.Name,
-                        Type = p.Type,
-                        Date = p.Date,
-                        Deposit = p.Deposit
-                    }).ToList()
+                        }).ToList(),
+                    }).Where(s => s.Pending == false).ToList(),
                 }).ToList(),
-                Sales = collector.Sales?.Select(s => new SaleResponse
-                { 
-                    Id = s.Id,
-                    StartDate = s.StartDate,
-                    EndDate = s.EndDate,
-                    Payment = s.Payment,
-                    Deposit = s.Deposit,
-                    Remarks = s.Remarks,
-                    TypePayment = s.TypePayment.Name,
-                    DayPayment = s.DayPayment.Name,
-                    Seller = s.Seller.User.FullName,
-                    Collector = s.Collector.Id,
-                    Customer = s.Customer.Id,
-                    SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
-                    { 
-                        Id = sd.Id,
-                        Name = sd.Name,
-                        Price = sd.Price,
-                        Quantity = sd.Quantity,
-                        Sale = sd.Sale.Id,
-                        Product = sd.Product.Id
-                    }).ToList(),
-                    Payments = s.Payments?.Select(p => new PaymentResponse
-                    { 
-                        Id = p.Id,
-                        Collector = p.Collector.Id,
-                        Sale = p.Sale.Id,
-                        Customer = p.Customer.Id,
-                        Concept = p.Concept.Name,
-                        Type = p.Type,
-                        Date = p.Date,
-                        Deposit = p.Deposit
-                    }).ToList()
-                }).ToList()
             };
 
             return Ok(response);

@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyCollection.Prism.Views.SalePage"
+             BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
     <ScrollView>
         <StackLayout

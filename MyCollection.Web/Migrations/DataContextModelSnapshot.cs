@@ -512,6 +512,9 @@ namespace MyCollection.Web.Migrations
                     b.Property<double>("Payment")
                         .HasColumnType("float");
 
+                    b.Property<bool>("Pending")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
@@ -1267,6 +1270,9 @@ namespace MyCollection.Web.Migrations
 
                     b.Property<double>("Payment")
                         .HasColumnType("float");
+
+                    b.Property<bool>("Pending")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");

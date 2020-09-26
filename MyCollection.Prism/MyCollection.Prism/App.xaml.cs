@@ -6,6 +6,10 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using MyCollection.Common.Services;
+using Newtonsoft.Json;
+using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
+using System;
 
 namespace MyCollection.Prism
 {
@@ -22,7 +26,16 @@ namespace MyCollection.Prism
 
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            if (Settings.IsRemember && token?.Expiration > DateTime.Now)
+            {
+                await NavigationService.NavigateAsync("/CollectionMasterDetailPage/NavigationPage/CustomersPage");
+            }
+            else
+
+            {
+                await NavigationService.NavigateAsync("/NavigationPage/LoginPage");
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -38,6 +51,11 @@ namespace MyCollection.Prism
             containerRegistry.RegisterForNavigation<CustomerPage, CustomerPageViewModel>();
             containerRegistry.RegisterForNavigation<SalePage, SalePageViewModel>();
             containerRegistry.RegisterForNavigation<DetailsTabbedPage, DetailsTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<CollectionMasterDetailPage, CollectionMasterDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+            containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
         }
     }
 }

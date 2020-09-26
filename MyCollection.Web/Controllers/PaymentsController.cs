@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extension.IsntPaid()));
+                .Where(s => s.Pending == false));
         }
 
         public IActionResult Paid()
@@ -42,7 +43,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extension.IsPaid()));
+                .Where(s => s.Pending == true));
         }
 
         public IActionResult IsntPaid()
@@ -53,7 +54,7 @@ namespace MyCollection.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.State)
                 .Include(s => s.SaleDetails)
-                .Where(Extension.IsntPaid()));
+                .Where(s => s.Pending == false));
         }
 
         public IActionResult Payments()
@@ -142,6 +143,21 @@ namespace MyCollection.Web.Controllers
 
                 _dataContext.Payments.Add(payment);
                 await _dataContext.SaveChangesAsync();
+
+                var result = await _dataContext.Sales
+                    .Include(s => s.Payments)
+                    .Include(s => s.SaleDetails)
+                    .FirstOrDefaultAsync(s => s.Id == viewModel.SaleId);
+
+                if(result.Payments.Sum(p => p.Deposit)  >= result.SaleDetails.Sum(sd => (double)sd.Price * sd.Quantity))
+                {
+                    result = await _dataContext.Sales.FindAsync(viewModel.SaleId);
+                    result.Pending = true;
+                    _dataContext.Entry(result).State = EntityState.Modified;
+                }
+
+                await _dataContext.SaveChangesAsync();
+
                 return RedirectToAction("Details", "Payments", new { id = viewModel.SaleId });
             }
             return View(viewModel);
@@ -166,11 +182,6 @@ namespace MyCollection.Web.Controllers
             _dataContext.Payments.Remove(payment);
             await _dataContext.SaveChangesAsync();
             return RedirectToAction("Details", "Payments", new { id = payment.Sale.Id });
-        }
-
-        private bool PaymentExists(int id)
-        {
-            return _dataContext.Payments.Any(e => e.Id == id);
         }
     }
 }

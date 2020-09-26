@@ -13,6 +13,7 @@ namespace MyCollection.Prism.Droid
         protected override void OnResume()
         {
             base.OnResume();
+            System.Threading.Thread.Sleep(1);
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
     }

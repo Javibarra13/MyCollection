@@ -1,11 +1,10 @@
-﻿using MyCollection.Common.Models;
+﻿using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
 using MyCollection.Common.Services;
+using Newtonsoft.Json;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyCollection.Prism.ViewModels
 {
@@ -16,7 +15,9 @@ namespace MyCollection.Prism.ViewModels
         private string _password;
         private bool _isRunning;
         private bool _isEnabled;
+        private bool _isRemember;
         private DelegateCommand _loginCommand;
+        private DelegateCommand _forgotPasswordCommand;
 
         public LoginPageViewModel(
             INavigationService navigationService,
@@ -24,11 +25,14 @@ namespace MyCollection.Prism.ViewModels
         {
             Title = "Login";
             IsEnabled = true;
+            IsRemember = true;
             _navigationService = navigationService;
             _apiService = apiService;
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
+
+        public DelegateCommand ForgotPasswordCommand => _forgotPasswordCommand ?? (_forgotPasswordCommand = new DelegateCommand(ForgotPassword));
 
         public string Email { get; set; }
 
@@ -37,6 +41,8 @@ namespace MyCollection.Prism.ViewModels
         public bool IsRunning { get => _isRunning; set => SetProperty(ref _isRunning, value); }
 
         public bool IsEnabled { get => _isEnabled; set => SetProperty(ref _isEnabled, value); }
+
+        public bool IsRemember { get => _isRemember; set => SetProperty(ref _isRemember, value); }
 
         private async void Login()
         {
@@ -75,6 +81,8 @@ namespace MyCollection.Prism.ViewModels
 
             if (!response.IsSuccess)
             {
+                IsRunning = false;
+                IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert("Error", "Email o contraseña son incorrectos.", "Aceptar");
                 Password = string.Empty;
                 return;
@@ -82,7 +90,7 @@ namespace MyCollection.Prism.ViewModels
 
             var token = response.Result;
             var response2 = await _apiService.GetCollectorByEmailAsync(url, "api", "/Collectors/GetCollectorByEmail", "bearer", token.Token, Email);
-            
+
             if (!response2.IsSuccess)
             {
                 IsRunning = false;
@@ -92,14 +100,19 @@ namespace MyCollection.Prism.ViewModels
             }
 
             var collector = response2.Result;
-            var parameters = new NavigationParameters
-            {
-                { "collector", collector }
-            };
+            Settings.Collector = JsonConvert.SerializeObject(collector);
+            Settings.Token = JsonConvert.SerializeObject(token);
+            Settings.IsRemember = IsRemember;
 
-            await _navigationService.NavigateAsync("CustomersPage", parameters);
+
+            await _navigationService.NavigateAsync("/CollectionMasterDetailPage/NavigationPage/CustomersPage");
             IsRunning = false;
             IsEnabled = true;
+        }
+
+        private async void ForgotPassword()
+        {
+            await _navigationService.NavigateAsync("RememberPasswordPage");
         }
     }
 }

@@ -34,6 +34,7 @@ namespace MyCollection.Prism.ViewModels
                 Payment = s.Payment,
                 Deposit = s.Deposit,
                 Remarks = s.Remarks,
+                Pending = s.Pending,
                 TypePayment = s.TypePayment,
                 DayPayment = s.DayPayment,
                 Seller = s.Seller,

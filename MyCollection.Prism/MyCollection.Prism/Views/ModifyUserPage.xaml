@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MyCollection.Prism.Views.ModifyUserPage"
+             BackgroundColor="{StaticResource colorBackground}"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <AbsoluteLayout>
+            <StackLayout 
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+        	    Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                	    Grid.Row="0"
+                	    Grid.Column="0"
+                	    Text="Documento"
+                	    VerticalOptions="Center"/>
+                    <Entry
+                	    Grid.Row="0"
+                	    Grid.Column="1"
+                	    Placeholder="Documento..."
+                	    Text="{Binding Collector.Document}"/>
+
+                    <Label
+                	    Grid.Row="1"
+                	    Grid.Column="0"
+                	    Text="Nombres"
+                	    VerticalOptions="Center"/>
+                    <Entry
+                	    Grid.Row="1"
+                	    Grid.Column="1"
+                	    Placeholder="Nombres..."
+                	    Text="{Binding Collector.FirstName}"/>
+
+                    <Label
+                	    Grid.Row="2"
+                	    Grid.Column="0"
+                	    Text="Apellidos"
+                	    VerticalOptions="Center"/>
+                    <Entry
+                	    Grid.Row="2"
+                	    Grid.Column="1"
+                	    Placeholder="Apellidos..."
+                	    Text="{Binding Collector.LastName}"/>
+
+                    <Label
+                	    Grid.Row="3"
+                	    Grid.Column="0"
+                	    Text="Dirección"
+                	    VerticalOptions="Center"/>
+                    <Entry
+                	    Grid.Row="3"
+                	    Grid.Column="1"
+                	    Placeholder="Dirección..."
+                	    Text="{Binding Collector.Address}"/>
+
+                    <Label
+                	    Grid.Row="4"
+                	    Grid.Column="0"
+                	    Text="Teléfono"
+                	    VerticalOptions="Center"/>
+                    <Entry
+                	    Grid.Row="4"
+                	    Grid.Column="1"
+                        Keyboard="Telephone"
+                	    Placeholder="Teléfono..."
+                	    Text="{Binding Collector.PhoneNumber}"/>
+                </Grid>
+
+                <StackLayout
+                    VerticalOptions="EndAndExpand">
+                    <Button
+                        BorderRadius="23"
+                        HeightRequest="46"
+                        VerticalOptions="EndAndExpand"
+                        Command="{Binding ChangePasswordCommand}"
+                        IsEnabled="{Binding IsEnabled}"
+                        Text="Cambiar Contraseña"/>
+                </StackLayout>
+            </StackLayout>
+            <busyindicator:SfBusyIndicator  
+                AnimationType="SingleCircle"
+                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource colorDanger}"
+                IsBusy="{Binding IsRunning}"
+                Title="Actualizando..."
+                VerticalOptions="Center"
+                ViewBoxWidth="80"
+                ViewBoxHeight="80" />
+        </AbsoluteLayout>
+    </ScrollView>
+    
+</ContentPage>
