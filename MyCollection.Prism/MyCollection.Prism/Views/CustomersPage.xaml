@@ -34,8 +34,7 @@
 	                            CacheDuration= "50"
 	                            RetryCount= "3"
 	                            RetryDelay= "600"
-	                            DownsampleToViewSize = "true"
-	                            WidthRequest="200"/>
+	                            DownsampleToViewSize = "true"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>

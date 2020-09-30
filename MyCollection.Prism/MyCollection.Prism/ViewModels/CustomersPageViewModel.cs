@@ -49,6 +49,8 @@ namespace MyCollection.Prism.ViewModels
                 RefPhone2 = c.RefPhone2,
                 House = c.House,
                 Collector = c.Collector,
+                Latitude = c.Latitude,
+                Longitude = c.Longitude,
                 CustomerImages = c.CustomerImages,
                 Sales = c.Sales,
             }).ToList());

@@ -16,7 +16,7 @@ namespace MyCollection.Web.Data.Entities
         public Customer Customer { get; set; }
 
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
-    ? "https://mycollectionweb.azurewebsites.net/images/CustomerImages/noImage.png"
-    : $"https://mycollectionweb.azurewebsites.net{ImageUrl.Substring(1)}";
+    ? "https://webstudiomx.azurewebsites.net/images/CustomerImages/noImage.png"
+    : $"https://webstudiomx.azurewebsites.net{ImageUrl.Substring(1)}";
     }
 }

@@ -39,6 +39,10 @@ namespace MyCollection.Common.Models
 
         //public string Status { get; set; }
 
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
+
         public int House { get; set; }
 
         public int Collector { get; set; }
@@ -56,7 +60,7 @@ namespace MyCollection.Common.Models
         //public ICollection<PaymentResponse> Payments { get; set; }
 
         public string FirstImage => CustomerImages == null || CustomerImages.Count == 0
-            ? "https://mycollectionweb.azurewebsites.net/images/CustomerImages/noImage.png"
+            ? "https://webstudiomx.azurewebsites.net/images/CustomerImages/noImage.png"
             : CustomerImages.FirstOrDefault().ImageUrl;
     }
 }

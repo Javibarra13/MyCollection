@@ -8,99 +8,128 @@
              BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
 
-    <StackLayout
-        Padding="10">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="46"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label 
-                Grid.Column="0"
-                FontAttributes="Bold"
-                Text="Id"/>
-            <Label 
-                Grid.Column="1"
-                FontAttributes="Bold"
-                Text="Fecha Inicio"/>
-            <Label 
-                Grid.Column="2"
-                FontAttributes="Bold"
-                Text="Fecha Final"/>
-            <Label 
-                Grid.Column="3"
-                FontAttributes="Bold"
-                Text="Abono"/>
-            <Label 
-                Grid.Column="4"
-                FontAttributes="Bold"
-                Text="Tipo de Pago"/>
-            <Label 
-                Grid.Column="5"
-                FontAttributes="Bold"
-                Text="Dia de Pago"/>
-        </Grid>
-        <ListView
-            HasUnevenRows="True"
-            ItemsSource="{Binding Sales}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectSaleCommand}"/>
-                            </Grid.GestureRecognizers>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Label 
-                                Grid.Column="0"
-                                Text="{Binding Id}"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Grid.Column="1"
-                                Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Grid.Column="2"
-                                Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Grid.Column="3"
-                                Text="{Binding Payment, StringFormat='{0:C2'}"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Grid.Column="4"
-                                Text="{Binding TypePayment}"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Grid.Column="5"
-                                Text="{Binding DayPayment}"
-                                VerticalOptions="Center"/>
-                            <Image
-                                Grid.Column="6"
-                                Source="ic_more_vert"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
+    <ScrollView>
+        <StackLayout
+            Padding="10">
+            <ListView
+                HasUnevenRows="True"
+                BackgroundColor="Transparent"
+                ItemsSource="{Binding Sales}"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                CornerRadius="10"
+                                Margin="0,0,0,5">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSaleCommand}"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid
+                                            Grid.Column="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Id"/>
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Text="{Binding Id}"/>
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Fecha Inicio"/>
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Fecha Final"/>
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Abono"/>
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Text="{Binding Payment, StringFormat='{0:C2'}"/>
+                                            <Label
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Tipo de Pago"/>
+                                            <Label
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Text="{Binding TypePayment}"/>
+                                            <Label
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Dia de Pago"/>
+                                            <Label
+                                                Grid.Row="5"
+                                                Grid.Column="1"
+                                                Text="{Binding DayPayment}"/>
+                                            <Label
+                                                Grid.Row="6"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Vendedor"/>
+                                            <Label
+                                                Grid.Row="6"
+                                                Grid.Column="1"
+                                                Text="{Binding Seller}"/>
+                                            <Label
+                                                Grid.Row="7"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Notas"/>
+                                            <Label
+                                                Grid.Row="7"
+                                                Grid.Column="1"
+                                                Text="{Binding Remarks}"/>
+                                        </Grid>
+                                        <Image 
+                                            Grid.Column="1"
+                                            Source="ic_more_vert"/>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

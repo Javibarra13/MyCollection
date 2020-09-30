@@ -23,5 +23,9 @@ namespace MyCollection.Common.Models
         public DateTime DateLocal => Date.ToLocalTime();
 
         public double Deposit { get; set; }
+
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
     }
 }

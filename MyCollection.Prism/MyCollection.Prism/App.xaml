@@ -6,7 +6,7 @@
   <Application.Resources>
 
         <ResourceDictionary>
-            <x:String x:Key="UrlApi">https://mycollectionweb.azurewebsites.net</x:String>
+            <x:String x:Key="UrlApi">https://webstudiomx.azurewebsites.net</x:String>
 
             <!-- Colors -->
             <Color x:Key="colorBackground">#F2F2F2</Color>

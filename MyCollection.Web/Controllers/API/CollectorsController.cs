@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MyCollection.Common.Models;
 using MyCollection.Web.Data;
 using MyCollection.Web.Data.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -41,6 +42,8 @@ namespace MyCollection.Web.Controllers.API
                 .Include(c => c.Customers)
                 .ThenInclude(c => c.House)
                 .Include(c => c.Customers)
+                .ThenInclude(c => c.Collector)
+                .Include(c => c.Customers)
                 .ThenInclude(c => c.CustomerImages)
                 .Include(c => c.Customers)
                 .ThenInclude(c => c.Sales)
@@ -56,8 +59,22 @@ namespace MyCollection.Web.Controllers.API
                 .ThenInclude(s => s.User)
                 .Include(c => c.Customers)
                 .ThenInclude(c => c.Sales)
+                .ThenInclude(s => s.Collector)
+                .ThenInclude(s => s.User)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
+                .ThenInclude(s => s.Customer)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
+                .ThenInclude(s => s.SaleDetails)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
                 .ThenInclude(s => s.SaleDetails)
                 .ThenInclude(s => s.Product)
+                .Include(c => c.Customers)
+                .ThenInclude(c => c.Sales)
+                .ThenInclude(s => s.SaleDetails)
+                .ThenInclude(s => s.Sale)
                 .Include(c => c.Customers)
                 .ThenInclude(c => c.Payments)
                 .ThenInclude(p => p.Concept)
@@ -95,7 +112,7 @@ namespace MyCollection.Web.Controllers.API
                     }).ToList()
                 }).ToList(),
                 Customers = collector.Customers?.Select(c => new CustomerResponse
-                { 
+                {
                     Id = c.Id,
                     Name = c.Name,
                     Address = c.Address,
@@ -112,6 +129,8 @@ namespace MyCollection.Web.Controllers.API
                     RefPhone2 = c.RefPhone2,
                     House = c.House.Id,
                     Collector = c.Collector.Id,
+                    Latitude = c.Latitude,
+                    Longitude = c.Longitude,
                     CustomerImages = c.CustomerImages?.Select(ci => new CustomerImageResponse
                     {
                         Id = ci.Id,
@@ -149,11 +168,53 @@ namespace MyCollection.Web.Controllers.API
                             Concept = p.Concept.Name,
                             Type = p.Type,
                             Date = p.Date,
-                            Deposit = p.Deposit
+                            Deposit = p.Deposit,
+                            Latitude = p.Latitude,
+                            Longitude = p.Longitude
                         }).ToList(),
                     }).Where(s => s.Pending == false).ToList(),
                 }).ToList(),
             };
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetAvailbleCustomers")]
+        public async Task<IActionResult> GetAvailbleCustomers()
+        {
+            var customers = await _dataContext.Customers
+                .Include(c => c.House)
+                .Include(c => c.CustomerImages)
+                .Include(c => c.Collector)
+                .ToListAsync();
+
+            var response = new List<CustomerResponse>(customers.Select(c => new CustomerResponse
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Address = c.Address,
+                Neighborhood = c.Neighborhood,
+                City = c.City,
+                PhoneNumber = c.PhoneNumber,
+                PostalCode = c.PostalCode,
+                Remarks = c.Remarks,
+                RefName = c.RefName,
+                RefAddress = c.RefAddress,
+                RefPhone = c.RefPhone,
+                RefName2 = c.RefName2,
+                RefAddress2 = c.RefAddress2,
+                RefPhone2 = c.RefPhone2,
+                House = c.House.Id,
+                Collector = c.Collector.Id,
+                Latitude = c.Latitude,
+                Longitude = c.Longitude,
+                CustomerImages = new List<CustomerImageResponse>(c.CustomerImages.Select(ci => new CustomerImageResponse
+                {
+                    Id = ci.Id,
+                    ImageUrl = ci.ImageFullPath
+                }).ToList()),
+            }).ToList());
 
             return Ok(response);
         }

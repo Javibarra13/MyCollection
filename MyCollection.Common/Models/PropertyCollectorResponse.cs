@@ -28,7 +28,7 @@ namespace MyCollection.Common.Models
         public ICollection<PropertyCollectorImageResponse> PropertyCollectorImages { get; set; }
 
         public string FirstImage => PropertyCollectorImages == null || PropertyCollectorImages.Count == 0 
-            ? "https://mycollectionweb.azurewebsites.net/images/PropertyCollectorImages/noImage.png"
+            ? "https://webstudiomx.azurewebsites.net/images/PropertyCollectorImages/noImage.png"
             : PropertyCollectorImages.FirstOrDefault().ImageUrl;
         }
     }

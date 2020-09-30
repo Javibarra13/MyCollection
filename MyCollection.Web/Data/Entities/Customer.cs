@@ -71,6 +71,12 @@ namespace MyCollection.Web.Data.Entities
         [Display(Name = "Estado")]
         public string Status { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:N6}")]
+        public double Latitude { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N6}")]
+        public double Longitude { get; set; }
+
         public House House { get; set; }
 
         public Collector Collector { get; set; }

@@ -41,5 +41,12 @@ namespace MyCollection.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public double Deposit { get; set; }
+
+
+        [DisplayFormat(DataFormatString = "{0:N6}")]
+        public double Latitude { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N6}")]
+        public double Longitude { get; set; }
     }
 }
