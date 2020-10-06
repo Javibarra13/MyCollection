@@ -5,14 +5,14 @@ using Prism.Navigation;
 
 namespace MyCollection.Prism.ViewModels
 {
-    public class DetailsTabbedPageViewModel : ViewModelBase
+    public class SaleDetailsTabbedPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
 
-        public DetailsTabbedPageViewModel(INavigationService navigationService) : base(navigationService)
+        public SaleDetailsTabbedPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            var customer = JsonConvert.DeserializeObject<CustomerResponse>(Settings.Customer);
-            Title = $"Cliente: {customer.Name}";
+            var sale = JsonConvert.DeserializeObject<SaleResponse>(Settings.Sale);
+            Title = $"Venta: {sale.Id}";
             _navigationService = navigationService;
         }
     }

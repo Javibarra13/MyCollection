@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MyCollection.Prism.Views.EditPaymentPage"
+             BackgroundColor="{StaticResource colorBackground}"
+             Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <ScrollView>
+            <AbsoluteLayout>
+                <StackLayout 
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="0"
+                	        Text="Cobrador"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                	        ItemDisplayBinding="{Binding Name}"
+                	        ItemsSource="{Binding Collectors}"
+                	        SelectedItem="{Binding Collector}"
+                	        Title="Cobrador"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="1"
+                	        Text="Concepto"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="1"
+                	        ItemDisplayBinding="{Binding Name}"
+                	        ItemsSource="{Binding Concepts}"
+                	        SelectedItem="{Binding Concept}"
+                	        Title="Concepto"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="2"
+                	        Text="Cliente"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="2"
+                	        ItemDisplayBinding="{Binding Name}"
+                	        ItemsSource="{Binding Customers}"
+                	        SelectedItem="{Binding Customer}"
+                	        Title="Cliente"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="3"
+                	        Text="Fecha"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="3"
+                	        Text="{Binding Payment.Date}"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="4"
+                	        Text="Abono"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="4"
+                	        Keyboard="Numeric"
+                	        Text="{Binding Payment.Deposit}"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="5"
+                	        Text="Venta"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="5"
+                	        ItemDisplayBinding="{Binding Name}"
+                	        ItemsSource="{Binding Sale}"
+                	        SelectedItem="{Binding Sale}"
+                	        Title="Venta"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="6"
+                	        Text="Tipo"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="6"
+                	        Placeholder="Tipo..."
+                	        Text="Tipo"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="7"
+                	        Text="Latitud"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="7"
+                	        Placeholder="Latitud..."
+                	        Text="Latitud"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="8"
+                	        Text="Longitud"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="8"
+                	        Placeholder="Longitud..."
+                	        Text="Longitud"/>
+                    </Grid>
+                </StackLayout>
+                <busyindicator:SfBusyIndicator  
+                AnimationType="SingleCircle"
+                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource colorDanger}"
+                IsBusy="{Binding IsRunning}"
+                Title="Cargando..."
+                VerticalOptions="Center"
+                ViewBoxWidth="80"
+                ViewBoxHeight="80" />
+            </AbsoluteLayout>
+        </ScrollView>
+        <StackLayout
+            Orientation="Horizontal"
+            VerticalOptions="EndAndExpand">
+
+            <Button
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                Text="Guardar"/>
+
+            <Button
+                Command="{Binding DeleteCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                IsVisible="{Binding IsEdit}"
+                Text="Eliminar"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

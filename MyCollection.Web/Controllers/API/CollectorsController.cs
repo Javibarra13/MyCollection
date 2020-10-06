@@ -78,6 +78,7 @@ namespace MyCollection.Web.Controllers.API
                 .Include(c => c.Customers)
                 .ThenInclude(c => c.Payments)
                 .ThenInclude(p => p.Concept)
+                .Include(c => c.Sales)
                 .FirstOrDefaultAsync(c => c.User.Email.ToLower() == request.Email.ToLower());
 
             if (collector == null)
@@ -174,6 +175,43 @@ namespace MyCollection.Web.Controllers.API
                         }).ToList(),
                     }).Where(s => s.Pending == false).ToList(),
                 }).ToList(),
+                Sales = collector.Sales?.Select(s => new SaleResponse
+                {
+                    Id = s.Id,
+                    StartDate = s.StartDate,
+                    EndDate = s.EndDate,
+                    Payment = s.Payment,
+                    Deposit = s.Deposit,
+                    Remarks = s.Remarks,
+                    TypePayment = s.TypePayment.Name,
+                    DayPayment = s.DayPayment.Name,
+                    Seller = s.Seller.User.FullName,
+                    Collector = s.Collector.Id,
+                    Customer = s.Customer.Id,
+                    Pending = s.Pending,
+                    SaleDetails = s.SaleDetails?.Select(sd => new SaleDetailResponse
+                    {
+                        Id = sd.Id,
+                        Name = sd.Name,
+                        Price = sd.Price,
+                        Quantity = sd.Quantity,
+                        Sale = sd.Sale.Id,
+                        Product = sd.Product.Id
+                    }).ToList(),
+                    Payments = s.Payments?.Select(p => new PaymentResponse
+                    {
+                        Id = p.Id,
+                        Collector = p.Collector.Id,
+                        Sale = p.Sale.Id,
+                        Customer = p.Customer.Id,
+                        Concept = p.Concept.Name,
+                        Type = p.Type,
+                        Date = p.Date,
+                        Deposit = p.Deposit,
+                        Latitude = p.Latitude,
+                        Longitude = p.Longitude
+                    }).ToList(),
+                }).Where(s => s.Pending == false).ToList(),
             };
 
             return Ok(response);

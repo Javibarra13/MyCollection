@@ -1,4 +1,6 @@
-﻿using MyCollection.Common.Models;
+﻿using MyCollection.Common.Helpers;
+using MyCollection.Common.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -18,12 +20,8 @@ namespace MyCollection.Prism.ViewModels
 
         private async void SelectSale()
         {
-            var parameters = new NavigationParameters
-            {
-                { "sale", this }
-            };
-
-            await _navigationService.NavigateAsync("SalePage", parameters);
+            Settings.Sale = JsonConvert.SerializeObject(this);
+            await _navigationService.NavigateAsync("SaleDetailsTabbedPage");
         }
     }
 }

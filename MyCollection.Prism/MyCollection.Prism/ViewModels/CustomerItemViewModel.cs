@@ -3,9 +3,6 @@ using MyCollection.Common.Models;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyCollection.Prism.ViewModels
 {
@@ -13,7 +10,7 @@ namespace MyCollection.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectCustomerCommand;
-        public CustomerItemViewModel(INavigationService navigationService) 
+        public CustomerItemViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }

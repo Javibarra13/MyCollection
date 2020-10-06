@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MyCollection.Prism.Views.PaymentsPage"
+             IconImageSource="ic_action_home"
+             BackgroundColor="{StaticResource colorBackground}"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle" 
+                     Command="{Binding AddPaymentCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <StackLayout
+            Padding="10">
+            <ListView
+                HasUnevenRows="True"
+                BackgroundColor="Transparent"
+                ItemsSource="{Binding Payments}"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                CornerRadius="10"
+                                Margin="0,0,0,5">
+                                <StackLayout>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid
+                                            Grid.Column="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Id"/>
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Text="{Binding Id}"/>
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Concepto"/>
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Text="{Binding Concept}"/>
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Fecha"/>
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Abono"/>
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Text="{Binding Deposit, StringFormat='{0:C2'}"/>
+                                        </Grid>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

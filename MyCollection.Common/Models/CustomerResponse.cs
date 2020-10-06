@@ -9,8 +9,6 @@ namespace MyCollection.Common.Models
     {
         public int Id { get; set; }
 
-        //public string Document { get; set; }
-
         public string Name { get; set; }
 
         public string Address { get; set; }
@@ -36,8 +34,6 @@ namespace MyCollection.Common.Models
         public string RefAddress2 { get; set; }
 
         public string RefPhone2 { get; set; }
-
-        //public string Status { get; set; }
 
         public double Latitude { get; set; }
 

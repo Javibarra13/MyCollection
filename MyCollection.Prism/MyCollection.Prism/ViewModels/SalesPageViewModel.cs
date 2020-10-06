@@ -15,18 +15,18 @@ namespace MyCollection.Prism.ViewModels
 
         public SalesPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Customer = JsonConvert.DeserializeObject<CustomerResponse>(Settings.Customer);
-            LoadSales();
-            Title = "Ventas";
             _navigationService = navigationService;
+            Title = "Ventas";
+            LoadCustomer();
         }
-        public CustomerResponse Customer { get => _customer; set => SetProperty(ref _customer, value); }
 
         public ObservableCollection<SaleItemViewModel> Sales { get => _sales; set => SetProperty(ref _sales, value); }
 
-        private void LoadSales()
+        private void LoadCustomer()
         {
-            Sales = new ObservableCollection<SaleItemViewModel>(Customer.Sales.Select(s => new SaleItemViewModel(_navigationService)
+            _customer = JsonConvert.DeserializeObject<CustomerResponse>(Settings.Customer);
+            Title = $"Ventas";
+            Sales = new ObservableCollection<SaleItemViewModel>(_customer.Sales.Select(s => new SaleItemViewModel(_navigationService)
             {
                 Id = s.Id,
                 StartDate = s.StartDate,

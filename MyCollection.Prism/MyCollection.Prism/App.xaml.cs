@@ -52,11 +52,15 @@ namespace MyCollection.Prism
             containerRegistry.RegisterForNavigation<CustomerPage, CustomerPageViewModel>();
             containerRegistry.RegisterForNavigation<SalePage, SalePageViewModel>();
             containerRegistry.RegisterForNavigation<DetailsTabbedPage, DetailsTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<SaleDetailsTabbedPage, SaleDetailsTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<CollectionMasterDetailPage, CollectionMasterDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
             containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<PaymentsPage, PaymentsPageViewModel>();
+            containerRegistry.RegisterForNavigation<EditPaymentPage, EditPaymentPageViewModel>();
+            containerRegistry.RegisterForNavigation<AddPaymentPage, AddPaymentPageViewModel>();
         }
     }
 }

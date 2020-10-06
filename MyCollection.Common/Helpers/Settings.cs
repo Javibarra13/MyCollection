@@ -10,6 +10,7 @@ namespace MyCollection.Common.Helpers
     {
         private const string _customerImages = "CustomerImages";
         private const string _customer = "customer";
+        private const string _sale = "sale";
         private const string _token = "token";
         private const string _collector = "collector";
         private const string _isRemember = "IsRemember";
@@ -22,6 +23,12 @@ namespace MyCollection.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_customerImages, _settingsDefault);
             set => AppSettings.AddOrUpdateValue(_customerImages, value);
+        }
+
+        public static string Sale
+        {
+            get => AppSettings.GetValueOrDefault(_sale, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_sale, value);
         }
 
         public static string Customer
